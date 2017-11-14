@@ -16,15 +16,10 @@ source [file join [file dirname [info script]] m3c.tcl]
 #
 
 namespace eval MAIN {
+  connect [namespace current]
+
   wm title . "Presupuestos"
   wm geometry . "800x600+100+10"
-
- #set chan [socket {x12.m3c.space} 12345]
-  set chan [socket localhost       12345]
-
-  chan configure $chan -encoding utf-8 -blocking 0 -buffering line
-  chan event $chan readable "MAIN::handle'event"
-
   # Configure el Layout inicial
   set main [ScrolledWindow .scrolledwindow]
   pack $main -fill both -expand true
@@ -67,18 +62,6 @@ namespace eval MAIN {
     chan puts $chan [array get event]
   }
   subscribe
-}
-
-proc MAIN::handle'event { } {
-  variable chan
-  chan gets $chan data
-  if { $data == "" } {
-    return
-  }
-  array set response [deserialize $data]
-  #puts "\nresponse:"
-  #parray response
-  $response(module)::'do'$response(query) response
 }
 
 source [file join [file dirname [info script]] projects.tcl]
