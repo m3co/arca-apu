@@ -114,7 +114,7 @@ namespace eval fnAPUSupplies {
 
   proc 'do'insert { resp } {
     upvar $resp response
-    'do'select response
+    #'do'select response
   }
 
   proc 'do'select { resp } {
