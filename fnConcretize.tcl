@@ -65,18 +65,18 @@ namespace eval fnConcretizeProject {
       return
     }
 
-    set data(parent_concreted) $data(id_concreted)
-    set data(id_concreted) "$data(id_concreted).[ expr { [llength \
+    set data(parent_to_concrete) $data(id_to_concrete)
+    set data(id_to_concrete) "$data(id_to_concrete).[ expr { [llength \
       [$tree nodes $lastPopupId]] + 1 }]"
-    set data(description_concreted) ""
+    set data(description_to_concrete) ""
     array unset data expand
 
-    $tree insert end $data(parent_concreted) $data(id_concreted) \
+    $tree insert end $data(parent_to_concrete) $data(id_to_concrete) \
       -data [array get data] \
       -image [Bitmap::get oplink]
 
-    $tree opentree $data(parent_concreted) 0
-    $tree edit $data(id_concreted) "" [list \
+    $tree opentree $data(parent_to_concrete) 0
+    $tree edit $data(id_to_concrete) "" [list \
       fnConcretizeProject::create'node [array get data]] 1
   }
 
@@ -85,11 +85,11 @@ namespace eval fnConcretizeProject {
     variable project
     array set entry [deserialize $data]
 
-    $tree itemconfigure $entry(id_concreted) -text "..."
-    set entry(description_concreted) $input
+    $tree itemconfigure $entry(id_to_concrete) -text "..."
+    set entry(description_to_concrete) $input
 
     if { $input == "" } {
-      $tree delete $entry(id_concreted)
+      $tree delete $entry(id_to_concrete)
     } else {
       array set event {
         query insert
