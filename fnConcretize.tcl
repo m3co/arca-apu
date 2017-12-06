@@ -82,6 +82,7 @@ namespace eval fnConcretizeProject {
 
   proc create'node { data input } {
     variable tree
+    variable project
     array set entry [deserialize $data]
 
     $tree itemconfigure $entry(id_concreted) -text "..."
@@ -96,6 +97,7 @@ namespace eval fnConcretizeProject {
         from fnConcretizeProject
       }
       set event(row) [array get entry]
+      set event(project) $project
       chan puts $MAIN::chan [array get event]
     }
     return 1
