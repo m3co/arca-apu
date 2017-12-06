@@ -80,10 +80,24 @@ namespace eval fnConcretizeProject {
       fnConcretizeProject::create'node [array get data]] 1
   }
 
-  proc create'node { path d } {
-    array set data [deserialize $d]
-    parray data
+  proc create'node { data input } {
+    variable tree
+    array set entry [deserialize $data]
 
+    $tree itemconfigure $entry(id_concreted) -text "..."
+    set entry(description_concreted) $input
+
+    if { $input == "" } {
+      $tree delete $entry(id_concreted)
+    } else {
+      array set event {
+        query insert
+        module fnConcretizeProject
+        from fnConcretizeProject
+      }
+      set event(row) [array get entry]
+      chan puts $MAIN::chan [array get event]
+    }
     return 1
   }
 
