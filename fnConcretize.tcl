@@ -10,9 +10,6 @@ namespace eval fnConcretizeProject {
 
   $popupmenu add command -label "Agregar" \
     -command fnConcretizeProject::begin'create
-  $popupmenu add separator
-  $popupmenu add command -label "Eliminar" \
-    -command fnConcretizeProject::delete'node
 
   proc open { space id } {
     variable frame $space
@@ -68,7 +65,26 @@ namespace eval fnConcretizeProject {
       return
     }
 
-    puts "Aqui viene de verdad crear"
+    set data(parent_concreted) $data(id_concreted)
+    set data(id_concreted) "$data(id_concreted).[ expr { [llength \
+      [$tree nodes $lastPopupId]] + 1 }]"
+    set data(description_concreted) ""
+    array unset data expand
+
+    $tree insert end $data(parent_concreted) $data(id_concreted) \
+      -data [array get data] \
+      -image [Bitmap::get oplink]
+
+    $tree opentree $data(parent_concreted) 0
+    $tree edit $data(id_concreted) "" [list \
+      fnConcretizeProject::create'node [array get data]] 1
+  }
+
+  proc create'node { path d } {
+    array set data [deserialize $d]
+    parray data
+
+    return 1
   }
 
   proc open'leaf { id } {
