@@ -1,6 +1,6 @@
 
 package require BWidget
-source [file join [file dirname [info script]] m3c.tcl]
+source [file join [file dirname [info script]] "m3co/main.tcl"]
 
 #
 # MAIN - es para conectarse, definir chan y delegar los eventos
