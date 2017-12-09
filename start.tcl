@@ -18,7 +18,7 @@ source [file join [file dirname [info script]] "m3co/main.tcl"]
 namespace eval MAIN {
   connect [namespace current]
 
-  wm title . "Presupuestos"
+  wm title . "Listado APU"
   wm geometry . "800x600+100+10"
   # Configure el Layout inicial
   set main [ScrolledWindow .scrolledwindow]
