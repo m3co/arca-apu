@@ -74,8 +74,17 @@ namespace eval viewAPUSupplies {
         pack [frame $apu_frame.supplies.cost.$row(APUSupplies_id)] -side top -fill x
         pack [label $apu_frame.supplies.cost.$row(APUSupplies_id).label -text $row(Supplies_cost)] -side left
 
-        pack [frame $apu_frame.supplies.qop.$row(APUSupplies_id)] -side top -fill x
-        pack [label $apu_frame.supplies.qop.$row(APUSupplies_id).label -text $row(APUSupplies_qop)] -side left
+        array set conf [list \
+          from viewAPUSupplies \
+          module viewAPUSupplies \
+          idkey id \
+          key APUSupplies_qop \
+          frame [frame $apu_frame.supplies.qop.$row(APUSupplies_id)] \
+          dollar false \
+          currency false \
+        ]
+        pack $conf(frame) -side top -fill x
+        labelentry::setup [array get conf] [array get row]
       }
     }
   }
