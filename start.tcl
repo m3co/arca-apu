@@ -38,25 +38,7 @@ namespace eval MAIN {
     chan puts $chan [array get event]
 
     array set event {
-      module fnEstimateProject
-      query subscribe
-    }
-    chan puts $chan [array get event]
-
-    array set event {
       module fnConcretizeProject
-      query subscribe
-    }
-    chan puts $chan [array get event]
-
-    array set event {
-      module fnAPUSupplies
-      query subscribe
-    }
-    chan puts $chan [array get event]
-
-    array set event {
-      module Supplies
       query subscribe
     }
     chan puts $chan [array get event]
@@ -65,7 +47,4 @@ namespace eval MAIN {
 }
 
 source [file join [file dirname [info script]] projects.tcl]
-source [file join [file dirname [info script]] fnAPUSupplies.tcl]
-source [file join [file dirname [info script]] fnEstimate.tcl]
 source [file join [file dirname [info script]] fnConcretize.tcl]
-source [file join [file dirname [info script]] Supplies.tcl]
