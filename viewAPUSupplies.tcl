@@ -65,14 +65,41 @@ namespace eval viewAPUSupplies {
       }
 
       if { $row(APUSupplies_id) != "" } {
-        pack [frame $apu_frame.supplies.description.$row(APUSupplies_id)] -side top -fill x
-        pack [label $apu_frame.supplies.description.$row(APUSupplies_id).label -text $row(Supplies_description)] -side left
+        array set conf [list \
+          from viewAPUSupplies \
+          module viewAPUSupplies \
+          idkey id \
+          key Supplies_description \
+          frame [frame $apu_frame.supplies.description.$row(APUSupplies_id)] \
+          dollar false \
+          currency false \
+        ]
+        pack $conf(frame) -side top -fill x
+        labelentry::setup [array get conf] [array get row]
 
-        pack [frame $apu_frame.supplies.unit.$row(APUSupplies_id)] -side top -fill x
-        pack [label $apu_frame.supplies.unit.$row(APUSupplies_id).label -text $row(Supplies_unit)] -side left
+        array set conf [list \
+          from viewAPUSupplies \
+          module viewAPUSupplies \
+          idkey id \
+          key Supplies_unit \
+          frame [frame $apu_frame.supplies.unit.$row(APUSupplies_id)] \
+          dollar false \
+          currency false \
+        ]
+        pack $conf(frame) -side top -fill x
+        labelentry::setup [array get conf] [array get row]
 
-        pack [frame $apu_frame.supplies.cost.$row(APUSupplies_id)] -side top -fill x
-        pack [label $apu_frame.supplies.cost.$row(APUSupplies_id).label -text $row(Supplies_cost)] -side left
+        array set conf [list \
+          from viewAPUSupplies \
+          module viewAPUSupplies \
+          idkey id \
+          key Supplies_cost \
+          frame [frame $apu_frame.supplies.cost.$row(APUSupplies_id)] \
+          dollar true \
+          currency true \
+        ]
+        pack $conf(frame) -side top -fill x
+        labelentry::setup [array get conf] [array get row]
 
         array set conf [list \
           from viewAPUSupplies \
