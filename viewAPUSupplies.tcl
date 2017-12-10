@@ -3,11 +3,6 @@ namespace eval viewAPUSupplies {
   variable frame
 
   proc open'view { space keynote } {
-    #viewAPUSupplies::clean'data
-
-    variable rows
-    array unset rows
-    array set rows {}
     set id [regsub -all {[.]} $keynote "_"]
 
     if { [winfo exists $space] == 1 } {
@@ -33,8 +28,6 @@ namespace eval viewAPUSupplies {
   proc 'do'select { resp } {
     upvar $resp response
     array set row [deserialize $response(row)]
-    set rowid "$row(keynotes_id),$row(APUSupplies_id),$row(Supplies_id)"
-    variable rows
     variable frame
 
     set keynote_frame $frame.[regsub -all {[.]} $row(keynotes_id) "_"]
