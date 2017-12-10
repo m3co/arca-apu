@@ -53,18 +53,36 @@ namespace eval viewAPUSupplies {
         pack [label $apu_frame.extras.apu_cost -text $row(APU_cost)] -side left
         pack [label $apu_frame.extras.apu_qop -text $row(APU_qop)] -side left
 
-        pack [frame $apu_frame.supplies -bg red] -side top -fill x -expand true
+        if { $row(APUSupplies_id) != "" } {
+          pack [frame $apu_frame.supplies -bg red] -side top -fill x -expand true
+          foreach param [list action type description unit cost partial qop] {
+            if { $param == "partial" } {
+              pack [labelframe $apu_frame.supplies.$param -text "Valor/Parcial"] -side left
+              continue
+            }
+            if { $param == "action" } {
+              pack [labelframe $apu_frame.supplies.$param -text "-"] -side left
+              continue
+            }
+            pack [labelframe $apu_frame.supplies.$param -text $param] -side left
+              # \ -fill x -expand [expr { $param == "description" }]
+              # hace parte de la linea de arriba...
+          }
+        }
       }
 
       if { $row(APUSupplies_id) != "" } {
-        set apusupply_frame $apu_frame.supplies.apu_$row(APUSupplies_id)
-        if { [winfo exists $apusupply_frame] == 0 } {
-          pack [frame $apusupply_frame -bg yellow] -side top -fill x
-          pack [label $apusupply_frame.supply_description -text $row(Supplies_description)] -side left
-          pack [label $apusupply_frame.supply_unit -text $row(Supplies_unit)] -side left
-          pack [label $apusupply_frame.supply_cost -text $row(Supplies_cost)] -side left
-          pack [label $apusupply_frame.supply_qop -text $row(APUSupplies_qop)] -side left
-        }
+        pack [frame $apu_frame.supplies.description.$row(APUSupplies_id)] -side top -fill x
+        pack [label $apu_frame.supplies.description.$row(APUSupplies_id).label -text $row(Supplies_description)] -side left
+
+        pack [frame $apu_frame.supplies.unit.$row(APUSupplies_id)] -side top -fill x
+        pack [label $apu_frame.supplies.unit.$row(APUSupplies_id).label -text $row(Supplies_unit)] -side left
+
+        pack [frame $apu_frame.supplies.cost.$row(APUSupplies_id)] -side top -fill x
+        pack [label $apu_frame.supplies.cost.$row(APUSupplies_id).label -text $row(Supplies_cost)] -side left
+
+        pack [frame $apu_frame.supplies.qop.$row(APUSupplies_id)] -side top -fill x
+        pack [label $apu_frame.supplies.qop.$row(APUSupplies_id).label -text $row(APUSupplies_qop)] -side left
       }
     }
   }
