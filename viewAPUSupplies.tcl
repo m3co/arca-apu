@@ -48,10 +48,23 @@ namespace eval viewAPUSupplies {
         pack [frame $apu_frame -bg yellow] -side left
         pack [label $apu_frame.apu_description -text $row(APU_description)] \
           -side top -fill x -expand true
-        pack [frame $apu_frame.extras] -side left -fill x
+        pack [frame $apu_frame.extras] -side top -fill x
         pack [label $apu_frame.extras.apu_unit -text $row(APU_unit)] -side left
         pack [label $apu_frame.extras.apu_cost -text $row(APU_cost)] -side left
         pack [label $apu_frame.extras.apu_qop -text $row(APU_qop)] -side left
+
+        pack [frame $apu_frame.supplies -bg red] -side top -fill x -expand true
+      }
+
+      if { $row(APUSupplies_id) != "" } {
+        set apusupply_frame $apu_frame.supplies.apu_$row(APUSupplies_id)
+        if { [winfo exists $apusupply_frame] == 0 } {
+          pack [frame $apusupply_frame -bg yellow] -side top -fill x
+          pack [label $apusupply_frame.supply_description -text $row(Supplies_description)] -side left
+          pack [label $apusupply_frame.supply_unit -text $row(Supplies_unit)] -side left
+          pack [label $apusupply_frame.supply_cost -text $row(Supplies_cost)] -side left
+          pack [label $apusupply_frame.supply_qop -text $row(APUSupplies_qop)] -side left
+        }
       }
     }
   }
