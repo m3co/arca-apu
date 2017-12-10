@@ -34,7 +34,7 @@ namespace eval fnConcretizeProject {
     $fr.left setwidget $tree
 
     # hacer que redactar sea presionando por un rato
-    $tree bindText <1> [list fnEstimateProject::open $fr.right]
+    $tree bindText <1> [list viewAPUSupplies::open'view $fr.right]
     #$tree bindText <Double-1> $onedit
 
     chan puts $MAIN::chan [array get event]
