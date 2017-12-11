@@ -25,6 +25,11 @@ namespace eval viewAPUSupplies {
     chan puts $MAIN::chan [array get event]
   }
 
+  proc 'do'update { resp } {
+    upvar $resp response
+
+  }
+
   proc 'do'select { resp } {
     upvar $resp response
     array set row [deserialize $response(row)]
