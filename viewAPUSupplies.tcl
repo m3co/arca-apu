@@ -27,7 +27,12 @@ namespace eval viewAPUSupplies {
 
   proc 'do'update { resp } {
     upvar $resp response
+    array set row [deserialize $response(row)]
+    variable frame
 
+    #set keynote_frame $frame.[regsub -all {[.]} $row(keynotes_id) "_"]
+    #set apu_frame $keynote_frame.apu_$row(APU_id)
+    #$apu_frame.supplies.description.$row(APUSupplies_id)
   }
 
   proc 'do'select { resp } {
@@ -47,9 +52,44 @@ namespace eval viewAPUSupplies {
         pack [label $apu_frame.apu_description -text $row(APU_description)] \
           -side top -fill x -expand true
         pack [frame $apu_frame.extras] -side top -fill x
-        pack [label $apu_frame.extras.apu_unit -text $row(APU_unit)] -side left
-        pack [label $apu_frame.extras.apu_cost -text $row(APU_cost)] -side left
-        pack [label $apu_frame.extras.apu_qop -text $row(APU_qop)] -side left
+        pack [label $apu_frame.extras.apu_unit_text -text "Unidad:"] -side left
+        array set conf [list \
+          from viewAPUSupplies \
+          module viewAPUSupplies \
+          idkey id \
+          key APU_unit \
+          frame [frame $apu_frame.extras.apu_unit] \
+          dollar false \
+          currency false \
+        ]
+        pack $conf(frame) -side left
+        labelentry::setup [array get conf] [array get row]
+
+        pack [label $apu_frame.extras.apu_cost_text -text "Valor Unitario:"] -side left
+        array set conf [list \
+          from viewAPUSupplies \
+          module viewAPUSupplies \
+          idkey id \
+          key APU_cost \
+          frame [frame $apu_frame.extras.apu_cost] \
+          dollar true \
+          currency true \
+        ]
+        pack $conf(frame) -side left
+        labelentry::setup [array get conf] [array get row]
+
+        pack [label $apu_frame.extras.apu_qop_text -text "Rdto:"] -side left
+        array set conf [list \
+          from viewAPUSupplies \
+          module viewAPUSupplies \
+          idkey id \
+          key APU_qop \
+          frame [frame $apu_frame.extras.apu_qop] \
+          dollar false \
+          currency false \
+        ]
+        pack $conf(frame) -side left
+        labelentry::setup [array get conf] [array get row]
 
         if { $row(APUSupplies_id) != "" } {
           pack [frame $apu_frame.supplies -bg red] -side top -fill x -expand true
