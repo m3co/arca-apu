@@ -49,8 +49,18 @@ namespace eval viewAPUSupplies {
       set apu_frame $keynote_frame.apu_$row(APU_id)
       if { [winfo exists $apu_frame] == 0 } {
         pack [frame $apu_frame -bg yellow] -side left
-        pack [label $apu_frame.apu_description -text $row(APU_description)] \
-          -side top -fill x -expand true
+        array set conf [list \
+          from viewAPUSupplies \
+          module viewAPUSupplies \
+          idkey id \
+          key APU_description \
+          frame [frame $apu_frame.apu_description] \
+          dollar false \
+          currency false \
+        ]
+        pack $conf(frame) -side top -fill x -expand true
+        labelentry::setup [array get conf] [array get row]
+
         pack [frame $apu_frame.extras] -side top -fill x
         pack [label $apu_frame.extras.apu_unit_text -text "Unidad:"] -side left
         array set conf [list \
