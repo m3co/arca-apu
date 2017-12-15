@@ -9,6 +9,8 @@ namespace eval viewAPUSupplies {
     set keynote_frame $frame.[regsub -all {[.]} $row(keynotes_id) "_"]
     if { [winfo exists $keynote_frame] == 1 } {
       $keynote_frame configure -text $row(keynotes_id)
+    } else {
+      return
     }
     if { $row(APU_id) != "" } {
       set apu_frame $keynote_frame.apu_$row(APU_id)
