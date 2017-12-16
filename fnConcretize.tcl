@@ -223,6 +223,8 @@ namespace eval fnConcretizeProject {
       bind $fr.concrete <ButtonRelease-1> [list \
         fnConcretizeProject::deconcretize %W [array get row]]
     }
+    bind $fr.image <1> [list fnConcretizeProject::open'popupmenu \
+      %X %Y $row(id_to_concrete)]
   }
 
   proc 'do'update { resp } {
