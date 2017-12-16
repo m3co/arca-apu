@@ -65,17 +65,26 @@ namespace eval fnConcretizeProject {
       return
     }
 
+    ## Cual es el numero a poner aquí? eso me lo debe indicar SQL
     set data(parent_to_concrete) $data(id_to_concrete)
     set data(id_to_concrete) "$data(id_to_concrete).[ expr { [llength \
       [$tree nodes $lastPopupId]] + 1 }]"
     set data(description_to_concrete) ""
     array unset data expand
 
-    $tree insert end $data(parent_to_concrete) $data(id_to_concrete) \
-      -data [array get data] \
-      -image [Bitmap::get oplink]
+    set node [$tree insert end $data(parent_to_concrete) \
+      $data(id_to_concrete) -data [array get data]]
 
     $tree opentree $data(parent_to_concrete) 0
+
+    set fr [join [list $tree .img \
+      [regsub -all {[.]} $data(id_to_concrete) "_"]] ""]
+    pack [frame $fr]
+    pack [label $fr.concrete -text "o" -relief raised] -side left
+    pack [label $fr.separator -text " "] -side left
+    pack [label $fr.image -image [Bitmap::get oplink]] -side left
+
+    $tree itemconfigure $node -window $fr
     $tree edit $data(id_to_concrete) "" [list \
       fnConcretizeProject::create'node [array get data]] 1
   }
