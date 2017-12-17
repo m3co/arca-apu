@@ -54,4 +54,4 @@ namespace eval MAIN {
 
 source [file join [file dirname [info script]] projects.tcl]
 source [file join [file dirname [info script]] fnConcretize.tcl]
-source [file join [file dirname [info script]] viewAPUSupplies.tcl]
+source [file join [file dirname [info script]] viewAPUSupplies/viewAPUSupplies.tcl]
