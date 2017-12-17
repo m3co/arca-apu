@@ -1,6 +1,60 @@
 
 namespace eval viewAPUSupplies {
 
+  proc setup'newentry { apu_frame } {
+    if { [winfo exists $apu_frame.supplies] == 0 } {
+      pack [frame $apu_frame.supplies -bg red] -side top -fill x -expand true
+      foreach param [list action type description unit cost partial qop] {
+        if { $param == "partial" } {
+          pack [labelframe $apu_frame.supplies.$param -text "Valor/Parcial"] -side left
+          continue
+        }
+        if { $param == "action" } {
+          pack [labelframe $apu_frame.supplies.$param -text "-"] -side left
+          continue
+        }
+        pack [labelframe $apu_frame.supplies.$param -text $param] -side left
+          # \ -fill x -expand [expr { $param == "description" }]
+          # hace parte de la linea de arriba...
+      }
+    }
+
+    if { [winfo exist $apu_frame.supplies.type.newentry] == 1 } {
+      destroy $apu_frame.supplies.type.newentry
+    }
+    pack [frame $apu_frame.supplies.type.newentry] -side top -fill x
+    pack [label $apu_frame.supplies.type.newentry.label -text " "] \
+      -side left
+
+    if { [winfo exist $apu_frame.supplies.description.newentry] == 1 } {
+      destroy $apu_frame.supplies.description.newentry
+    }
+    pack [frame $apu_frame.supplies.description.newentry] -side top -fill x
+    pack [label $apu_frame.supplies.description.newentry.label -text " "] \
+      -side left
+
+    if { [winfo exist $apu_frame.supplies.unit.newentry] == 1 } {
+      destroy $apu_frame.supplies.unit.newentry
+    }
+    pack [frame $apu_frame.supplies.unit.newentry] -side top -fill x
+    pack [label $apu_frame.supplies.unit.newentry.label -text " "] \
+      -side left
+
+    if { [winfo exist $apu_frame.supplies.cost.newentry] == 1 } {
+      destroy $apu_frame.supplies.cost.newentry
+    }
+    pack [frame $apu_frame.supplies.cost.newentry] -side top -fill x
+    pack [label $apu_frame.supplies.cost.newentry.label -text " "] \
+      -side left
+
+    if { [winfo exist $apu_frame.supplies.qop.newentry] == 1 } {
+      destroy $apu_frame.supplies.qop.newentry
+    }
+    pack [frame $apu_frame.supplies.qop.newentry] -side top -fill x
+    pack [label $apu_frame.supplies.qop.newentry.label -text " "] \
+      -side left
+  }
+
   proc 'do'select { resp } {
     upvar $resp response
     array set row [deserialize $response(row)]
@@ -67,22 +121,7 @@ namespace eval viewAPUSupplies {
         pack $conf(frame) -side left
         labelentry::setup [array get conf] [array get row]
 
-        if { $row(APUSupplies_id) != "" } {
-          pack [frame $apu_frame.supplies -bg red] -side top -fill x -expand true
-          foreach param [list action type description unit cost partial qop] {
-            if { $param == "partial" } {
-              pack [labelframe $apu_frame.supplies.$param -text "Valor/Parcial"] -side left
-              continue
-            }
-            if { $param == "action" } {
-              pack [labelframe $apu_frame.supplies.$param -text "-"] -side left
-              continue
-            }
-            pack [labelframe $apu_frame.supplies.$param -text $param] -side left
-              # \ -fill x -expand [expr { $param == "description" }]
-              # hace parte de la linea de arriba...
-          }
-        }
+        setup'newentry $apu_frame
       }
 
       if { $row(APUSupplies_id) != "" } {
@@ -145,6 +184,8 @@ namespace eval viewAPUSupplies {
         ]
         pack $conf(frame) -side top -fill x
         labelentry::setup [array get conf] [array get row]
+
+        setup'newentry $apu_frame
       }
     }
   }
