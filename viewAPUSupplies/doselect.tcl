@@ -90,6 +90,18 @@ namespace eval viewAPUSupplies {
           from viewAPUSupplies \
           module viewAPUSupplies \
           idkey id \
+          key type \
+          frame [frame $apu_frame.supplies.type.$row(APUSupplies_id)] \
+          dollar false \
+          currency false \
+        ]
+        pack $conf(frame) -side top -fill x
+        labelentry::setup [array get conf] [array get row]
+
+        array set conf [list \
+          from viewAPUSupplies \
+          module viewAPUSupplies \
+          idkey id \
           key Supplies_description \
           frame [frame $apu_frame.supplies.description.$row(APUSupplies_id)] \
           dollar false \
