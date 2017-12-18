@@ -25,7 +25,7 @@ proc viewAPUSupplies::rename'description { path frame e } {
 
   array set conf [list \
     frame $frame \
-    key description \
+    key Supplies_description \
     from viewAPUSupplies \
     module viewAPUSupplies \
     idkey id \
