@@ -126,8 +126,7 @@ proc viewAPUSupplies::select'combobox { path label e } {
       ] \
     ]
   }
-  parray event
-  ##chan puts $MAIN::chan [array get event]
+  chan puts $MAIN::chan [array get event]
 
   $label configure -text "..."
   pack $label -side left
