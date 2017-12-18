@@ -1,8 +1,6 @@
 
-proc fnAPUSupplies::input'description { e } {
-  variable frames
-  upvar $e entry
-  set frame $frames($entry(APUId))
+proc viewAPUSupplies::input'description { e frame } {
+  array set entry [deserialize $e]
 
   set fr $frame.description.$entry(id)
   if { [winfo exists $fr] == 0 } {
@@ -12,40 +10,40 @@ proc fnAPUSupplies::input'description { e } {
   if { [winfo exists $label] == 0 } {
     if { $entry(id) != "newentry" } {
       pack [label $fr.edit -text "!"] -side left
-      bind $fr.edit <1> [list fnAPUSupplies::rename'description \
+      bind $fr.edit <1> [list viewAPUSupplies::rename'description \
         %W $fr [array get entry]]
     }
-    pack [label $label -text $entry(description)] -side left
+    pack [label $label -text $entry(Supplies_description)] -side left
   }
-  $label configure -text [expr {$entry(description) == "" ? \
-    "-" : $entry(description) }]
-  bind $label <1> [list fnAPUSupplies::turn'combobox \
+  $label configure -text [expr {$entry(Supplies_description) == "" ? \
+    "-" : $entry(Supplies_description) }]
+  bind $label <1> [list viewAPUSupplies::turn'combobox \
     %W $fr [array get entry]]
 }
 
-proc fnAPUSupplies::rename'description { path frame e } {
+proc viewAPUSupplies::rename'description { path frame e } {
 
   array set conf [list \
     frame $frame \
     key description \
-    from fnAPUSupplies \
-    module fnAPUSupplies \
+    from viewAPUSupplies \
+    module viewAPUSupplies \
     idkey id \
   ]
 
   labelentry::'begin'redact $frame.label [array get conf] $e
   set label $frame.label
-  bind $label <1> [list fnAPUSupplies::turn'combobox \
+  bind $label <1> [list viewAPUSupplies::turn'combobox \
     %W $frame $e]
 }
 
-proc fnAPUSupplies::turn'combobox { path frame e } {
+proc viewAPUSupplies::turn'combobox { path frame e } {
 
   array set conf [list \
     frame $frame \
     key description \
-    from fnAPUSupplies \
-    module fnAPUSupplies \
+    from viewAPUSupplies \
+    module viewAPUSupplies \
     idkey id \
   ]
 
@@ -53,11 +51,11 @@ proc fnAPUSupplies::turn'combobox { path frame e } {
   labelentry::'end'redact [array get conf]
 
   set combo [ttk::combobox $frame.combo]
-  $combo insert 0 $entry(description)
+  $combo insert 0 $entry(Supplies_description)
   bind $combo <KeyRelease> +[list \
-    fnAPUSupplies::search'combobox %W %K]
+    viewAPUSupplies::search'combobox %W %K]
   bind $combo <<ComboboxSelected>> [list \
-    fnAPUSupplies::select'combobox %W $frame.label [array get entry]]
+    viewAPUSupplies::select'combobox %W $frame.label [array get entry]]
 
   set labelentry::lastEdit(input) $combo
   set labelentry::lastEdit(label) $frame.label
@@ -73,7 +71,7 @@ proc fnAPUSupplies::turn'combobox { path frame e } {
 # linea el formato { $texto-descriptivo [id] }. Bajo dicho formato es posible
 # obtener el id del Supply seleccionado
 #
-proc fnAPUSupplies::select'combobox { path label e } {
+proc viewAPUSupplies::select'combobox { path label e } {
   array set entry [deserialize $e]
   variable lastSearch
   if { [llength [array names lastSearch]] == 0 } {
@@ -106,8 +104,8 @@ proc fnAPUSupplies::select'combobox { path label e } {
 
   array set event [list \
     query update \
-    module fnAPUSupplies \
-    from fnAPUSupplies \
+    module viewAPUSupplies \
+    from viewAPUSupplies \
     idkey id \
     id $entry(id) \
     key SupplyId \
@@ -119,7 +117,7 @@ proc fnAPUSupplies::select'combobox { path label e } {
     array unset event
     array set event [list \
       query insert \
-      module fnAPUSupplies \
+      module viewAPUSupplies \
       from APUSupplies \
       entry [array get entry] \
       row  [list \
@@ -138,9 +136,9 @@ proc fnAPUSupplies::select'combobox { path label e } {
 
 #
 # La lista resultante de la busqueda de insumos mostrarla en el combobox,
-# y allende guardar dicho resultado en favor de fnAPUSupplies::select'combobox
+# y allende guardar dicho resultado en favor de viewAPUSupplies::select'combobox
 #
-proc fnAPUSupplies::'do'search { resp } {
+proc viewAPUSupplies::'do'search { resp } {
   upvar $resp response
   variable lastSearch
 
@@ -150,7 +148,7 @@ proc fnAPUSupplies::'do'search { resp } {
 
   foreach row $response(rows) {
     array set entry [deserialize $row]
-    lappend found "$entry(description) \[$entry(id)]"
+    lappend found "$entry(Supplies_description) \[$entry(id)]"
     set lastSearch($entry(id)) [array get entry]
   }
   if { [llength $found] == 0 } {
@@ -163,7 +161,7 @@ proc fnAPUSupplies::'do'search { resp } {
   extendcombo::show'listbox $response(combo) ""
 }
 
-proc fnAPUSupplies::search'combobox { path key } {
+proc viewAPUSupplies::search'combobox { path key } {
   if {[string length $key] > 1 && [string tolower $key] != $key} {
     return
   }
@@ -172,7 +170,7 @@ proc fnAPUSupplies::search'combobox { path key } {
   array set event [list \
     query search \
     combo $path \
-    module fnAPUSupplies \
+    module viewAPUSupplies \
     from Supplies \
     key description \
     value $value

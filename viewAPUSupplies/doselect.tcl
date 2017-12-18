@@ -6,7 +6,8 @@ namespace eval viewAPUSupplies {
       pack [frame $apu_frame.supplies -bg red] -side top -fill x -expand true
       foreach param [list action type description unit cost partial qop] {
         if { $param == "partial" } {
-          pack [labelframe $apu_frame.supplies.$param -text "Valor/Parcial"] -side left
+          pack [labelframe $apu_frame.supplies.$param -text "Valor/Parcial"] \
+            -side left
           continue
         }
         if { $param == "action" } {
@@ -29,9 +30,28 @@ namespace eval viewAPUSupplies {
     if { [winfo exist $apu_frame.supplies.description.newentry] == 1 } {
       destroy $apu_frame.supplies.description.newentry
     }
-    pack [frame $apu_frame.supplies.description.newentry] -side top -fill x
-    pack [label $apu_frame.supplies.description.newentry.label -text " "] \
-      -side left
+    array set newentry {
+      APUSupplies_id ""
+      APUSupplies_qop ""
+      APU_cost ""
+      APU_description ""
+      APU_id ""
+      APU_qop ""
+      APU_unit ""
+      Supplies_cost ""
+      Supplies_description ""
+      Supplies_id ""
+      Supplies_unit ""
+      estimated ""
+      expand ""
+      id newentry
+      keynotes_id ""
+      parent ""
+      type ""
+      upload ""
+      Qtakeoff_qop ""
+    }
+    input'description [array get newentry] $apu_frame.supplies
 
     if { [winfo exist $apu_frame.supplies.unit.newentry] == 1 } {
       destroy $apu_frame.supplies.unit.newentry
