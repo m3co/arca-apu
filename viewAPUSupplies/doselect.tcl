@@ -1,7 +1,8 @@
 
 namespace eval viewAPUSupplies {
 
-  proc setup'newentry { apu_frame } {
+  proc setup'newentry { apu_frame r } {
+    upvar $r row
     if { [winfo exists $apu_frame.supplies] == 0 } {
       pack [frame $apu_frame.supplies -bg red] -side top -fill x -expand true
       foreach param [list action type description unit cost partial qop] {
@@ -32,6 +33,8 @@ namespace eval viewAPUSupplies {
     }
     array set newentry {
       APUSupplies_id newentry
+      APUSupplies_SupplyId ""
+      APUSupplies_APUId ""
       APUSupplies_qop ""
       APU_cost ""
       APU_description ""
@@ -42,15 +45,18 @@ namespace eval viewAPUSupplies {
       Supplies_description ""
       Supplies_id ""
       Supplies_unit ""
+      Supplies_type ""
       estimated ""
       expand ""
       id newentry
       keynotes_id ""
       parent ""
-      type ""
       upload ""
       Qtakeoff_qop ""
     }
+    set newentry(APUSupplies_APUId) $row(APUSupplies_APUId)
+    set newentry(APU_id) $row(APU_id)
+    set newentry(keynotes_id) $row(keynotes_id)
     input'description [array get newentry] $apu_frame.supplies
 
     if { [winfo exist $apu_frame.supplies.unit.newentry] == 1 } {
@@ -141,7 +147,7 @@ namespace eval viewAPUSupplies {
         pack $conf(frame) -side left
         labelentry::setup [array get conf] [array get row]
 
-        setup'newentry $apu_frame
+        setup'newentry $apu_frame row
       }
 
       if { $row(APUSupplies_id) != "" } {
@@ -149,7 +155,7 @@ namespace eval viewAPUSupplies {
           from viewAPUSupplies \
           module viewAPUSupplies \
           idkey id \
-          key type \
+          key Supplies_type \
           frame [frame $apu_frame.supplies.type.$row(APUSupplies_id)] \
           dollar false \
           currency false \
@@ -195,7 +201,7 @@ namespace eval viewAPUSupplies {
         pack $conf(frame) -side top -fill x
         labelentry::setup [array get conf] [array get row]
 
-        setup'newentry $apu_frame
+        setup'newentry $apu_frame row
       }
     }
   }

@@ -92,19 +92,15 @@ proc viewAPUSupplies::select'combobox { path label e } {
     return
   }
   set id [lindex [regexp -inline {\[(\d+)\]$} [$path get]] end]
-  puts "select'combobox $id"
-  parray entry
-
-  return
 
   # Reemplace el insumo con el insumo seleccionado
   foreach param [list description unit cost type] {
-    set entry($param) [dict get $lastSearch($id) $param]
-    if { $entry($param) == "null" } {
-      set entry($param) ""
+    set entry("Supplies_$param") [dict get $lastSearch($id) $param]
+    if { $entry("Supplies_$param") == "null" } {
+      set entry("Supplies_$param") ""
     }
   }
-  set entry(SupplyId) $id
+  set entry(Supplies_id) $id
 
   array set event [list \
     query update \
@@ -112,7 +108,7 @@ proc viewAPUSupplies::select'combobox { path label e } {
     from viewAPUSupplies \
     idkey id \
     id $entry(id) \
-    key SupplyId \
+    key APUSupplies_SupplyId \
     value [dict get $lastSearch($id) id] \
     row [array get entry] \
   ]
@@ -121,17 +117,17 @@ proc viewAPUSupplies::select'combobox { path label e } {
     array unset event
     array set event [list \
       query insert \
-      module viewAPUSupplies \
+      module APUSupplies \
       from APUSupplies \
       entry [array get entry] \
       row  [list \
-        APUId $entry(APUId) \
-        SupplyId $entry(SupplyId) \
-        qop 0 \
-      ]\
+        APUId $entry(APUSupplies_APUId) \
+        SupplyId [dict get $lastSearch($id) id] \
+      ] \
     ]
   }
-  chan puts $MAIN::chan [array get event]
+  parray event
+  ##chan puts $MAIN::chan [array get event]
 
   $label configure -text "..."
   pack $label -side left
