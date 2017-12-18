@@ -31,7 +31,7 @@ namespace eval viewAPUSupplies {
       destroy $apu_frame.supplies.description.newentry
     }
     array set newentry {
-      APUSupplies_id ""
+      APUSupplies_id newentry
       APUSupplies_qop ""
       APU_cost ""
       APU_description ""
@@ -157,17 +157,7 @@ namespace eval viewAPUSupplies {
         pack $conf(frame) -side top -fill x
         labelentry::setup [array get conf] [array get row]
 
-        array set conf [list \
-          from viewAPUSupplies \
-          module viewAPUSupplies \
-          idkey id \
-          key Supplies_description \
-          frame [frame $apu_frame.supplies.description.$row(APUSupplies_id)] \
-          dollar false \
-          currency false \
-        ]
-        pack $conf(frame) -side top -fill x
-        labelentry::setup [array get conf] [array get row]
+        input'description [array get row] $apu_frame.supplies
 
         array set conf [list \
           from viewAPUSupplies \

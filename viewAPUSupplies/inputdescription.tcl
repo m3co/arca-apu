@@ -2,7 +2,7 @@
 proc viewAPUSupplies::input'description { e frame } {
   array set entry [deserialize $e]
 
-  set fr $frame.description.$entry(id)
+  set fr $frame.description.$entry(APUSupplies_id)
   if { [winfo exists $fr] == 0 } {
     pack [frame $fr] -fill x -expand true
   }
