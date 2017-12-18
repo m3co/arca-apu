@@ -92,6 +92,10 @@ proc viewAPUSupplies::select'combobox { path label e } {
     return
   }
   set id [lindex [regexp -inline {\[(\d+)\]$} [$path get]] end]
+  puts "select'combobox $id"
+  parray entry
+
+  return
 
   # Reemplace el insumo con el insumo seleccionado
   foreach param [list description unit cost type] {
@@ -148,7 +152,7 @@ proc viewAPUSupplies::'do'search { resp } {
 
   foreach row $response(rows) {
     array set entry [deserialize $row]
-    lappend found "$entry(Supplies_description) \[$entry(id)]"
+    lappend found "$entry(description) \[$entry(id)]"
     set lastSearch($entry(id)) [array get entry]
   }
   if { [llength $found] == 0 } {
