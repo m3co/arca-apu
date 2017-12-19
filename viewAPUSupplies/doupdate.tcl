@@ -59,6 +59,17 @@ namespace eval viewAPUSupplies {
         ]
         labelentry::setup [array get conf] [array get row]
 
+        array set conf [list \
+          from viewAPUSupplies \
+          module viewAPUSupplies \
+          idkey id \
+          key Qtakeoff_qop \
+          frame $apu_frame.extras.qtakeoff_qop \
+          dollar false \
+          currency false \
+        ]
+        labelentry::setup [array get conf] [array get row]
+
         if { $row(APUSupplies_id) != "" } {
           foreach param [list action type description unit cost partial qop] {
             if { $param == "partial" } {

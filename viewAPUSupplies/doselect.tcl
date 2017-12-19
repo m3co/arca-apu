@@ -147,6 +147,19 @@ namespace eval viewAPUSupplies {
         pack $conf(frame) -side left
         labelentry::setup [array get conf] [array get row]
 
+        pack [label $apu_frame.extras.qtakeoff_qop_text -text "Cantidad:"] -side left
+        array set conf [list \
+          from viewAPUSupplies \
+          module viewAPUSupplies \
+          idkey id \
+          key Qtakeoff_qop \
+          frame [frame $apu_frame.extras.qtakeoff_qop] \
+          dollar false \
+          currency false \
+        ]
+        pack $conf(frame) -side left
+        labelentry::setup [array get conf] [array get row]
+
         setup'newentry $apu_frame row
       }
 
