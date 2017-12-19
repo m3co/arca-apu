@@ -24,6 +24,11 @@ namespace eval viewAPUSupplies {
 
     chan puts $MAIN::chan [array get event]
   }
+
+  proc 'do'insert { resp } {
+    upvar $resp response
+    'do'select response
+  }
 }
 
 source [file join [file dirname [info script]] doupdate.tcl]
