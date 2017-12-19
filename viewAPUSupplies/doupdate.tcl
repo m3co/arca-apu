@@ -84,6 +84,7 @@ namespace eval viewAPUSupplies {
       }
 
       if { $row(APUSupplies_id) != "" } {
+        if { [winfo exists $apu_frame.supplies.description.$row(APUSupplies_id)] == 1 } {
         array set conf [list \
           from viewAPUSupplies \
           module viewAPUSupplies \
@@ -94,7 +95,9 @@ namespace eval viewAPUSupplies {
           currency false \
         ]
         labelentry::setup [array get conf] [array get row]
+        }
 
+        if { [winfo exists $apu_frame.supplies.unit.$row(APUSupplies_id)] == 1 } {
         array set conf [list \
           from viewAPUSupplies \
           module viewAPUSupplies \
@@ -105,7 +108,9 @@ namespace eval viewAPUSupplies {
           currency false \
         ]
         labelentry::setup [array get conf] [array get row]
+        }
 
+        if { [winfo exists $apu_frame.supplies.cost.$row(APUSupplies_id)] == 1 } {
         array set conf [list \
           from viewAPUSupplies \
           module viewAPUSupplies \
@@ -116,7 +121,9 @@ namespace eval viewAPUSupplies {
           currency true \
         ]
         labelentry::setup [array get conf] [array get row]
+        }
 
+        if { [winfo exists $apu_frame.supplies.qop.$row(APUSupplies_id)] == 1 } {
         array set conf [list \
           from viewAPUSupplies \
           module viewAPUSupplies \
@@ -127,6 +134,7 @@ namespace eval viewAPUSupplies {
           currency false \
         ]
         labelentry::setup [array get conf] [array get row]
+        }
       }
     }
   }
