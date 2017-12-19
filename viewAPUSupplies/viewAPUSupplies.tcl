@@ -24,17 +24,6 @@ namespace eval viewAPUSupplies {
 
     chan puts $MAIN::chan [array get event]
   }
-
-  proc 'do'update { resp } {
-    upvar $resp response
-    array set row [deserialize $response(row)]
-    variable frame
-
-    #set keynote_frame $frame.[regsub -all {[.]} $row(keynotes_id) "_"]
-    #set apu_frame $keynote_frame.apu_$row(APU_id)
-    #$apu_frame.supplies.description.$row(APUSupplies_id)
-  }
-
 }
 
 source [file join [file dirname [info script]] doupdate.tcl]

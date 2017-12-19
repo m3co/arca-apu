@@ -6,9 +6,9 @@ namespace eval viewAPUSupplies {
     array set row [deserialize $response(row)]
     variable frame
 
-    set keynote_frame $frame.[regsub -all {[.]} $row(keynotes_id) "_"]
+    set keynote_frame $frame.[regsub -all {[.]} $row(Keynotes_id) "_"]
     if { [winfo exists $keynote_frame] == 1 } {
-      $keynote_frame configure -text $row(keynotes_id)
+      $keynote_frame configure -text $row(Keynotes_id)
     } else {
       return
     }

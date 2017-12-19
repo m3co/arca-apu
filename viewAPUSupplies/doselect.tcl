@@ -32,6 +32,7 @@ namespace eval viewAPUSupplies {
       destroy $apu_frame.supplies.description.newentry
     }
     array set newentry {
+      id newentry
       APUSupplies_id newentry
       APUSupplies_SupplyId ""
       APUSupplies_APUId ""
@@ -41,22 +42,21 @@ namespace eval viewAPUSupplies {
       APU_id ""
       APU_qop ""
       APU_unit ""
+      APU_estimated ""
       Supplies_cost ""
       Supplies_description ""
       Supplies_id ""
       Supplies_unit ""
       Supplies_type ""
-      estimated ""
-      expand ""
-      id newentry
-      keynotes_id ""
-      parent ""
-      upload ""
+      Keynotes_expand ""
+      Keynotes_id ""
+      Keynotes_parent ""
+      Qtakeoff_upload ""
       Qtakeoff_qop ""
     }
     set newentry(APUSupplies_APUId) $row(APUSupplies_APUId)
     set newentry(APU_id) $row(APU_id)
-    set newentry(keynotes_id) $row(keynotes_id)
+    set newentry(Keynotes_id) $row(Keynotes_id)
     input'description [array get newentry] $apu_frame.supplies
 
     if { [winfo exist $apu_frame.supplies.unit.newentry] == 1 } {
@@ -86,9 +86,9 @@ namespace eval viewAPUSupplies {
     array set row [deserialize $response(row)]
     variable frame
 
-    set keynote_frame $frame.[regsub -all {[.]} $row(keynotes_id) "_"]
+    set keynote_frame $frame.[regsub -all {[.]} $row(Keynotes_id) "_"]
     if { [winfo exists $keynote_frame] == 0 } {
-      pack [labelframe $keynote_frame -text $row(keynotes_id) -bg green] \
+      pack [labelframe $keynote_frame -text $row(Keynotes_id) -bg green] \
         -fill x -expand true
     }
     if { $row(APU_id) != "" } {
