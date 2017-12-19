@@ -121,7 +121,7 @@ proc viewAPUSupplies::select'combobox { path label e } {
       from APUSupplies \
       entry [array get entry] \
       row  [list \
-        APUId $entry(APUSupplies_APUId) \
+        APUId $entry(APU_id) \
         SupplyId [dict get $lastSearch($id) id] \
       ] \
     ]
