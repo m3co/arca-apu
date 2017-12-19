@@ -29,6 +29,43 @@ namespace eval viewAPUSupplies {
     upvar $resp response
     'do'select response
   }
+
+  proc 'do'delete { resp } {
+    upvar $resp response
+    array set row [deserialize $response(row)]
+    variable frame
+
+    set keynote_frame $frame.[regsub -all {[.]} $row(Keynotes_id) "_"]
+    set apu_frame $keynote_frame.apu_$row(APU_id)
+
+    if { $row(APUSupplies_id) != "" } {
+      if { [winfo exists $apu_frame.supplies.type.$row(APUSupplies_id)] == 1 } {
+        destroy $apu_frame.supplies.type.$row(APUSupplies_id)
+      }
+      if { [winfo exists $apu_frame.supplies.description.$row(APUSupplies_id)] == 1 } {
+        destroy $apu_frame.supplies.description.$row(APUSupplies_id)
+      }
+      if { [winfo exists $apu_frame.supplies.unit.$row(APUSupplies_id)] == 1 } {
+        destroy $apu_frame.supplies.unit.$row(APUSupplies_id)
+      }
+      if { [winfo exists $apu_frame.supplies.cost.$row(APUSupplies_id)] == 1 } {
+        destroy $apu_frame.supplies.cost.$row(APUSupplies_id)
+      }
+      if { [winfo exists $apu_frame.supplies.qop.$row(APUSupplies_id)] == 1 } {
+        destroy $apu_frame.supplies.qop.$row(APUSupplies_id)
+      }
+      return
+    }
+
+    if { $row(APU_id) != "" } {
+      if { [winfo exists $apu_frame] == 1 } {
+        destroy $apu_frame
+      }
+    }
+    if { [winfo exists $keynote_frame] == 1 } {
+      destroy $keynote_frame
+    }
+  }
 }
 
 source [file join [file dirname [info script]] doupdate.tcl]
