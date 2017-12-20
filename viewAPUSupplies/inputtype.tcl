@@ -20,7 +20,7 @@ proc viewAPUSupplies::turn'combobox'type { path frame e } {
 
   array set conf [list \
     frame $frame \
-    key type \
+    key Supplies_type \
     from viewAPUSupplies \
     module viewAPUSupplies \
     idkey id \
@@ -55,7 +55,7 @@ proc viewAPUSupplies::select'combobox'type { path label e } {
     idkey id \
     id $entry(Supplies_id) \
     key type \
-    value [$path get] \
+    value "{[$path get]}" \
     entry [array get entry] \
   ]
 
