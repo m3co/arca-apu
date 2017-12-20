@@ -5,7 +5,7 @@ namespace eval viewAPUSupplies {
     upvar $r row
     if { [winfo exists $apu_frame.supplies] == 0 } {
       pack [frame $apu_frame.supplies -bg red] -side top -fill x -expand true
-      foreach param [list action type description unit cost partial qop] {
+      foreach param [list action type description unit cost qop partial] {
         if { $param == "partial" } {
           pack [labelframe $apu_frame.supplies.$param -text "Valor Parcial"] \
             -side left
