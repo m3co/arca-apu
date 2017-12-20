@@ -15,6 +15,26 @@ namespace eval viewAPUSupplies {
           pack [labelframe $apu_frame.supplies.$param -text "-"] -side left
           continue
         }
+        if { $param == "type" } {
+          pack [labelframe $apu_frame.supplies.$param -text "Tipo"] -side left
+          continue
+        }
+        if { $param == "description" } {
+          pack [labelframe $apu_frame.supplies.$param -text "Descripcion"] -side left
+          continue
+        }
+        if { $param == "unit" } {
+          pack [labelframe $apu_frame.supplies.$param -text "Unidad"] -side left
+          continue
+        }
+        if { $param == "cost" } {
+          pack [labelframe $apu_frame.supplies.$param -text "Costo"] -side left
+          continue
+        }
+        if { $param == "qop" } {
+          pack [labelframe $apu_frame.supplies.$param -text "Rdto"] -side left
+          continue
+        }
         pack [labelframe $apu_frame.supplies.$param -text $param] -side left
           # \ -fill x -expand [expr { $param == "description" }]
           # hace parte de la linea de arriba...
