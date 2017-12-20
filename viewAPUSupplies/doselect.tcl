@@ -79,6 +79,12 @@ namespace eval viewAPUSupplies {
     pack [frame $apu_frame.supplies.qop.newentry] -side top -fill x
     pack [label $apu_frame.supplies.qop.newentry.label -text " "] \
       -side left
+
+    if { [winfo exists $apu_frame.supplies.action.newentry] == 1 } {
+      destroy $apu_frame.supplies.action.newentry
+    }
+    pack [label $apu_frame.supplies.action.newentry -text " " \
+      -width 1 -relief raised]
   }
 
   proc 'do'select { resp } {
@@ -164,6 +170,16 @@ namespace eval viewAPUSupplies {
       }
 
       if { $row(APUSupplies_id) != "" } {
+
+        set action $apu_frame.supplies.action.$row(APUSupplies_id)
+        if { [winfo exists $action] == 0 } {
+          pack [frame $action]
+          pack [label $action.delete -text "-" -width 1 -relief raised]
+          bind $action.delete <ButtonPress-1> [list %W configure -relief sunken]
+          bind $action.delete <ButtonRelease-1> [list \
+            viewAPUSupplies::delete'row %W [array get row]]
+        }
+
         array set conf [list \
           from viewAPUSupplies \
           module viewAPUSupplies \

@@ -25,6 +25,19 @@ namespace eval viewAPUSupplies {
     chan puts $MAIN::chan [array get event]
   }
 
+  proc delete'row { path r } {
+    array set row [deserialize $r]
+    array set event [list \
+      query delete \
+      module APUSupplies \
+      from APUSupplies \
+      id $row(APUSupplies_id) \
+      idKey id \
+    ]
+    chan puts $MAIN::chan [array get event]
+    $path configure -relief raised
+  }
+
   proc 'do'insert { resp } {
     upvar $resp response
     'do'select response
@@ -53,6 +66,9 @@ namespace eval viewAPUSupplies {
       }
       if { [winfo exists $apu_frame.supplies.qop.$row(APUSupplies_id)] == 1 } {
         destroy $apu_frame.supplies.qop.$row(APUSupplies_id)
+      }
+      if { [winfo exists $apu_frame.supplies.action.$row(APUSupplies_id)] == 1 } {
+        destroy $apu_frame.supplies.action.$row(APUSupplies_id)
       }
       return
     }
