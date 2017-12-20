@@ -194,6 +194,13 @@ namespace eval viewAPUSupplies {
         pack $conf(frame) -side left
         labelentry::setup [array get conf] [array get row]
 
+        pack [label $apu_frame.extras.partial_text -text "Valor Parcial:"] -side left
+        pack [frame $apu_frame.extras.partial] -side left
+        pack [label $apu_frame.extras.partial.label -text \
+          "\$[format'currency [ \
+            expr {([isnumeric $row(APU_qop)] ? $row(APU_qop) : 0) * \
+              ([isnumeric $row(Qtakeoff_qop)] ? $row(Qtakeoff_qop) : 0)} \
+          ]]"] -side right
         setup'newentry $apu_frame row
       }
 
