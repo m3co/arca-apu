@@ -87,3 +87,4 @@ namespace eval viewAPUSupplies {
 source [file join [file dirname [info script]] doupdate.tcl]
 source [file join [file dirname [info script]] doselect.tcl]
 source [file join [file dirname [info script]] inputdescription.tcl]
+source [file join [file dirname [info script]] inputtype.tcl]

@@ -215,18 +215,7 @@ namespace eval viewAPUSupplies {
             viewAPUSupplies::delete'row %W [array get row]]
         }
 
-        array set conf [list \
-          from viewAPUSupplies \
-          module viewAPUSupplies \
-          idkey id \
-          key Supplies_type \
-          frame [frame $apu_frame.supplies.type.$row(APUSupplies_id)] \
-          dollar false \
-          currency false \
-        ]
-        pack $conf(frame) -side top -fill x
-        labelentry::setup [array get conf] [array get row]
-
+        input'type [array get row] $apu_frame.supplies
         input'description [array get row] $apu_frame.supplies
 
         array set conf [list \
