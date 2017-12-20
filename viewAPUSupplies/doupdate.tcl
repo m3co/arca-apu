@@ -89,17 +89,12 @@ namespace eval viewAPUSupplies {
       }
 
       if { $row(APUSupplies_id) != "" } {
+
+        if { [winfo exists $apu_frame.supplies.type.$row(APUSupplies_id)] == 1 } {
+        input'type [array get row] $apu_frame.supplies
+        }
         if { [winfo exists $apu_frame.supplies.description.$row(APUSupplies_id)] == 1 } {
-        array set conf [list \
-          from viewAPUSupplies \
-          module viewAPUSupplies \
-          idkey id \
-          key Supplies_description \
-          frame $apu_frame.supplies.description.$row(APUSupplies_id) \
-          dollar false \
-          currency false \
-        ]
-        labelentry::setup [array get conf] [array get row]
+        input'description [array get row] $apu_frame.supplies
         }
 
         if { [winfo exists $apu_frame.supplies.unit.$row(APUSupplies_id)] == 1 } {
