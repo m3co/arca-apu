@@ -155,7 +155,8 @@ namespace eval viewAPUSupplies {
         pack $conf(frame) -side left
         labelentry::setup [array get conf] [array get row]
 
-        pack [label $apu_frame.extras.apu_cost_text -text "Valor Unitario:"] -side left
+        pack [label $apu_frame.extras.apu_cost_text -text "Valor Unitario:"] \
+          -side left
         array set conf [list \
           from viewAPUSupplies \
           module viewAPUSupplies \
@@ -168,7 +169,8 @@ namespace eval viewAPUSupplies {
         pack $conf(frame) -side left
         labelentry::setup [array get conf] [array get row]
 
-        pack [label $apu_frame.extras.apu_qop_text -text "Rdto:"] -side left
+        pack [label $apu_frame.extras.apu_qop_text -text "Rdto:"] \
+          -side left
         array set conf [list \
           from viewAPUSupplies \
           module viewAPUSupplies \
@@ -181,7 +183,8 @@ namespace eval viewAPUSupplies {
         pack $conf(frame) -side left
         labelentry::setup [array get conf] [array get row]
 
-        pack [label $apu_frame.extras.qtakeoff_qop_text -text "Cantidad:"] -side left
+        pack [label $apu_frame.extras.qtakeoff_qop_text -text "Cantidad:"] \
+          -side left
         array set conf [list \
           from viewAPUSupplies \
           module viewAPUSupplies \
@@ -194,12 +197,14 @@ namespace eval viewAPUSupplies {
         pack $conf(frame) -side left
         labelentry::setup [array get conf] [array get row]
 
-        pack [label $apu_frame.extras.partial_text -text "Valor Parcial:"] -side left
+        pack [label $apu_frame.extras.partial_text -text "Valor Parcial:"] \
+          -side left
         pack [frame $apu_frame.extras.partial] -side left
         pack [label $apu_frame.extras.partial.label -text \
           "\$[format'currency [ \
             expr {([isnumeric $row(APU_qop)] ? $row(APU_qop) : 0) * \
-              ([isnumeric $row(Qtakeoff_qop)] ? $row(Qtakeoff_qop) : 0)} \
+              ([isnumeric $row(Qtakeoff_qop)] ? $row(Qtakeoff_qop) : 0) * \
+              ([isnumeric $row(APU_cost)] ? $row(APU_cost) : 0)} \
           ]]"] -side right
         setup'newentry $apu_frame row
       }
