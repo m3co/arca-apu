@@ -48,6 +48,12 @@ namespace eval MAIN {
       query subscribe
     }
     chan puts $chan [array get event]
+
+    array set event {
+      module Supplies
+      query subscribe
+    }
+    chan puts $chan [array get event]
   }
   subscribe
 }

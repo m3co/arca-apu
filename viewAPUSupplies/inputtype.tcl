@@ -10,7 +10,8 @@ proc viewAPUSupplies::input'type { e frame } {
   if { [winfo exists $label] == 0 } {
     pack [label $label -text $entry(Supplies_type)] -side left
   }
-  $label configure -text [expr {$entry(Supplies_type) == "" ? \
+  $label configure -text [expr { \
+    ($entry(Supplies_type) == "null" || $entry(Supplies_type) == "") ? \
     "-" : $entry(Supplies_type) }]
   bind $label <1> [list viewAPUSupplies::turn'combobox'type \
     %W $fr [array get entry]]
