@@ -258,7 +258,9 @@ namespace eval viewAPUSupplies {
         pack $partialfr -side top -fill x
         pack [label $partialfr.label -text \
           "\$[format'currency [ \
-            expr {$row(APUSupplies_qop) * $row(Supplies_cost)} \
+          expr { \
+            ([isnumeric $row(APUSupplies_qop)] ? $row(APUSupplies_qop) : 0) * \
+            ([isnumeric $row(Supplies_cost)] ? $row(Supplies_cost) : 0)} \
           ]]"] -side right
         setup'newentry $apu_frame row
       }
