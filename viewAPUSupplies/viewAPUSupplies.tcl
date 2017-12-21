@@ -70,6 +70,9 @@ namespace eval viewAPUSupplies {
       if { [winfo exists $apu_frame.supplies.action.$row(APUSupplies_id)] == 1 } {
         destroy $apu_frame.supplies.action.$row(APUSupplies_id)
       }
+      if { [winfo exists $apu_frame.supplies.partial.$row(APUSupplies_id)] == 1 } {
+        destroy $apu_frame.supplies.partial.$row(APUSupplies_id)
+      }
       return
     }
 
