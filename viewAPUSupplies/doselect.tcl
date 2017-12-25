@@ -202,8 +202,7 @@ namespace eval viewAPUSupplies {
         pack [frame $apu_frame.extras.partial] -side left
         pack [label $apu_frame.extras.partial.label -text \
           "\$[format'currency [ \
-            expr {([isnumeric $row(APU_qop)] ? $row(APU_qop) : 0) * \
-              ([isnumeric $row(Qtakeoff_qop)] ? $row(Qtakeoff_qop) : 0) * \
+            expr {([isnumeric $row(Qtakeoff_qop)] ? $row(Qtakeoff_qop) : 0) * \
               ([isnumeric $row(APU_cost)] ? $row(APU_cost) : 0)} \
           ]]"] -side right
         setup'newentry $apu_frame row
