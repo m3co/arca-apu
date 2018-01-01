@@ -14,11 +14,11 @@ namespace eval fnConcretizeProject {
   proc open { space id } {
     variable frame $space
     variable project $id
-    array set event [list \
-      query select \
-      module fnConcretizeProject \
+    set event [list \
+      query {"select"} \
+      module {"fnConcretizeProject"} \
       project $id \
-      parent NULL
+      parent null \
     ]
 
     if { [winfo exists $space.$id] == 1 } {
@@ -37,7 +37,7 @@ namespace eval fnConcretizeProject {
     $tree bindText <1> [list viewAPUSupplies::open'view $fr.right]
     #$tree bindText <Double-1> $onedit
 
-    chan puts $MAIN::chan [array get event]
+    chan puts $MAIN::chan [json::write object {*}$event]
   }
 
   proc open'popupmenu { x y id } {
