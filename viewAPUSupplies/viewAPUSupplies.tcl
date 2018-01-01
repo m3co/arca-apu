@@ -15,14 +15,14 @@ namespace eval viewAPUSupplies {
     variable frame [$centerFrame getframe].$id
     pack [frame $frame] -fill x -expand true
 
-    array set event [list \
-      query select \
-      module viewAPUSupplies \
-      from viewAPUSupplies \
-      keynote $keynote \
+    set event [list \
+      query {"select"} \
+      module {"viewAPUSupplies"} \
+      from {"viewAPUSupplies"} \
+      keynote [json::write string $keynote] \
     ]
 
-    chan puts $MAIN::chan [array get event]
+    chan puts $MAIN::chan [json::write object {*}$event]
   }
 
   proc delete'row { path r } {
