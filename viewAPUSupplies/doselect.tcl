@@ -125,7 +125,7 @@ namespace eval viewAPUSupplies {
       pack [labelframe $keynote_frame -text $row(Keynotes_id) -bg green] \
         -fill x -expand true
     }
-    if { $row(APU_id) != "" } {
+    if { $row(APU_id) != "null" } {
       set apu_frame $keynote_frame.apu_$row(APU_id)
       if { [winfo exists $apu_frame] == 0 } {
         pack [frame $apu_frame -bg yellow] -side left
