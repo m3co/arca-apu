@@ -1,3 +1,5 @@
+package require json::write
+json::write indented 0
 
 namespace eval Projects {
 
@@ -16,15 +18,14 @@ namespace eval Projects {
   proc search'combobox { path key } {
     set value [$path get]
 
-    array set event [list \
-      query search \
-      combo $path \
-      module Projects \
-      from Projects \
-      key name \
-      value $value
+    set event [dict create \
+      query {"search"} \
+      combo "\"$path\"" \
+      module {"Projects"} \
+      key {"name"} \
+      value "\"$value\"" \
     ]
-    chan puts $MAIN::chan [array get event]
+    chan puts $MAIN::chan [json::write object {*}$event]
   }
 
   proc select'combobox { path } {
