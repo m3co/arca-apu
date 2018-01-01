@@ -47,7 +47,7 @@ namespace eval fnConcretizeProject {
     $popupmenu entryconfigure 0 -label "Agregar"
     array set e [deserialize [lindex [$tree itemconfigure $id -data] 4]]
     if { [lindex [$tree itemconfigure $id -open] 4] == 0 && \
-         [lindex [array get e expand] 1] == "t" } {
+         [lindex [array get e expand] 1] == true } {
       $popupmenu entryconfigure 0 -label "Expandir"
     }
     tk_popup $popupmenu $x $y
@@ -119,13 +119,13 @@ namespace eval fnConcretizeProject {
     array set row [deserialize [lindex \
       [$tree itemconfigure $id -data] 4]]
 
-    array set event [list \
-      query select \
-      module fnConcretizeProject \
-      parent $row(id_general) \
+    set event [list \
+      query {"select"} \
+      module {"fnConcretizeProject"} \
+      parent [json::write string $row(id_general)] \
       project $project \
     ]
-    chan puts $MAIN::chan [array get event]
+    chan puts $MAIN::chan [json::write object {*}$event]
   }
 
   proc concretize { path row } {
@@ -169,7 +169,7 @@ namespace eval fnConcretizeProject {
       set root $row(parent_to_concrete)
     }
     set drawcross auto
-    if { [lindex [array get row expand] 1] == "t" } {
+    if { [lindex [array get row expand] 1] == true } {
       set drawcross allways
     }
     if [$tree exists $root] {
