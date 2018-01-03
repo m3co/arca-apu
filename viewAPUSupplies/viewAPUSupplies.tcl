@@ -1,6 +1,18 @@
 
 namespace eval viewAPUSupplies {
   variable frame
+  variable description
+
+  chan puts $MAIN::chan [json::write object \
+    query [json::write string describe] \
+    module [json::write string viewAPUSupplies] \
+  ]
+
+  proc 'do'describe { resp } {
+    upvar $resp response
+    variable description
+    array set description [list {*}$response(description)]
+  }
 
   proc open'view { space keynote } {
     set id [regsub -all {[.]} $keynote "_"]
