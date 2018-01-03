@@ -116,6 +116,7 @@ namespace eval viewAPUSupplies {
   }
 
   proc 'do'select { resp } {
+    variable description
     upvar $resp response
     array set row [deserialize $response(row)]
     variable frame
@@ -139,7 +140,7 @@ namespace eval viewAPUSupplies {
           currency false \
         ]
         pack $conf(frame) -side top -fill x -expand true
-        labelentry::setup [array get conf] [array get row]
+        labelentry::setup [array get conf] [array get row] [array get description]
 
         pack [frame $apu_frame.extras] -side top -fill x
         pack [label $apu_frame.extras.apu_unit_text -text "Unidad:"] -side left
@@ -153,7 +154,7 @@ namespace eval viewAPUSupplies {
           currency false \
         ]
         pack $conf(frame) -side left
-        labelentry::setup [array get conf] [array get row]
+        labelentry::setup [array get conf] [array get row] [array get description]
 
         pack [label $apu_frame.extras.apu_cost_text -text "Valor Unitario:"] \
           -side left
@@ -167,7 +168,7 @@ namespace eval viewAPUSupplies {
           currency true \
         ]
         pack $conf(frame) -side left
-        labelentry::setup [array get conf] [array get row]
+        labelentry::setup [array get conf] [array get row] [array get description]
 
         pack [label $apu_frame.extras.apu_qop_text -text "Rdto:"] \
           -side left
@@ -181,7 +182,7 @@ namespace eval viewAPUSupplies {
           currency false \
         ]
         pack $conf(frame) -side left
-        labelentry::setup [array get conf] [array get row]
+        labelentry::setup [array get conf] [array get row] [array get description]
 
         pack [label $apu_frame.extras.qtakeoff_qop_text -text "Cantidad:"] \
           -side left
@@ -195,7 +196,7 @@ namespace eval viewAPUSupplies {
           currency false \
         ]
         pack $conf(frame) -side left
-        labelentry::setup [array get conf] [array get row]
+        labelentry::setup [array get conf] [array get row] [array get description]
 
         pack [label $apu_frame.extras.partial_text -text "Valor Parcial:"] \
           -side left
@@ -232,7 +233,7 @@ namespace eval viewAPUSupplies {
           currency false \
         ]
         pack $conf(frame) -side top -fill x
-        labelentry::setup [array get conf] [array get row]
+        labelentry::setup [array get conf] [array get row] [array get description]
 
         array set conf [list \
           from viewAPUSupplies \
@@ -244,7 +245,7 @@ namespace eval viewAPUSupplies {
           currency true \
         ]
         pack $conf(frame) -side top -fill x
-        labelentry::setup [array get conf] [array get row]
+        labelentry::setup [array get conf] [array get row] [array get description]
 
         array set conf [list \
           from viewAPUSupplies \
@@ -256,7 +257,7 @@ namespace eval viewAPUSupplies {
           currency false \
         ]
         pack $conf(frame) -side top -fill x
-        labelentry::setup [array get conf] [array get row]
+        labelentry::setup [array get conf] [array get row] [array get description]
 
         set partialfr [frame $apu_frame.supplies.partial.$row(APUSupplies_id)]
         pack $partialfr -side top -fill x

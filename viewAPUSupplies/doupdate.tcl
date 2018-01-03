@@ -2,6 +2,7 @@
 namespace eval viewAPUSupplies {
 
   proc 'do'update { resp } {
+    variable description
     upvar $resp response
     array set row [deserialize $response(row)]
     variable frame
@@ -24,7 +25,7 @@ namespace eval viewAPUSupplies {
           dollar false \
           currency false \
         ]
-        labelentry::setup [array get conf] [array get row]
+        labelentry::setup [array get conf] [array get row] [array get description]
 
         array set conf [list \
           from viewAPUSupplies \
@@ -35,7 +36,7 @@ namespace eval viewAPUSupplies {
           dollar false \
           currency false \
         ]
-        labelentry::setup [array get conf] [array get row]
+        labelentry::setup [array get conf] [array get row] [array get description]
 
         array set conf [list \
           from viewAPUSupplies \
@@ -46,7 +47,7 @@ namespace eval viewAPUSupplies {
           dollar true \
           currency true \
         ]
-        labelentry::setup [array get conf] [array get row]
+        labelentry::setup [array get conf] [array get row] [array get description]
 
         array set conf [list \
           from viewAPUSupplies \
@@ -57,7 +58,7 @@ namespace eval viewAPUSupplies {
           dollar false \
           currency false \
         ]
-        labelentry::setup [array get conf] [array get row]
+        labelentry::setup [array get conf] [array get row] [array get description]
 
         array set conf [list \
           from viewAPUSupplies \
@@ -68,7 +69,7 @@ namespace eval viewAPUSupplies {
           dollar false \
           currency false \
         ]
-        labelentry::setup [array get conf] [array get row]
+        labelentry::setup [array get conf] [array get row] [array get description]
 
         $apu_frame.extras.partial.label configure -text \
           "\$[format'currency [ \
@@ -108,7 +109,7 @@ namespace eval viewAPUSupplies {
           dollar false \
           currency false \
         ]
-        labelentry::setup [array get conf] [array get row]
+        labelentry::setup [array get conf] [array get row] [array get description]
         }
 
         if { [winfo exists $apu_frame.supplies.cost.$row(APUSupplies_id)] == 1 } {
@@ -121,7 +122,7 @@ namespace eval viewAPUSupplies {
           dollar true \
           currency true \
         ]
-        labelentry::setup [array get conf] [array get row]
+        labelentry::setup [array get conf] [array get row] [array get description]
         }
 
         if { [winfo exists $apu_frame.supplies.qop.$row(APUSupplies_id)] == 1 } {
@@ -134,7 +135,7 @@ namespace eval viewAPUSupplies {
           dollar false \
           currency false \
         ]
-        labelentry::setup [array get conf] [array get row]
+        labelentry::setup [array get conf] [array get row] [array get description]
         }
       }
     }
