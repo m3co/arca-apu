@@ -100,14 +100,17 @@ namespace eval fnConcretizeProject {
     if { $input == "" } {
       $tree delete $entry(id_to_concrete)
     } else {
-      array set event {
-        query insert
-        module fnConcretizeProject
-        from fnConcretizeProject
-      }
-      set event(row) [array get entry]
-      set event(project) $project
-      chan puts $MAIN::chan [array get event]
+      set event [dict create \
+        query [json::write string insert] \
+        module [json::write string fnConcretizeProject] \
+        from [json::write string fnConcretizeProject] \
+        project $project \
+      ]
+      #
+      # ESTO ES UN ERROR QUE HAY QUE CORREGIR
+      #dict set event row [array get entry]
+      #
+      chan puts $MAIN::chan [json::write object {*}$event]
     }
     return 1
   }
@@ -133,13 +136,13 @@ namespace eval fnConcretizeProject {
     array set row_ [deserialize $row]
     $path configure -relief raised
 
-    array set event [list \
-      query concretize \
-      module fnConcretizeProject \
-      keynote $row_(id_general) \
+    set event [dict create \
+      query [json::write string concretize] \
+      module [json::write string fnConcretizeProject] \
+      keynote [json::write string $row_(id_general)] \
       project $project \
     ]
-    chan puts $MAIN::chan [array get event]
+    chan puts $MAIN::chan [json::write object {*}$event]
   }
 
   proc deconcretize { path row } {
@@ -147,13 +150,13 @@ namespace eval fnConcretizeProject {
     array set row_ [deserialize $row]
     $path configure -relief raised
 
-    array set event [list \
-      module fnConcretizeProject \
-      query deconcretize \
-      keynote $row_(id_concreted) \
+    set event [dict create \
+      module [json::write string fnConcretizeProject] \
+      query [json::write string deconcretize] \
+      keynote [json::write string $row_(id_concreted)] \
       project $project \
     ]
-    chan puts $MAIN::chan [array get event]
+    chan puts $MAIN::chan [json::write object {*}$event]
   }
 
   proc 'do'select { resp } {

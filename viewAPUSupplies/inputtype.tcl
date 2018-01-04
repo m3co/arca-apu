@@ -48,19 +48,19 @@ proc viewAPUSupplies::turn'combobox'type { path frame e } {
 
 proc viewAPUSupplies::select'combobox'type { path label e } {
   array set entry [deserialize $e]
+  variable description
 
-  array set event [list \
-    query update \
-    module Supplies \
-    from Supplies \
-    idkey id \
-    id $entry(Supplies_id) \
-    key type \
-    value "{[$path get]}" \
-    entry [array get entry] \
+  set event [dict create \
+    query [json::write string update] \
+    module [json::write string Supplies] \
+    idkey [json::write string id] \
+    id [json::write string $entry(Supplies_id)] \
+    key [json::write string type] \
+    value [json::write string [$path get]] \
+    entry [toJSON [array get entry] [array get description]] \
   ]
 
-  chan puts $MAIN::chan [array get event]
+  chan puts $MAIN::chan [json::write object {*}$event]
 
   $label configure -text "..."
   pack $label -side left
