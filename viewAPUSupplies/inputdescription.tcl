@@ -74,6 +74,7 @@ proc viewAPUSupplies::turn'combobox { path frame e } {
 proc viewAPUSupplies::select'combobox { path label e } {
   array set entry [deserialize $e]
   variable lastSearch
+  variable description
   if { [llength [array names lastSearch]] == 0 } {
     #
     # El acto a seguir es, crear el insumo y luego con el insumo creado
@@ -102,31 +103,32 @@ proc viewAPUSupplies::select'combobox { path label e } {
   }
   set entry(Supplies_id) $id
 
-  array set event [list \
-    query update \
-    module viewAPUSupplies \
-    from viewAPUSupplies \
-    idkey id \
-    id $entry(id) \
-    key APUSupplies_SupplyId \
-    value [dict get $lastSearch($id) id] \
-    row [array get entry] \
+  set event [dict create \
+    query [json::write string update] \
+    module [json::write string viewAPUSupplies] \
+    idkey [json::write string id] \
+    id [json::write string $entry(id)] \
+    key [json::write string APUSupplies_SupplyId] \
+    value [json::write string [dict get $lastSearch($id) id]] \
+    row [toJSON [array get entry] $description] \
   ]
 
   if { $entry(id) == "newentry" } {
-    array unset event
-    array set event [list \
-      query insert \
-      module APUSupplies \
-      from APUSupplies \
-      entry [array get entry] \
-      row  [list \
+    set event ""
+    set event [list \
+      query [json::write string insert] \
+      module [json::write string APUSupplies] \
+      row [toJSON [list \
         APUId $entry(APU_id) \
         SupplyId [dict get $lastSearch($id) id] \
-      ] \
+      ] [dict create APUId {jsontype integer} SupplyId {jsontype integer}]] \
     ]
   }
-  chan puts $MAIN::chan [array get event]
+  puts "------------"
+  puts [json::write object {*}$event]
+  puts "------------"
+
+  chan puts $MAIN::chan [json::write {*}$event]
 
   $label configure -text "..."
   pack $label -side left
@@ -166,13 +168,12 @@ proc viewAPUSupplies::search'combobox { path key } {
   }
   set value [$path get]
 
-  array set event [list \
-    query search \
-    combo $path \
-    module viewAPUSupplies \
-    from Supplies \
-    key description \
-    value $value
+  set event [dict create \
+    query [json::write string search] \
+    combo [json::write string $path] \
+    module [json::write string Supplies] \
+    key [json::write string description] \
+    value [json::write string $value]
   ]
-  chan puts $MAIN::chan [array get event]
+  chan puts $MAIN::chan [json::write object {*}$event]
 }

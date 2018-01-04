@@ -19,11 +19,11 @@ namespace eval Projects {
     set value [$path get]
 
     set event [dict create \
-      query {"search"} \
-      combo "\"$path\"" \
-      module {"Projects"} \
-      key {"name"} \
-      value "\"$value\"" \
+      query [json::write string search] \
+      combo [json::write string $path] \
+      module [json::write string Projects] \
+      key [json::write string name] \
+      value [json::write string $value] \
     ]
     chan puts $MAIN::chan [json::write object {*}$event]
   }

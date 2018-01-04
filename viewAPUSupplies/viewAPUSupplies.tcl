@@ -1,4 +1,11 @@
 
+namespace eval Supplies {
+  proc 'do'search { resp } {
+    upvar $resp response
+    viewAPUSupplies::'do'search response
+  }
+}
+
 namespace eval viewAPUSupplies {
   variable frame
   variable description
