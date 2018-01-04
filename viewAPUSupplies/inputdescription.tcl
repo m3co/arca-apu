@@ -26,7 +26,6 @@ proc viewAPUSupplies::rename'description { path frame e } {
   array set conf [list \
     frame $frame \
     key Supplies_description \
-    from viewAPUSupplies \
     module viewAPUSupplies \
     idkey id \
   ]
@@ -42,7 +41,6 @@ proc viewAPUSupplies::turn'combobox { path frame e } {
   array set conf [list \
     frame $frame \
     key Supplies_description \
-    from viewAPUSupplies \
     module viewAPUSupplies \
     idkey id \
   ]
@@ -80,13 +78,13 @@ proc viewAPUSupplies::select'combobox { path label e } {
     # El acto a seguir es, crear el insumo y luego con el insumo creado
     # actualizar la entrada de la APU
     #
-    array set event [list \
-      query insert \
-      module Supplies \
-      from Supplies \
-      row [list description [$path get]] \
+    set event [dict create \
+      query [json::write string insert] \
+      module [json::write string Supplies] \
+      row [toJSON [dict create description [$path get]] \
+        [dict create description {jsontype string}]] \
     ]
-    chan puts $MAIN::chan [array get event]
+    chan puts $MAIN::chan [json::write object {*}$event]
 
     $labelentry::lastEdit(input) configure -values [list "..."]
     $labelentry::lastEdit(input) set "..."
@@ -110,12 +108,12 @@ proc viewAPUSupplies::select'combobox { path label e } {
     id [json::write string $entry(id)] \
     key [json::write string APUSupplies_SupplyId] \
     value [json::write string [dict get $lastSearch($id) id]] \
-    row [toJSON [array get entry] $description] \
+    row [toJSON [array get entry] [array get description]] \
   ]
 
   if { $entry(id) == "newentry" } {
     set event ""
-    set event [list \
+    set event [dict create \
       query [json::write string insert] \
       module [json::write string APUSupplies] \
       row [toJSON [list \
@@ -124,11 +122,7 @@ proc viewAPUSupplies::select'combobox { path label e } {
       ] [dict create APUId {jsontype integer} SupplyId {jsontype integer}]] \
     ]
   }
-  puts "------------"
-  puts [json::write object {*}$event]
-  puts "------------"
-
-  chan puts $MAIN::chan [json::write {*}$event]
+  chan puts $MAIN::chan [json::write object {*}$event]
 
   $label configure -text "..."
   pack $label -side left
