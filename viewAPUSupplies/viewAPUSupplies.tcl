@@ -46,14 +46,13 @@ namespace eval viewAPUSupplies {
 
   proc delete'row { path r } {
     array set row [deserialize $r]
-    array set event [list \
-      query delete \
-      module APUSupplies \
-      from APUSupplies \
+    set event [dict create \
+      query [json::write string delete] \
+      module [json::write string APUSupplies] \
       id $row(APUSupplies_id) \
-      idKey id \
+      idKey [json::write string id] \
     ]
-    chan puts $MAIN::chan [array get event]
+    chan puts $MAIN::chan [json::write object {*}$event]
     $path configure -relief raised
   }
 
