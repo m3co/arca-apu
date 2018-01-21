@@ -1,5 +1,5 @@
 
-namespace eval fnConcretizeProject {
+namespace eval fnConcretizeAPU {
   variable rows
   variable frame
   variable project
@@ -9,14 +9,14 @@ namespace eval fnConcretizeProject {
   variable lastPopupId {}
 
   $popupmenu add command -label "Agregar" \
-    -command fnConcretizeProject::begin'create
+    -command fnConcretizeAPU::begin'create
 
   proc open { space id } {
     variable frame $space
     variable project $id
     set event [list \
       query {"select"} \
-      module {"fnConcretizeProject"} \
+      module "fnConcretizeAPU" \
       project $id \
       parent null \
     ]
@@ -28,7 +28,7 @@ namespace eval fnConcretizeProject {
     pack [frame $fr] -fill both -expand true
     pack [ScrolledWindow $fr.left] -side left -fill both -expand true
     variable tree [Tree [$fr.left getframe].tree \
-      -opencmd fnConcretizeProject::open'leaf \
+      -opencmd fnConcretizeAPU::open'leaf \
       -showlines true -deltay 18 -bd 0]
 
     $fr.left setwidget $tree
@@ -86,7 +86,7 @@ namespace eval fnConcretizeProject {
 
     $tree itemconfigure $node -window $fr
     $tree edit $data(id_to_concrete) "" [list \
-      fnConcretizeProject::create'node [array get data]] 1
+      fnConcretizeAPU::create'node [array get data]] 1
   }
 
   proc create'node { data input } {
@@ -102,8 +102,8 @@ namespace eval fnConcretizeProject {
     } else {
       set event [dict create \
         query [json::write string insert] \
-        module [json::write string fnConcretizeProject] \
-        from [json::write string fnConcretizeProject] \
+        module [json::write string fnConcretizeAPU] \
+        from [json::write string fnConcretizeAPU] \
         project $project \
       ]
       #
@@ -124,7 +124,7 @@ namespace eval fnConcretizeProject {
 
     set event [list \
       query {"select"} \
-      module {"fnConcretizeProject"} \
+      module {"fnConcretizeAPU"} \
       parent [json::write string $row(id_general)] \
       project $project \
     ]
@@ -138,7 +138,7 @@ namespace eval fnConcretizeProject {
 
     set event [dict create \
       query [json::write string concretize] \
-      module [json::write string fnConcretizeProject] \
+      module [json::write string fnConcretizeAPU] \
       keynote [json::write string $row_(id_general)] \
       project $project \
     ]
@@ -151,7 +151,7 @@ namespace eval fnConcretizeProject {
     $path configure -relief raised
 
     set event [dict create \
-      module [json::write string fnConcretizeProject] \
+      module [json::write string fnConcretizeAPU] \
       query [json::write string deconcretize] \
       keynote [json::write string $row_(id_concreted)] \
       project $project \
@@ -189,17 +189,17 @@ namespace eval fnConcretizeProject {
       if { $row(id_concreted) == "" } {
         pack [label $fr.concrete -text "o" -relief raised] -side left
         bind $fr.concrete <ButtonRelease-1> [list \
-          fnConcretizeProject::concretize %W [array get row]]
+          fnConcretizeAPU::concretize %W [array get row]]
       } else {
         pack [label $fr.concrete -text "x" -relief raised] -side left
         bind $fr.concrete <ButtonRelease-1> [list \
-          fnConcretizeProject::deconcretize %W [array get row]]
+          fnConcretizeAPU::deconcretize %W [array get row]]
       }
       bind $fr.concrete <ButtonPress-1> [list %W configure -relief sunken]
       pack [label $fr.separator -text " "] -side left
 
       pack [label $fr.image -image [Bitmap::get oplink]] -side left
-      bind $fr.image <1> [list fnConcretizeProject::open'popupmenu \
+      bind $fr.image <1> [list fnConcretizeAPU::open'popupmenu \
         %X %Y $row(id_to_concrete)]
 
       $tree itemconfigure $node -window $fr
@@ -220,13 +220,13 @@ namespace eval fnConcretizeProject {
     if { $row(id_concreted) == "" } {
       $fr.concrete configure -text "o"
       bind $fr.concrete <ButtonRelease-1> [list \
-        fnConcretizeProject::concretize %W [array get row]]
+        fnConcretizeAPU::concretize %W [array get row]]
     } else {
       $fr.concrete configure -text "x"
       bind $fr.concrete <ButtonRelease-1> [list \
-        fnConcretizeProject::deconcretize %W [array get row]]
+        fnConcretizeAPU::deconcretize %W [array get row]]
     }
-    bind $fr.image <1> [list fnConcretizeProject::open'popupmenu \
+    bind $fr.image <1> [list fnConcretizeAPU::open'popupmenu \
       %X %Y $row(id_to_concrete)]
   }
 

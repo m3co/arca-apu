@@ -38,7 +38,7 @@ namespace eval MAIN {
     chan puts $chan [regsub -all {\n} $event {}]
 
     set event {{
-      "module": "fnConcretizeProject",
+      "module": "fnConcretizeAPU",
       "query": "subscribe"
     }}
     chan puts $chan [regsub -all {\n} $event {}]

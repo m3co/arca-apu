@@ -34,7 +34,7 @@ namespace eval Projects {
     set id [lindex [regexp -inline {\[(\d+)\]$} [$path get]] end]
 
     pack [frame $frame.body -bg green] -fill both -expand true
-    fnConcretizeProject::open $frame.body $id
+    fnConcretizeAPU::open $frame.body $id
   }
 
   array set lastSearch {}
