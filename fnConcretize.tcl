@@ -168,7 +168,7 @@ namespace eval fnConcretizeAPU {
       return
     }
     set root root
-    if { $row(parent_to_concrete) != "" } {
+    if { $row(parent_to_concrete) != "null" } {
       set root $row(parent_to_concrete)
     }
     set drawcross auto
@@ -186,7 +186,7 @@ namespace eval fnConcretizeAPU {
       set fr [join [list $tree .img \
         [regsub -all {[.]} $row(id_to_concrete) "_"]] ""]
       pack [frame $fr]
-      if { $row(id_concreted) == "" } {
+      if { $row(id_concreted) == "null" } {
         pack [label $fr.concrete -text "o" -relief raised] -side left
         bind $fr.concrete <ButtonRelease-1> [list \
           fnConcretizeAPU::concretize %W [array get row]]
