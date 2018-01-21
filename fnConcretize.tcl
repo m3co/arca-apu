@@ -16,7 +16,7 @@ namespace eval fnConcretizeAPU {
     variable project $id
     set event [list \
       query {"select"} \
-      module "fnConcretizeAPU" \
+      module {"fnConcretizeAPU"} \
       project $id \
       parent null \
     ]
