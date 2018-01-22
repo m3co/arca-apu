@@ -207,7 +207,7 @@ namespace eval viewAPUSupplies {
         setup'newentry $apu_frame row
       }
 
-      if { $row(APUSupplies_id) != "" } {
+      if { $row(APUSupplies_id) != "null" } {
 
         set action $apu_frame.supplies.action.$row(APUSupplies_id)
         if { [winfo exists $action] == 0 } {
