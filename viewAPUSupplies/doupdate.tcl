@@ -13,8 +13,8 @@ namespace eval viewAPUSupplies {
     } else {
       return
     }
-    if { $row(APU_id) != "" } {
-      set apu_frame $keynote_frame.apu_$row(APU_id)
+    if { $row(APU_expand) == "false" } {
+      set apu_frame $keynote_frame.apu_[regsub -all {[.]} $row(APU_id) "_"]
       if { [winfo exists $apu_frame] == 1 } {
         array set conf [list \
           from viewAPUSupplies \
@@ -90,7 +90,7 @@ namespace eval viewAPUSupplies {
         }
       }
 
-      if { $row(APUSupplies_id) != "" } {
+      if { $row(APUSupplies_id) != "null" } {
 
         if { [winfo exists $apu_frame.supplies.type.$row(APUSupplies_id)] == 1 } {
         input'type [array get row] $apu_frame.supplies
