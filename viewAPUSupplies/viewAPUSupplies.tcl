@@ -67,9 +67,9 @@ namespace eval viewAPUSupplies {
     variable frame
 
     set keynote_frame $frame.[regsub -all {[.]} $row(APU_id) "_"]
-    set apu_frame $keynote_frame.apu_$row(APU_id)
+    set apu_frame $keynote_frame.apu_[regsub -all {[.]} $row(APU_id) "_"]
 
-    if { $row(APUSupplies_id) != "" } {
+    if { $row(APUSupplies_id) != "null" } {
       if { [winfo exists $apu_frame.supplies.type.$row(APUSupplies_id)] == 1 } {
         destroy $apu_frame.supplies.type.$row(APUSupplies_id)
       }
@@ -94,7 +94,7 @@ namespace eval viewAPUSupplies {
       return
     }
 
-    if { $row(APU_id) != "" } {
+    if { $row(APU_id) != "null" } {
       if { [winfo exists $apu_frame] == 1 } {
         destroy $apu_frame
       }
