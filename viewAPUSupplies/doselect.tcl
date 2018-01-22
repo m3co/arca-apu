@@ -68,15 +68,13 @@ namespace eval viewAPUSupplies {
       Supplies_id ""
       Supplies_unit ""
       Supplies_type ""
-      Keynotes_expand ""
-      Keynotes_id ""
-      Keynotes_parent ""
+      APU_expand ""
+      APU_parent ""
       Qtakeoff_upload ""
       Qtakeoff_qop ""
     }
     set newentry(APUSupplies_APUId) $row(APUSupplies_APUId)
     set newentry(APU_id) $row(APU_id)
-    set newentry(Keynotes_id) $row(Keynotes_id)
     input'description [array get newentry] $apu_frame.supplies
 
     if { [winfo exist $apu_frame.supplies.unit.newentry] == 1 } {
@@ -121,13 +119,13 @@ namespace eval viewAPUSupplies {
     array set row [deserialize $response(row)]
     variable frame
 
-    set keynote_frame $frame.[regsub -all {[.]} $row(Keynotes_id) "_"]
+    set keynote_frame $frame.[regsub -all {[.]} $row(APU_id) "_"]
     if { [winfo exists $keynote_frame] == 0 } {
-      pack [labelframe $keynote_frame -text $row(Keynotes_id) -bg green] \
+      pack [labelframe $keynote_frame -text $row(APU_id) -bg green] \
         -fill x -expand true
     }
     if { $row(APU_id) != "null" } {
-      set apu_frame $keynote_frame.apu_$row(APU_id)
+      set apu_frame $keynote_frame.apu_[regsub -all {[.]} $row(APU_id) "_"]
       if { [winfo exists $apu_frame] == 0 } {
         pack [frame $apu_frame -bg yellow] -side left
         array set conf [list \

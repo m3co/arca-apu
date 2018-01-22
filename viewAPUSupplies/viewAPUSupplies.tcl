@@ -50,7 +50,7 @@ namespace eval viewAPUSupplies {
       query [json::write string delete] \
       module [json::write string APUSupplies] \
       id $row(APUSupplies_id) \
-      idKey [json::write string id] \
+      idkey [json::write string id] \
     ]
     chan puts $MAIN::chan [json::write object {*}$event]
     $path configure -relief raised
@@ -66,7 +66,7 @@ namespace eval viewAPUSupplies {
     array set row [deserialize $response(row)]
     variable frame
 
-    set keynote_frame $frame.[regsub -all {[.]} $row(Keynotes_id) "_"]
+    set keynote_frame $frame.[regsub -all {[.]} $row(APU_id) "_"]
     set apu_frame $keynote_frame.apu_$row(APU_id)
 
     if { $row(APUSupplies_id) != "" } {
