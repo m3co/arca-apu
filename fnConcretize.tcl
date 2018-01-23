@@ -210,24 +210,26 @@ namespace eval fnConcretizeAPU {
     variable tree
     upvar $resp response
     array set row [deserialize $response(row)]
-    $tree itemconfigure $row(id_to_concrete) \
-      -text "     $row(id_to_concrete) [ expr { \
-      ($row(description_concreted) != "") ? $row(description_concreted) : \
-      $row(description_to_concrete) }]" \
-      -data $response(row)
-    set fr [join [list $tree .img \
-      [regsub -all {[.]} $row(id_to_concrete) "_"]] ""]
-    if { $row(id_concreted) == "" } {
-      $fr.concrete configure -text "o"
-      bind $fr.concrete <ButtonRelease-1> [list \
-        fnConcretizeAPU::concretize %W [array get row]]
-    } else {
-      $fr.concrete configure -text "x"
-      bind $fr.concrete <ButtonRelease-1> [list \
-        fnConcretizeAPU::deconcretize %W [array get row]]
+    if [$tree exists $row(id_to_concrete)] {
+      $tree itemconfigure $row(id_to_concrete) \
+        -text "     $row(id_to_concrete) [ expr { \
+        ($row(description_concreted) != "") ? $row(description_concreted) : \
+        $row(description_to_concrete) }]" \
+        -data $response(row)
+      set fr [join [list $tree .img \
+        [regsub -all {[.]} $row(id_to_concrete) "_"]] ""]
+      if { $row(id_concreted) == "" } {
+        $fr.concrete configure -text "o"
+        bind $fr.concrete <ButtonRelease-1> [list \
+          fnConcretizeAPU::concretize %W [array get row]]
+      } else {
+        $fr.concrete configure -text "x"
+        bind $fr.concrete <ButtonRelease-1> [list \
+          fnConcretizeAPU::deconcretize %W [array get row]]
+      }
+      bind $fr.image <1> [list fnConcretizeAPU::open'popupmenu \
+        %X %Y $row(id_to_concrete)]
     }
-    bind $fr.image <1> [list fnConcretizeAPU::open'popupmenu \
-      %X %Y $row(id_to_concrete)]
   }
 
   proc 'do'update { resp } {
