@@ -10,6 +10,9 @@ namespace eval fnConcretizeAPU {
 
   $popupmenu add command -label "Agregar" \
     -command fnConcretizeAPU::begin'create
+  $popupmenu add separator
+  $popupmenu add command -label "Renombrar" \
+    -command fnConcretizeAPU::begin'edit
 
   proc open { space id } {
     variable frame $space
@@ -87,6 +90,30 @@ namespace eval fnConcretizeAPU {
     $tree itemconfigure $node -window $fr
     $tree edit $data(id_to_concrete) "" [list \
       fnConcretizeAPU::create'node [array get data]] 1
+  }
+
+  proc begin'edit { } {
+    variable tree
+    variable lastPopupId
+
+    array set entry [deserialize [$tree itemcget $lastPopupId -data]]
+    $tree edit $lastPopupId [lindex [array get entry description] 1] \
+      [list fnConcretizeAPU::finish'edit $lastPopupId] 1
+  }
+
+  proc finish'edit { node newText } {
+    variable tree
+    $tree itemconfigure $node -text "..."
+    set event [dict create \
+      query [json::write string update] \
+      module [json::write string APU] \
+      id [json::write string $node] \
+      idkey [json::write string id] \
+      key [json::write array [json::write string description]] \
+      value [json::write array [json::write string $newText]] \
+    ]
+    chan puts $MAIN::chan [json::write object {*}$event]
+    return 1
   }
 
   proc create'node { data input } {
