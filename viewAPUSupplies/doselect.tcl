@@ -4,7 +4,7 @@ namespace eval viewAPUSupplies {
   proc setup'newentry { apu_frame r } {
     upvar $r row
     if { [winfo exists $apu_frame.supplies] == 0 } {
-      pack [frame $apu_frame.supplies -bg red] -side top -fill x -expand true
+      pack [frame $apu_frame.supplies] -side top -fill x -expand true
       foreach param [list action type description unit cost qop partial] {
         if { $param == "partial" } {
           pack [labelframe $apu_frame.supplies.$param -text "Valor Parcial"] \
@@ -121,13 +121,13 @@ namespace eval viewAPUSupplies {
 
     set keynote_frame $frame.[regsub -all {[.]} $row(APU_id) "_"]
     if { [winfo exists $keynote_frame] == 0 } {
-      pack [labelframe $keynote_frame -text $row(APU_id) -bg green] \
+      pack [labelframe $keynote_frame -text $row(APU_id)] \
         -fill x -expand true
     }
     if { $row(APU_expand) == "false" } {
       set apu_frame $keynote_frame.apu_[regsub -all {[.]} $row(APU_id) "_"]
       if { [winfo exists $apu_frame] == 0 } {
-        pack [frame $apu_frame -bg yellow] -side left
+        pack [frame $apu_frame] -side left
         array set conf [list \
           from viewAPUSupplies \
           module viewAPUSupplies \

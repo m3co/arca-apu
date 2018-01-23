@@ -28,7 +28,7 @@ namespace eval viewAPUSupplies {
       destroy $space
     }
     pack [ScrolledWindow $space] -side right -fill both -expand true
-    set centerFrame [ScrollableFrame [$space getframe].centerframe -bg blue]
+    set centerFrame [ScrollableFrame [$space getframe].centerframe]
     $space setwidget $centerFrame
 
     variable frame [$centerFrame getframe].$id
