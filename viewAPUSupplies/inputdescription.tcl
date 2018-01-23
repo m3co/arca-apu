@@ -119,7 +119,7 @@ proc viewAPUSupplies::select'combobox { path label e } {
       row [toJSON [list \
         APUId $entry(APU_id) \
         SupplyId [dict get $lastSearch($id) id] \
-      ] [dict create APUId {jsontype integer} SupplyId {jsontype integer}]] \
+      ] [dict create APUId {jsontype string} SupplyId {jsontype integer}]] \
     ]
   }
   chan puts $MAIN::chan [json::write object {*}$event]
