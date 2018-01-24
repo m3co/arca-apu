@@ -63,7 +63,7 @@ namespace eval fnConcretizeAPU {
     array set data [deserialize [lindex \
       [$tree itemconfigure $lastPopupId -data] 4]]
     if { [lindex [$tree itemconfigure $lastPopupId -open] 4] == 0 && \
-         [lindex [array get data expand] 1] == "t" } {
+         [lindex [array get data expand] 1] == "true" } {
       $tree opentree $lastPopupId 0
       return
     }
@@ -133,10 +133,12 @@ namespace eval fnConcretizeAPU {
         from [json::write string fnConcretizeAPU] \
         project $project \
       ]
-      #
-      # ESTO ES UN ERROR QUE HAY QUE CORREGIR
-      #dict set event row [array get entry]
-      #
+      dict set event row [json::write object \
+        parent_to_concrete [json::write string \
+          $entry(parent_to_concrete)] \
+        description_to_concrete [json::write string \
+          $entry(description_to_concrete)] \
+      ]
       chan puts $MAIN::chan [json::write object {*}$event]
     }
     return 1
