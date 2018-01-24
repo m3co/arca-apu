@@ -206,7 +206,7 @@ namespace eval fnConcretizeAPU {
       set node [$tree insert end $root \
         $row(id_to_concrete) -text \
           "     $row(id_to_concrete) [ expr { \
-          ($row(description_concreted) != "") ? $row(description_concreted) : \
+          ($row(description_concreted) != "null" && $row(description_concreted) != "") ? $row(description_concreted) : \
           $row(description_to_concrete) }]" \
           -data $response(row) -drawcross $drawcross]
 
@@ -240,7 +240,7 @@ namespace eval fnConcretizeAPU {
     if [$tree exists $row(id_to_concrete)] {
       $tree itemconfigure $row(id_to_concrete) \
         -text "     $row(id_to_concrete) [ expr { \
-        ($row(description_concreted) != "") ? $row(description_concreted) : \
+        ($row(description_concreted) != "null" && $row(description_concreted) != "") ? $row(description_concreted) : \
         $row(description_to_concrete) }]" \
         -data $response(row)
       set fr [join [list $tree .img \
