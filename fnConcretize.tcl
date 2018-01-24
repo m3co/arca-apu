@@ -256,6 +256,8 @@ namespace eval fnConcretizeAPU {
       }
       bind $fr.image <1> [list fnConcretizeAPU::open'popupmenu \
         %X %Y $row(id_to_concrete)]
+    } else {
+      'do'select response
     }
   }
 
