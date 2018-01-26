@@ -137,6 +137,15 @@ namespace eval viewAPUSupplies {
         ]
         labelentry::setup [array get conf] [array get row] [array get description]
         }
+
+        if { [winfo exists $apu_frame.supplies.partial.$row(APUSupplies_id)] == 1 } {
+          $apu_frame.supplies.partial.$row(APUSupplies_id).label configure -text \
+          "\$[format'currency [ \
+          expr { \
+            ([isnumeric $row(APUSupplies_qop)] ? $row(APUSupplies_qop) : 0) * \
+            ([isnumeric $row(Supplies_cost)] ? $row(Supplies_cost) : 0)} \
+          ]]"
+        }
       }
     }
   }
