@@ -56,8 +56,7 @@ proc viewAPUSupplies::select'combobox'type { path label e } {
     idkey [json::write string id] \
     id [json::write string $entry(Supplies_id)] \
     key [json::write array [json::write string type]] \
-    value [json::write array [json::write string [$path get]]] \
-    entry [toJSON [array get entry] [array get description]] \
+    value [json::write array [json::write string [$path get]]]
   ]
 
   chan puts $MAIN::chan [json::write object {*}$event]
