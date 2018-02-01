@@ -215,7 +215,7 @@ namespace eval fnConcretizeAPU {
       set fr [join [list $tree .img \
         [regsub -all {[.]} $row(id_to_concrete) "_"]] ""]
       pack [frame $fr]
-      if { $row(id_concreted) == "null" } {
+      if { $row(id_concreted) == "null" || $row(id_concreted) == "" } {
         pack [label $fr.concrete -text "o" -relief raised -bg red] -side left
         bind $fr.concrete <ButtonRelease-1> [list \
           fnConcretizeAPU::concretize %W [array get row]]
@@ -247,7 +247,7 @@ namespace eval fnConcretizeAPU {
         -data $response(row)
       set fr [join [list $tree .img \
         [regsub -all {[.]} $row(id_to_concrete) "_"]] ""]
-      if { $row(id_concreted) == "" } {
+      if { $row(id_concreted) == "" || $row(id_concreted) == "null" } {
         $fr.concrete configure -text "o" -bg red
         bind $fr.concrete <ButtonRelease-1> [list \
           fnConcretizeAPU::concretize %W [array get row]]
