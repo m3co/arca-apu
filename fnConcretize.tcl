@@ -219,6 +219,9 @@ namespace eval fnConcretizeAPU {
       if { $bgcolori == 3 } {
         set bgc green4
       }
+      if { $row(expand) == false } {
+        set bgc black
+      }
 
       set node [$tree insert end $root \
         $row(id_to_concrete) -text \
@@ -234,7 +237,7 @@ namespace eval fnConcretizeAPU {
         pack [label $fr.concrete -text "o" -relief raised -bg red] -side left
         bind $fr.concrete <ButtonRelease-1> [list \
           fnConcretizeAPU::concretize %W [array get row]]
-        $tree itemconfigure $node -fill gray33
+        $tree itemconfigure $node -fill gray44
       } else {
         pack [label $fr.concrete -text "x" -relief raised] -side left
         bind $fr.concrete <ButtonRelease-1> [list \
@@ -257,6 +260,23 @@ namespace eval fnConcretizeAPU {
     upvar $resp response
     array set row [deserialize $response(row)]
     if [$tree exists $row(id_to_concrete)] {
+      set bgcolori [regexp -all {[.]} $row(id_to_concrete)]
+      set bgc black
+      if { $bgcolori == 0 } {
+        set bgc brown
+      }
+      if { $bgcolori == 1 } {
+        set bgc red
+      }
+      if { $bgcolori == 2 } {
+        set bgc blue
+      }
+      if { $bgcolori == 3 } {
+        set bgc green4
+      }
+      if { $row(expand) == false } {
+        set bgc black
+      }
       $tree itemconfigure $row(id_to_concrete) \
         -text "     $row(id_to_concrete) [ expr { \
         ($row(description_concreted) != "null" && $row(description_concreted) != "") ? $row(description_concreted) : \
@@ -268,12 +288,12 @@ namespace eval fnConcretizeAPU {
         $fr.concrete configure -text "o" -bg red
         bind $fr.concrete <ButtonRelease-1> [list \
           fnConcretizeAPU::concretize %W [array get row]]
-        $tree itemconfigure $row(id_to_concrete) -fill gray33
+        $tree itemconfigure $row(id_to_concrete) -fill gray44
       } else {
         $fr.concrete configure -text "x" -bg [. cget -background]
         bind $fr.concrete <ButtonRelease-1> [list \
           fnConcretizeAPU::deconcretize %W [array get row]]
-        $tree itemconfigure $row(id_to_concrete) -fill blue
+        $tree itemconfigure $row(id_to_concrete) -fill $bgc
       }
       bind $fr.image <1> [list fnConcretizeAPU::open'popupmenu \
         %X %Y $row(id_to_concrete)]
