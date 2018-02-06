@@ -219,10 +219,12 @@ namespace eval fnConcretizeAPU {
         pack [label $fr.concrete -text "o" -relief raised -bg red] -side left
         bind $fr.concrete <ButtonRelease-1> [list \
           fnConcretizeAPU::concretize %W [array get row]]
+        $tree itemconfigure $node -fill gray
       } else {
         pack [label $fr.concrete -text "x" -relief raised] -side left
         bind $fr.concrete <ButtonRelease-1> [list \
           fnConcretizeAPU::deconcretize %W [array get row]]
+        $tree itemconfigure $node -fill blue
       }
       bind $fr.concrete <ButtonPress-1> [list %W configure -relief sunken]
       pack [label $fr.separator -text " "] -side left
@@ -251,10 +253,12 @@ namespace eval fnConcretizeAPU {
         $fr.concrete configure -text "o" -bg red
         bind $fr.concrete <ButtonRelease-1> [list \
           fnConcretizeAPU::concretize %W [array get row]]
+        $tree itemconfigure $row(id_to_concrete) -fill gray
       } else {
         $fr.concrete configure -text "x" -bg [. cget -background]
         bind $fr.concrete <ButtonRelease-1> [list \
           fnConcretizeAPU::deconcretize %W [array get row]]
+        $tree itemconfigure $row(id_to_concrete) -fill blue
       }
       bind $fr.image <1> [list fnConcretizeAPU::open'popupmenu \
         %X %Y $row(id_to_concrete)]
