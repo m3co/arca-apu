@@ -205,6 +205,21 @@ namespace eval fnConcretizeAPU {
       set drawcross allways
     }
     if [$tree exists $root] {
+      set bgcolori [regexp -all {[.]} $row(id_to_concrete)]
+      set bgc black
+      if { $bgcolori == 0 } {
+        set bgc brown
+      }
+      if { $bgcolori == 1 } {
+        set bgc red
+      }
+      if { $bgcolori == 2 } {
+        set bgc blue
+      }
+      if { $bgcolori == 3 } {
+        set bgc green4
+      }
+
       set node [$tree insert end $root \
         $row(id_to_concrete) -text \
           "     $row(id_to_concrete) [ expr { \
@@ -219,12 +234,12 @@ namespace eval fnConcretizeAPU {
         pack [label $fr.concrete -text "o" -relief raised -bg red] -side left
         bind $fr.concrete <ButtonRelease-1> [list \
           fnConcretizeAPU::concretize %W [array get row]]
-        $tree itemconfigure $node -fill gray
+        $tree itemconfigure $node -fill gray33
       } else {
         pack [label $fr.concrete -text "x" -relief raised] -side left
         bind $fr.concrete <ButtonRelease-1> [list \
           fnConcretizeAPU::deconcretize %W [array get row]]
-        $tree itemconfigure $node -fill blue
+        $tree itemconfigure $node -fill $bgc
       }
       bind $fr.concrete <ButtonPress-1> [list %W configure -relief sunken]
       pack [label $fr.separator -text " "] -side left
@@ -253,7 +268,7 @@ namespace eval fnConcretizeAPU {
         $fr.concrete configure -text "o" -bg red
         bind $fr.concrete <ButtonRelease-1> [list \
           fnConcretizeAPU::concretize %W [array get row]]
-        $tree itemconfigure $row(id_to_concrete) -fill gray
+        $tree itemconfigure $row(id_to_concrete) -fill gray33
       } else {
         $fr.concrete configure -text "x" -bg [. cget -background]
         bind $fr.concrete <ButtonRelease-1> [list \
