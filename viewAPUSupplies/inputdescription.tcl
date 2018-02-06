@@ -108,7 +108,6 @@ proc viewAPUSupplies::select'combobox { path label e } {
     id [json::write string $entry(id)] \
     key [json::write string APUSupplies_SupplyId] \
     value [json::write string [dict get $lastSearch($id) id]] \
-    row [toJSON [array get entry] [array get description]] \
   ]
 
   if { $entry(id) == "newentry" } {
