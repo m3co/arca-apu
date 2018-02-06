@@ -219,7 +219,7 @@ namespace eval fnConcretizeAPU {
       if { $bgcolori == 3 } {
         set bgc green4
       }
-      if { $row(expand) == false } {
+      if { [array get row expand] == false } {
         set bgc black
       }
 
@@ -274,7 +274,7 @@ namespace eval fnConcretizeAPU {
       if { $bgcolori == 3 } {
         set bgc green4
       }
-      if { $row(expand) == false } {
+      if { [array get row expand] == false } {
         set bgc black
       }
       $tree itemconfigure $row(id_to_concrete) \
