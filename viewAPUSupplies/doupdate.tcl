@@ -63,6 +63,20 @@ namespace eval viewAPUSupplies {
         ]
         labelentry::setup [array get conf] [array get row] [array get description]
 
+        if { $row(APU_qop) != "null" } {
+          if { $row(APU_qop) > 0 } {
+            set inverse_qop [ expr { 1.0 / $row(APU_qop) }]
+            if { [winfo exists $apu_frame.extras.apu_qop_inverse_text] == 0 } {
+              pack [label $apu_frame.extras.apu_qop_inverse_text \
+                -text ":: 1 / [expr { round($inverse_qop) }]"] \
+                -side left
+            } else {
+              $apu_frame.extras.apu_qop_inverse_text configure \
+                -text ":: 1 / [expr { round($inverse_qop) }]"
+            }
+          }
+        }
+
         if { $row(APUSupplies_id) != "" } {
           foreach param [list action type description unit cost partial qop] {
             if { $param == "partial" } {

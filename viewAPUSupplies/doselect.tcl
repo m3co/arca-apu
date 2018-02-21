@@ -183,6 +183,15 @@ namespace eval viewAPUSupplies {
         pack $conf(frame) -side left
         labelentry::setup [array get conf] [array get row] [array get description]
 
+        if { $row(APU_qop) != "null" } {
+          if { $row(APU_qop) > 0 } {
+            set inverse_qop [ expr { 1.0 / $row(APU_qop) }]
+            pack [label $apu_frame.extras.apu_qop_inverse_text \
+              -text ":: 1 / [expr { round($inverse_qop) }]"] \
+              -side left
+          }
+        }
+
         setup'newentry $apu_frame row
       }
 
