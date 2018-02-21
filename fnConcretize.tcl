@@ -226,8 +226,15 @@ namespace eval fnConcretizeAPU {
       set node [$tree insert end $root \
         $row(id_to_concrete) -text \
           "     $row(id_to_concrete) [ expr { \
-          ($row(description_concreted) != "null" && $row(description_concreted) != "") ? $row(description_concreted) : \
-          $row(description_to_concrete) }]" \
+          $row(description_concreted) != "null" &&
+          $row(description_concreted) != "" ? [ expr { \
+            $row(description_concreted) == "null" ? "" :
+            $row(description_concreted)
+          }] : \
+          [ expr { \
+            $row(description_to_concrete) == "null" ? "" : \
+            $row(description_to_concrete) }] \
+          }]" \
           -data $response(row) -drawcross $drawcross]
 
       set fr [join [list $tree .img \
@@ -279,8 +286,15 @@ namespace eval fnConcretizeAPU {
       }
       $tree itemconfigure $row(id_to_concrete) \
         -text "     $row(id_to_concrete) [ expr { \
-        ($row(description_concreted) != "null" && $row(description_concreted) != "") ? $row(description_concreted) : \
-        $row(description_to_concrete) }]" \
+          $row(description_concreted) != "null" &&
+          $row(description_concreted) != "" ? [ expr { \
+            $row(description_concreted) == "null" ? "" :
+            $row(description_concreted)
+          }] : \
+          [ expr { \
+            $row(description_to_concrete) == "null" ? "" : \
+            $row(description_to_concrete) }] \
+          }]" \
         -data $response(row)
       set fr [join [list $tree .img \
         [regsub -all {[.]} $row(id_to_concrete) "_"]] ""]
