@@ -217,10 +217,10 @@ namespace eval fnConcretizeAPU {
         set bgc blue
       }
       if { $bgcolori == 3 } {
-        set bgc green4
+        set bgc maroon
       }
       if { [array get row expand] == "expand false" } {
-        set bgc black
+        set bgc green4
       }
 
       set node [$tree insert end $root \
@@ -279,10 +279,10 @@ namespace eval fnConcretizeAPU {
         set bgc blue
       }
       if { $bgcolori == 3 } {
-        set bgc green4
+        set bgc maroon
       }
       if { [array get row expand] == "expand false" } {
-        set bgc black
+        set bgc green4
       }
       $tree itemconfigure $row(id_to_concrete) \
         -text "     $row(id_to_concrete) [ expr { \
