@@ -36,13 +36,13 @@ namespace eval Projects {
     pack [frame $frame.body -bg green] -fill both -expand true
     fnConcretizeAPU::open $frame.body $id
 
-    set event [dict create \
-      query [json::write string select1] \
-      module [json::write string fnCostTasks1] \
-      from [json::write string fnCostTasks1] \
-      project $id \
-    ]
-    chan puts $MAIN::chan [json::write object {*}$event]
+    #set event [dict create \
+    #  query [json::write string select1] \
+    #  module [json::write string fnCostTasks1] \
+    #  from [json::write string fnCostTasks1] \
+    #  project $id \
+    #]
+    #chan puts $MAIN::chan [json::write object {*}$event]
   }
 
   array set lastSearch {}
