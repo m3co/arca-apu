@@ -126,6 +126,9 @@ proc viewAPUSupplies::select'combobox { path label e } {
   $label configure -text "..."
   pack $label -side left
   destroy $path
+
+  set labelentry::lastEdit(input) ""
+  set labelentry::lastEdit(label) ""
 }
 
 #
