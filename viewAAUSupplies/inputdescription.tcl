@@ -1,8 +1,8 @@
 
-proc viewAPUSupplies::input'description { e frame } {
+proc viewAAUSupplies::input'description { e frame } {
   array set entry [deserialize $e]
 
-  set fr $frame.description.$entry(APUSupplies_id)
+  set fr $frame.description.$entry(AAUSupplies_id)
   if { [winfo exists $fr] == 0 } {
     pack [frame $fr] -fill x -expand true
   }
@@ -10,38 +10,38 @@ proc viewAPUSupplies::input'description { e frame } {
   if { [winfo exists $label] == 0 } {
     if { $entry(id) != "newentry" } {
       pack [label $fr.edit -text "!"] -side left
-      bind $fr.edit <1> [list viewAPUSupplies::rename'description \
+      bind $fr.edit <1> [list viewAAUSupplies::rename'description \
         %W $fr [array get entry]]
     }
     pack [label $label -text $entry(Supplies_description)] -side left
   }
   $label configure -text [expr {$entry(Supplies_description) == "" ? \
     "-" : $entry(Supplies_description) }]
-  bind $label <1> [list viewAPUSupplies::turn'combobox \
+  bind $label <1> [list viewAAUSupplies::turn'combobox \
     %W $fr [array get entry]]
 }
 
-proc viewAPUSupplies::rename'description { path frame e } {
+proc viewAAUSupplies::rename'description { path frame e } {
 
   array set conf [list \
     frame $frame \
     key Supplies_description \
-    module viewAPUSupplies \
+    module viewAAUSupplies \
     idkey id \
   ]
 
   labelentry::'begin'redact $frame.label [array get conf] $e
   set label $frame.label
-  bind $label <1> [list viewAPUSupplies::turn'combobox \
+  bind $label <1> [list viewAAUSupplies::turn'combobox \
     %W $frame $e]
 }
 
-proc viewAPUSupplies::turn'combobox { path frame e } {
+proc viewAAUSupplies::turn'combobox { path frame e } {
 
   array set conf [list \
     frame $frame \
     key Supplies_description \
-    module viewAPUSupplies \
+    module viewAAUSupplies \
     idkey id \
   ]
 
@@ -51,9 +51,9 @@ proc viewAPUSupplies::turn'combobox { path frame e } {
   set combo [ttk::combobox $frame.combo]
   $combo insert 0 $entry(Supplies_description)
   bind $combo <KeyRelease> +[list \
-    viewAPUSupplies::search'combobox %W %K]
+    viewAAUSupplies::search'combobox %W %K]
   bind $combo <<ComboboxSelected>> [list \
-    viewAPUSupplies::select'combobox %W $frame.label [array get entry]]
+    viewAAUSupplies::select'combobox %W $frame.label [array get entry]]
 
   set labelentry::lastEdit(input) $combo
   set labelentry::lastEdit(label) $frame.label
@@ -69,14 +69,14 @@ proc viewAPUSupplies::turn'combobox { path frame e } {
 # linea el formato { $texto-descriptivo [id] }. Bajo dicho formato es posible
 # obtener el id del Supply seleccionado
 #
-proc viewAPUSupplies::select'combobox { path label e } {
+proc viewAAUSupplies::select'combobox { path label e } {
   array set entry [deserialize $e]
   variable lastSearch
   variable description
   if { [llength [array names lastSearch]] == 0 } {
     #
     # El acto a seguir es, crear el insumo y luego con el insumo creado
-    # actualizar la entrada de la APU
+    # actualizar la entrada de la AAU
     #
     set event [dict create \
       query [json::write string insert] \
@@ -103,10 +103,10 @@ proc viewAPUSupplies::select'combobox { path label e } {
 
   set event [dict create \
     query [json::write string update] \
-    module [json::write string viewAPUSupplies] \
+    module [json::write string viewAAUSupplies] \
     idkey [json::write string id] \
     id [json::write string $entry(id)] \
-    key [json::write string APUSupplies_SupplyId] \
+    key [json::write string AAUSupplies_SupplyId] \
     value [json::write string [dict get $lastSearch($id) id]] \
   ]
 
@@ -114,11 +114,11 @@ proc viewAPUSupplies::select'combobox { path label e } {
     set event ""
     set event [dict create \
       query [json::write string insert] \
-      module [json::write string APUSupplies] \
+      module [json::write string AAUSupplies] \
       row [toJSON [list \
-        APUId $entry(APU_id) \
+        AAUId $entry(AAU_id) \
         SupplyId [dict get $lastSearch($id) id] \
-      ] [dict create APUId {jsontype string} SupplyId {jsontype integer}]] \
+      ] [dict create AAUId {jsontype string} SupplyId {jsontype integer}]] \
     ]
   }
   chan puts $MAIN::chan [json::write object {*}$event]
@@ -133,9 +133,9 @@ proc viewAPUSupplies::select'combobox { path label e } {
 
 #
 # La lista resultante de la busqueda de insumos mostrarla en el combobox,
-# y allende guardar dicho resultado en favor de viewAPUSupplies::select'combobox
+# y allende guardar dicho resultado en favor de viewAAUSupplies::select'combobox
 #
-proc viewAPUSupplies::'do'search { resp } {
+proc viewAAUSupplies::'do'search { resp } {
   upvar $resp response
   variable lastSearch
 
@@ -158,7 +158,7 @@ proc viewAPUSupplies::'do'search { resp } {
   #extendcombo::show'listbox $response(combo) ""
 }
 
-proc viewAPUSupplies::search'combobox { path key } {
+proc viewAAUSupplies::search'combobox { path key } {
   if {[string length $key] > 1 && [string tolower $key] != $key} {
     return
   }

@@ -11,7 +11,7 @@ namespace eval Supplies {
     set response(rows) [list [array get entry]]
     set response(combo) $labelentry::lastEdit(input)
 
-    viewAPUSupplies::'do'search response
+    viewAAUSupplies::'do'search response
   }
 
   proc 'do'update { resp } {

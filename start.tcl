@@ -38,13 +38,13 @@ namespace eval MAIN {
     chan puts $chan [regsub -all {\n} $event {}]
 
     set event {{
-      "module": "fnConcretizeAPU",
+      "module": "fnConcretizeAAU",
       "query": "subscribe"
     }}
     chan puts $chan [regsub -all {\n} $event {}]
 
     set event {{
-      "module": "viewAPUSupplies",
+      "module": "viewAAUSupplies",
       "query": "subscribe"
     }}
     chan puts $chan [regsub -all {\n} $event {}]
@@ -60,4 +60,4 @@ namespace eval MAIN {
 
 source [file join [file dirname [info script]] projects.tcl]
 source [file join [file dirname [info script]] fnConcretize.tcl]
-source [file join [file dirname [info script]] viewAPUSupplies/viewAPUSupplies.tcl]
+source [file join [file dirname [info script]] viewAAUSupplies/viewAAUSupplies.tcl]

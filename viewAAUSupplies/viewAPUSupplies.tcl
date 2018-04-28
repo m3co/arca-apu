@@ -2,17 +2,17 @@
 namespace eval Supplies {
   proc 'do'search { resp } {
     upvar $resp response
-    viewAPUSupplies::'do'search response
+    viewAAUSupplies::'do'search response
   }
 }
 
-namespace eval viewAPUSupplies {
+namespace eval viewAAUSupplies {
   variable frame
   variable description
 
   chan puts $MAIN::chan [json::write object \
     query [json::write string describe] \
-    module [json::write string viewAPUSupplies] \
+    module [json::write string viewAAUSupplies] \
   ]
 
   proc 'do'describe { resp } {
@@ -36,8 +36,8 @@ namespace eval viewAPUSupplies {
 
     set event [list \
       query {"select"} \
-      module {"viewAPUSupplies"} \
-      from {"viewAPUSupplies"} \
+      module {"viewAAUSupplies"} \
+      from {"viewAAUSupplies"} \
       keynote [json::write string $keynote] \
     ]
 
@@ -48,8 +48,8 @@ namespace eval viewAPUSupplies {
     array set row [deserialize $r]
     set event [dict create \
       query [json::write string delete] \
-      module [json::write string APUSupplies] \
-      id $row(APUSupplies_id) \
+      module [json::write string AAUSupplies] \
+      id $row(AAUSupplies_id) \
       idkey [json::write string id] \
     ]
     chan puts $MAIN::chan [json::write object {*}$event]
@@ -69,37 +69,37 @@ namespace eval viewAPUSupplies {
       return
     }
 
-    set keynote_frame $frame.[regsub -all {[.]} $row(APU_id) "_"]
-    set apu_frame $keynote_frame.apu_[regsub -all {[.]} $row(APU_id) "_"]
+    set keynote_frame $frame.[regsub -all {[.]} $row(AAU_id) "_"]
+    set aau_frame $keynote_frame.aau_[regsub -all {[.]} $row(AAU_id) "_"]
 
-    if { $row(APUSupplies_id) != "null" } {
-      if { [winfo exists $apu_frame.supplies.type.$row(APUSupplies_id)] == 1 } {
-        destroy $apu_frame.supplies.type.$row(APUSupplies_id)
+    if { $row(AAUSupplies_id) != "null" } {
+      if { [winfo exists $aau_frame.supplies.type.$row(AAUSupplies_id)] == 1 } {
+        destroy $aau_frame.supplies.type.$row(AAUSupplies_id)
       }
-      if { [winfo exists $apu_frame.supplies.description.$row(APUSupplies_id)] == 1 } {
-        destroy $apu_frame.supplies.description.$row(APUSupplies_id)
+      if { [winfo exists $aau_frame.supplies.description.$row(AAUSupplies_id)] == 1 } {
+        destroy $aau_frame.supplies.description.$row(AAUSupplies_id)
       }
-      if { [winfo exists $apu_frame.supplies.unit.$row(APUSupplies_id)] == 1 } {
-        destroy $apu_frame.supplies.unit.$row(APUSupplies_id)
+      if { [winfo exists $aau_frame.supplies.unit.$row(AAUSupplies_id)] == 1 } {
+        destroy $aau_frame.supplies.unit.$row(AAUSupplies_id)
       }
-      if { [winfo exists $apu_frame.supplies.cost.$row(APUSupplies_id)] == 1 } {
-        destroy $apu_frame.supplies.cost.$row(APUSupplies_id)
+      if { [winfo exists $aau_frame.supplies.cost.$row(AAUSupplies_id)] == 1 } {
+        destroy $aau_frame.supplies.cost.$row(AAUSupplies_id)
       }
-      if { [winfo exists $apu_frame.supplies.qop.$row(APUSupplies_id)] == 1 } {
-        destroy $apu_frame.supplies.qop.$row(APUSupplies_id)
+      if { [winfo exists $aau_frame.supplies.qop.$row(AAUSupplies_id)] == 1 } {
+        destroy $aau_frame.supplies.qop.$row(AAUSupplies_id)
       }
-      if { [winfo exists $apu_frame.supplies.action.$row(APUSupplies_id)] == 1 } {
-        destroy $apu_frame.supplies.action.$row(APUSupplies_id)
+      if { [winfo exists $aau_frame.supplies.action.$row(AAUSupplies_id)] == 1 } {
+        destroy $aau_frame.supplies.action.$row(AAUSupplies_id)
       }
-      if { [winfo exists $apu_frame.supplies.partial.$row(APUSupplies_id)] == 1 } {
-        destroy $apu_frame.supplies.partial.$row(APUSupplies_id)
+      if { [winfo exists $aau_frame.supplies.partial.$row(AAUSupplies_id)] == 1 } {
+        destroy $aau_frame.supplies.partial.$row(AAUSupplies_id)
       }
       return
     }
 
-    if { $row(APU_id) != "null" } {
-      if { [winfo exists $apu_frame] == 1 } {
-        destroy $apu_frame
+    if { $row(AAU_id) != "null" } {
+      if { [winfo exists $aau_frame] == 1 } {
+        destroy $aau_frame
       }
     }
     if { [winfo exists $keynote_frame] == 1 } {

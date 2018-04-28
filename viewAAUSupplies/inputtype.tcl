@@ -1,8 +1,8 @@
 
-proc viewAPUSupplies::input'type { e frame } {
+proc viewAAUSupplies::input'type { e frame } {
   array set entry [deserialize $e]
 
-  set fr $frame.type.$entry(APUSupplies_id)
+  set fr $frame.type.$entry(AAUSupplies_id)
   if { [winfo exists $fr] == 0 } {
     pack [frame $fr] -fill x -expand true
   }
@@ -13,17 +13,17 @@ proc viewAPUSupplies::input'type { e frame } {
   $label configure -text [expr { \
     ($entry(Supplies_type) == "null" || $entry(Supplies_type) == "") ? \
     "-" : $entry(Supplies_type) }]
-  bind $label <1> [list viewAPUSupplies::turn'combobox'type \
+  bind $label <1> [list viewAAUSupplies::turn'combobox'type \
     %W $fr [array get entry]]
 }
 
-proc viewAPUSupplies::turn'combobox'type { path frame e } {
+proc viewAAUSupplies::turn'combobox'type { path frame e } {
 
   array set conf [list \
     frame $frame \
     key Supplies_type \
-    from viewAPUSupplies \
-    module viewAPUSupplies \
+    from viewAAUSupplies \
+    module viewAAUSupplies \
     idkey id \
   ]
 
@@ -35,7 +35,7 @@ proc viewAPUSupplies::turn'combobox'type { path frame e } {
   $combo configure -values [list \
     {Material} {Mano de Obra} {Herramienta} {Equipo} {Transporte} {Subcontrato}]
   bind $combo <<ComboboxSelected>> [list \
-    viewAPUSupplies::select'combobox'type %W $frame.label $e]
+    viewAAUSupplies::select'combobox'type %W $frame.label $e]
 
   set labelentry::lastEdit(input) $combo
   set labelentry::lastEdit(label) $frame.label
@@ -46,7 +46,7 @@ proc viewAPUSupplies::turn'combobox'type { path frame e } {
   focus $combo
 }
 
-proc viewAPUSupplies::select'combobox'type { path label e } {
+proc viewAAUSupplies::select'combobox'type { path label e } {
   array set entry [deserialize $e]
   variable description
 
