@@ -34,7 +34,7 @@ namespace eval Projects {
     set id [lindex [regexp -inline {\[(\d+)\]$} [$path get]] end]
 
     pack [frame $frame.body -bg green] -fill both -expand true
-    fnConcretizeAPU::open $frame.body $id
+    fnConcretizeAAU::open $frame.body $id
 
     #set event [dict create \
     #  query [json::write string select1] \

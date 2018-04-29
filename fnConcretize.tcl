@@ -1,5 +1,5 @@
 
-namespace eval fnConcretizeAPU {
+namespace eval fnConcretizeAAU {
   variable rows
   variable frame
   variable project
@@ -9,17 +9,17 @@ namespace eval fnConcretizeAPU {
   variable lastPopupId {}
 
   $popupmenu add command -label "Agregar" \
-    -command fnConcretizeAPU::begin'create
+    -command fnConcretizeAAU::begin'create
   $popupmenu add separator
   $popupmenu add command -label "Renombrar" \
-    -command fnConcretizeAPU::begin'edit
+    -command fnConcretizeAAU::begin'edit
 
   proc open { space id } {
     variable frame $space
     variable project $id
     set event [list \
       query {"select"} \
-      module {"fnConcretizeAPU"} \
+      module {"fnConcretizeAAU"} \
       project $id \
       parent null \
     ]
@@ -31,13 +31,13 @@ namespace eval fnConcretizeAPU {
     pack [frame $fr] -fill both -expand true
     pack [ScrolledWindow $fr.left] -side left -fill both -expand true
     variable tree [Tree [$fr.left getframe].tree \
-      -opencmd fnConcretizeAPU::open'leaf \
+      -opencmd fnConcretizeAAU::open'leaf \
       -showlines true -deltay 18 -bd 0]
 
     $fr.left setwidget $tree
 
     # hacer que redactar sea presionando por un rato
-    $tree bindText <1> [list viewAPUSupplies::open'view $fr.right]
+    $tree bindText <1> [list viewAAUSupplies::open'view $fr.right]
     #$tree bindText <Double-1> $onedit
 
     chan puts $MAIN::chan [json::write object {*}$event]
@@ -89,7 +89,7 @@ namespace eval fnConcretizeAPU {
 
     $tree itemconfigure $node -window $fr
     $tree edit $data(id_to_concrete) "" [list \
-      fnConcretizeAPU::create'node [array get data]] 1
+      fnConcretizeAAU::create'node [array get data]] 1
   }
 
   proc begin'edit { } {
@@ -98,7 +98,7 @@ namespace eval fnConcretizeAPU {
 
     array set entry [deserialize [$tree itemcget $lastPopupId -data]]
     $tree edit $lastPopupId [lindex [array get entry description] 1] \
-      [list fnConcretizeAPU::finish'edit $lastPopupId] 1
+      [list fnConcretizeAAU::finish'edit $lastPopupId] 1
   }
 
   proc finish'edit { node newText } {
@@ -106,7 +106,7 @@ namespace eval fnConcretizeAPU {
     $tree itemconfigure $node -text "..."
     set event [dict create \
       query [json::write string update] \
-      module [json::write string APU] \
+      module [json::write string AAU] \
       id [json::write string $node] \
       idkey [json::write string id] \
       key [json::write array [json::write string description]] \
@@ -129,8 +129,8 @@ namespace eval fnConcretizeAPU {
     } else {
       set event [dict create \
         query [json::write string insert] \
-        module [json::write string fnConcretizeAPU] \
-        from [json::write string fnConcretizeAPU] \
+        module [json::write string fnConcretizeAAU] \
+        from [json::write string fnConcretizeAAU] \
         project $project \
       ]
       dict set event row [json::write object \
@@ -153,7 +153,7 @@ namespace eval fnConcretizeAPU {
 
     set event [list \
       query {"select"} \
-      module {"fnConcretizeAPU"} \
+      module {"fnConcretizeAAU"} \
       parent [json::write string $row(id_general)] \
       project $project \
     ]
@@ -167,7 +167,7 @@ namespace eval fnConcretizeAPU {
 
     set event [dict create \
       query [json::write string concretize] \
-      module [json::write string fnConcretizeAPU] \
+      module [json::write string fnConcretizeAAU] \
       keynote [json::write string $row_(id_general)] \
       project $project \
     ]
@@ -180,7 +180,7 @@ namespace eval fnConcretizeAPU {
     $path configure -relief raised
 
     set event [dict create \
-      module [json::write string fnConcretizeAPU] \
+      module [json::write string fnConcretizeAAU] \
       query [json::write string deconcretize] \
       keynote [json::write string $row_(id_concreted)] \
       project $project \
@@ -243,19 +243,19 @@ namespace eval fnConcretizeAPU {
       if { $row(id_concreted) == "null" || $row(id_concreted) == "" } {
         pack [label $fr.concrete -text "o" -relief raised -bg red] -side left
         bind $fr.concrete <ButtonRelease-1> [list \
-          fnConcretizeAPU::concretize %W [array get row]]
+          fnConcretizeAAU::concretize %W [array get row]]
         $tree itemconfigure $node -fill gray44
       } else {
         pack [label $fr.concrete -text "x" -relief raised] -side left
         bind $fr.concrete <ButtonRelease-1> [list \
-          fnConcretizeAPU::deconcretize %W [array get row]]
+          fnConcretizeAAU::deconcretize %W [array get row]]
         $tree itemconfigure $node -fill $bgc
       }
       bind $fr.concrete <ButtonPress-1> [list %W configure -relief sunken]
       pack [label $fr.separator -text " "] -side left
 
       pack [label $fr.image -image [Bitmap::get oplink]] -side left
-      bind $fr.image <1> [list fnConcretizeAPU::open'popupmenu \
+      bind $fr.image <1> [list fnConcretizeAAU::open'popupmenu \
         %X %Y $row(id_to_concrete)]
 
       $tree itemconfigure $node -window $fr
@@ -301,15 +301,15 @@ namespace eval fnConcretizeAPU {
       if { $row(id_concreted) == "" || $row(id_concreted) == "null" } {
         $fr.concrete configure -text "o" -bg red
         bind $fr.concrete <ButtonRelease-1> [list \
-          fnConcretizeAPU::concretize %W [array get row]]
+          fnConcretizeAAU::concretize %W [array get row]]
         $tree itemconfigure $row(id_to_concrete) -fill gray44
       } else {
         $fr.concrete configure -text "x" -bg [. cget -background]
         bind $fr.concrete <ButtonRelease-1> [list \
-          fnConcretizeAPU::deconcretize %W [array get row]]
+          fnConcretizeAAU::deconcretize %W [array get row]]
         $tree itemconfigure $row(id_to_concrete) -fill $bgc
       }
-      bind $fr.image <1> [list fnConcretizeAPU::open'popupmenu \
+      bind $fr.image <1> [list fnConcretizeAAU::open'popupmenu \
         %X %Y $row(id_to_concrete)]
     } else {
       'do'select response
