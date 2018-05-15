@@ -27,6 +27,12 @@
         else {
           console.log('sin procesar Contractors', data);
         }
+      } else if (data.module == 'APU') {
+        action = apu[`do${query}`];
+        if (action) { action(row); }
+        else {
+          console.log('sin procesar APU', data);
+        }
       } else {
         console.log('sin procesar', data);
       }
