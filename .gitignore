@@ -3,3 +3,4 @@
 config.ini
 package-lock.json
 static/utils.js
+static/toJSON.js
