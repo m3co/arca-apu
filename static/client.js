@@ -11,6 +11,11 @@
     });
 
     client.emit('data', {
+      query: 'subscribe',
+      module: 'APU'
+    });
+
+    client.emit('data', {
       query: 'select',
       module: 'Contractors'
     });
