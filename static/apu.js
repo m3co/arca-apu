@@ -36,6 +36,56 @@
     )
   }];
 
+  function setupViewAPUSupplies(d) {
+    const defaultRow = {
+      description: ''
+    };
+    const validations = {
+      description: { required: true }
+    };
+
+    const fields = [
+      'description', 'unit', 'qop', 'estimated'
+    ];
+
+    const header = ['Descripcion', 'Unidad', 'Rdto', 'Estimado', '-', 'Ir'];
+    const actions = [{
+      select: 'button.delete',
+      setup: (selection => selection
+        .text('-')
+        .classed('delete', true)
+        .on('click', d => {
+          client.emit('data', {
+            query: 'delete',
+            module: 'APU',
+            id: d.id,
+            idkey: 'id'
+          });
+        })
+    )}, {
+      select: 'button.show',
+      setup: (selection => selection
+        .text('>')
+        .classed('show', true)
+        .on('click', d => {
+
+        })
+      )
+    }];
+
+    client.emit('data', {
+      query: 'select',
+      module: 'vewAPUSupplies',
+      APUId: d.id
+    });
+
+    window.viewapusupplies[`[APUId=${d.id}]`] = setupTable({
+      module: 'viewAPUSupplies', header: header, actions: actions,
+      fields: fields, idkey: 'id', validations: validations,
+      defaultRow: defaultRow, extraRows: extrarow
+    });
+  }
+
   const extrarow = [{
     update: (function(d, i, m) {
       d3.select(this.nextElementSibling).select('td')
@@ -56,10 +106,12 @@
               document.importNode(
                 document.querySelector(
                   'template#viewAPUSupplies').content, true));
+            setupViewAPUSupplies(d);
           });
     })
   }];
 
+  window.viewapusupplies = {};
   window.apu = setupTable({
     module: 'APU', header: header, actions: actions,
     fields: fields, idkey: 'id', validations: validations,
