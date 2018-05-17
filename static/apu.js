@@ -28,7 +28,7 @@
   )}, {
     select: 'button.show',
     setup: (selection => selection
-      .text('->')
+      .text('>')
       .classed('show', true)
       .on('click', d => {
 
@@ -36,6 +36,25 @@
     )
   }];
 
+  const extrarow = [{
+    update: (function(d, i, m) {
+      d3.select(this.nextElementSibling).select('td')
+        .attr('colspan', 6)
+        .text(`This is the next info for ${d.description}`);
+    }),
+    exit: (function(d, i, m) {
+      this.nextElementSibling.remove();
+    }),
+    enter: (function(d, i, m) {
+      d3.select(
+        this.insertAdjacentElement('afterend',
+          document.createElement('tr')
+        )).append('td')
+          .attr('colspan', 6)
+          .text(`This is the next info for ${d.description}`);
+    })
+  }];
+
   window.apu = setupTable('APU', header, actions,
-    fields, 'id', validations, defaultRow);
+    fields, 'id', validations, defaultRow, extrarow);
 })();

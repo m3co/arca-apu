@@ -30,7 +30,7 @@
   )}, {
     select: 'button.show',
     setup: (selection => selection
-      .text('->')
+      .text('>')
       .classed('show', true)
       .on('click', d => {
         window.apu.clear({
