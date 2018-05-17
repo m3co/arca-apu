@@ -51,7 +51,12 @@
           document.createElement('tr')
         )).append('td')
           .attr('colspan', 6)
-          .text(`This is the next info for ${d.description}`);
+          .each(function() {
+            this.appendChild(
+              document.importNode(
+                document.querySelector(
+                  'template#viewAPUSupplies').content, true));
+          });
     })
   }];
 
