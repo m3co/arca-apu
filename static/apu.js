@@ -75,8 +75,8 @@
 
     client.emit('data', {
       query: 'select',
-      module: 'vewAPUSupplies',
-      APUId: d.id
+      module: 'viewAPUSupplies',
+      APU_id: d.id
     });
 
     window.viewapusupplies[`[APUId=${d.id}]`] = setupTable({
