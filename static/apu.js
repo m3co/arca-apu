@@ -60,6 +60,9 @@
     })
   }];
 
-  window.apu = setupTable('APU', header, actions,
-    fields, 'id', validations, defaultRow, extrarow);
+  window.apu = setupTable({
+    module: 'APU', header: header, actions: actions,
+    fields: fields, idkey: 'id', validations: validations,
+    defaultRow: defaultRow, extraRows: extrarow
+  });
 })();
