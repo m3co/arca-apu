@@ -36,43 +36,43 @@
     )
   }];
 
+  const viewAPUSupplies_defaultRow = {
+    description: ''
+  };
+  const viewAPUSupplies_validations = {
+    description: { required: true }
+  };
+
+  const viewAPUSupplies_fields = [
+    'description', 'unit', 'qop', 'estimated'
+  ];
+
+  const viewAPUSupplies_header = ['Descripcion', 'Unidad', 'Rdto', 'Estimado', '-', 'Ir'];
+  const viewAPUSupplies_actions = [{
+    select: 'button.delete',
+    setup: (selection => selection
+      .text('-')
+      .classed('delete', true)
+      .on('click', d => {
+        client.emit('data', {
+          query: 'delete',
+          module: 'APU',
+          id: d.id,
+          idkey: 'id'
+        });
+      })
+  )}, {
+    select: 'button.show',
+    setup: (selection => selection
+      .text('>')
+      .classed('show', true)
+      .on('click', d => {
+
+      })
+    )
+  }];
+
   function setupViewAPUSupplies(d) {
-    const defaultRow = {
-      description: ''
-    };
-    const validations = {
-      description: { required: true }
-    };
-
-    const fields = [
-      'description', 'unit', 'qop', 'estimated'
-    ];
-
-    const header = ['Descripcion', 'Unidad', 'Rdto', 'Estimado', '-', 'Ir'];
-    const actions = [{
-      select: 'button.delete',
-      setup: (selection => selection
-        .text('-')
-        .classed('delete', true)
-        .on('click', d => {
-          client.emit('data', {
-            query: 'delete',
-            module: 'APU',
-            id: d.id,
-            idkey: 'id'
-          });
-        })
-    )}, {
-      select: 'button.show',
-      setup: (selection => selection
-        .text('>')
-        .classed('show', true)
-        .on('click', d => {
-
-        })
-      )
-    }];
-
     client.emit('data', {
       query: 'select',
       module: 'viewAPUSupplies',
@@ -81,9 +81,12 @@
 
     const filter = `[apuid="${d.id}"]`;
     window.viewapusupplies[filter] = setupTable({
-      module: 'viewAPUSupplies', header: header, actions: actions,
-      fields: fields, idkey: 'id', validations: validations,
-      defaultRow: defaultRow, extraRows: extrarow, filter: filter
+      module: 'viewAPUSupplies', idkey: 'id', filter: filter,
+      header: viewAPUSupplies_header,
+      actions: viewAPUSupplies_actions,
+      fields: viewAPUSupplies_fields,
+      validations: viewAPUSupplies_validations,
+      defaultRow: viewAPUSupplies_defaultRow
     });
   }
 
