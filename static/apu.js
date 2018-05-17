@@ -44,22 +44,30 @@
   };
 
   const viewAPUSupplies_fields = [
-    'description', 'unit', 'qop', 'estimated'
+    'Supplies_description', 'Supplies_unit', 'Supplies_cost', 'APUSupplies_qop'
   ];
 
-  const viewAPUSupplies_header = ['Descripcion', 'Unidad', 'Rdto', 'Estimado', '-', 'Ir'];
+  const viewAPUSupplies_header = ['Descripcion', 'Unidad', 'Costo', 'Rdto', '-', 'Ir'];
   const viewAPUSupplies_actions = [{
     select: 'button.delete',
     setup: (selection => selection
       .text('-')
       .classed('delete', true)
       .on('click', d => {
+        console.log({
+          query: 'delete',
+          module: 'APUSupplies',
+          id: d.APUSupplies_id,
+          idkey: 'APUSupplies_id'
+        });
+        /*
         client.emit('data', {
           query: 'delete',
-          module: 'APU',
-          id: d.id,
-          idkey: 'id'
+          module: 'APUSupplies',
+          id: d.APUSupplies_id,
+          idkey: 'APUSupplies_id'
         });
+        */
       })
   )}, {
     select: 'button.show',
