@@ -38,6 +38,15 @@
         else {
           console.log('sin procesar APU', data);
         }
+      } else if (data.module == 'viewAPUSupplies') {
+        if (!row.Supplies_id) {
+          return;
+        }
+        action = viewapusupplies[`[apuid="${row.APU_id}"]`][`do${query}`];
+        if (action) { action(row); }
+        else {
+          console.log('sin procesar viewAPUSupplies', data);
+        }
       } else {
         console.log('sin procesar', data);
       }
