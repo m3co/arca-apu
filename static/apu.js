@@ -79,10 +79,11 @@
       APU_id: d.id
     });
 
-    window.viewapusupplies[`[APUId=${d.id}]`] = setupTable({
+    const filter = `[apuid="${d.id}"]`;
+    window.viewapusupplies[filter] = setupTable({
       module: 'viewAPUSupplies', header: header, actions: actions,
       fields: fields, idkey: 'id', validations: validations,
-      defaultRow: defaultRow, extraRows: extrarow
+      defaultRow: defaultRow, extraRows: extrarow, filter: filter
     });
   }
 
@@ -106,6 +107,7 @@
               document.importNode(
                 document.querySelector(
                   'template#viewAPUSupplies').content, true));
+            this.querySelector('table').setAttribute('apuid', d.id);
             setupViewAPUSupplies(d);
           });
     })
