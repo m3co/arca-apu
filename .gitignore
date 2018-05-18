@@ -4,3 +4,4 @@ config.ini
 package-lock.json
 static/utils.js
 static/toJSON.js
+static/custom-element.js

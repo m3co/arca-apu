@@ -36,15 +36,21 @@
     )
   }];
 
-  const viewAPUSupplies_defaultRow = {
-    description: ''
-  };
   const viewAPUSupplies_validations = {
-    description: { required: true }
+    Supplies_id: { required: true }
   };
 
   const viewAPUSupplies_fields = [
-    'Supplies_description', 'Supplies_unit', 'Supplies_cost', 'APUSupplies_qop'
+   {
+     name: 'Supplies_description',
+     isBike: true
+   }, 'Supplies_unit', {
+     name: 'Supplies_cost',
+     type: 'number'
+   }, {
+     name: 'APUSupplies_qop',
+     type: 'number'
+   }
   ];
 
   const viewAPUSupplies_header = ['Descripcion', 'Unidad', 'Costo', 'Rdto', '-', 'Ir'];
@@ -87,6 +93,9 @@
       APU_id: d.id
     });
 
+    const viewAPUSupplies_defaultRow = {
+      APU_id: d.id
+    };
     const filter = `[apuid="${d.id}"]`;
     window.viewapusupplies[filter] = setupTable({
       module: 'viewAPUSupplies', idkey: 'id', filter: filter,
