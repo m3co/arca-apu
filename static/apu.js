@@ -43,7 +43,11 @@
   const viewAPUSupplies_fields = [
    {
      name: 'Supplies_description',
-     isBike: true
+     bike: {
+       client: client,
+       module: 'Supplies',
+       key: 'description'
+     }
    }, 'Supplies_unit', {
      name: 'Supplies_cost',
      type: 'number'
