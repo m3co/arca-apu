@@ -1,6 +1,10 @@
 'use strict';
 ((io) => {
   var client = io();
+  function setupOptionCombobox(selection) {
+    selection.attr('value', d => d.id)
+      .attr('label', d => d.description);
+  }
 
   client.on('connect', () => {
     console.log('connection');
@@ -13,6 +17,11 @@
     client.emit('data', {
       query: 'subscribe',
       module: 'APU'
+    });
+
+    client.emit('data', {
+      query: 'subscribe',
+      module: 'Supplies'
     });
 
     client.emit('data', {
@@ -48,8 +57,19 @@
           console.log('sin procesar viewAPUSupplies', data);
         }
       } else {
-        console.log('sin procesar', data);
+        console.log('sin procesar row', data);
       }
+    } else if (data.module == 'Supplies') {
+      if (query == 'search') {
+        var opts = d3.select(`#${data.combo}`)
+          .selectAll('option').data(data.rows);
+
+        opts.call(setupOptionCombobox);
+        opts.enter().append('option').call(setupOptionCombobox);
+        opts.exit().remove();
+      }
+    } else {
+      console.log('sin procesar', data);
     }
   });
 
