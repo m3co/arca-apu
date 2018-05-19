@@ -108,8 +108,9 @@
     const viewAPUSupplies_defaultRow = {
       APUSupplies_APUId: d.id
     };
-    const filter = `[apuid="${d.id}"]`;
-    window.viewapusupplies[filter] = setupTable({
+    const filter = { key: 'apuid', value: d.id };
+    var _filter = `[${filter.key.toLowerCase()}="${filter.value || ''}"]`;
+    window.viewapusupplies[_filter] = setupTable({
       module: 'viewAPUSupplies', idkey: 'id', filter: filter,
       header: viewAPUSupplies_header,
       actions: viewAPUSupplies_actions,
@@ -121,9 +122,8 @@
 
   const extrarow = [{
     update: (function(d, i, m) {
-      d3.select(this.nextElementSibling).select('td')
-        .attr('colspan', 6)
-        .text(`This is the next info for ${d.description}`);
+      // No se por que se estan creando muchas entradas
+      // ... es como si enter() se ejecutase muchas veces
     }),
     exit: (function(d, i, m) {
       if (this) {
@@ -133,11 +133,17 @@
       }
     }),
     enter: (function(d, i, m) {
+      if (this.nextElementSibling) {
+        if (this.nextElementSibling.getAttribute('apuid') == d.id) {
+          // algo va mal aqui...
+        }
+      }
       d3.select(
         this.insertAdjacentElement('afterend',
           document.createElement('tr')
         )).append('td')
           .attr('colspan', 6)
+          .attr('apuid', d.id)
           .each(function() {
             this.appendChild(
               document.importNode(
@@ -153,6 +159,7 @@
   window.apu = setupTable({
     module: 'APU', header: header, actions: actions,
     fields: fields, idkey: 'id', validations: validations,
-    defaultRow: defaultRow, extraRows: extrarow
+    defaultRow: defaultRow, extraRows: extrarow,
+    filter: { key: 'table', value: 'APU' }
   });
 })();

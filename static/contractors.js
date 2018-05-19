@@ -50,6 +50,6 @@
     module: 'Contractors',
     header: header, actions: actions,
     fields: fields, idkey: 'id', validations: validations,
-    defaultRow: defaultRow
+    defaultRow: defaultRow, filter: { key: 'table', value: 'Contractors' }
   });
 })();
