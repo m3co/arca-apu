@@ -36,6 +36,7 @@
         window.apu.clear({
           ContractorId: d.id
         });
+        document.querySelector('table#APU').style.display = 'table-cell';
         client.emit('data', {
           query: 'select',
           module: 'APU',
