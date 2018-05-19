@@ -125,7 +125,11 @@
         .text(`This is the next info for ${d.description}`);
     }),
     exit: (function(d, i, m) {
-      this.nextElementSibling.remove();
+      if (this) {
+        if (this.nextElementSibling) {
+          this.nextElementSibling.remove();
+        }
+      }
     }),
     enter: (function(d, i, m) {
       d3.select(
