@@ -19,6 +19,11 @@
 
     client.emit('data', {
       query: 'subscribe',
+      module: 'viewAPUSupplies'
+    });
+
+    client.emit('data', {
+      query: 'subscribe',
       module: 'APU'
     });
 
