@@ -43,6 +43,7 @@
   const viewAPUSupplies_fields = [
    {
      name: 'APUSupplies_SupplyId',
+     show: 'Supplies_description',
      bike: {
        client: client,
        module: 'Supplies',
