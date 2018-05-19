@@ -42,11 +42,18 @@
 
   const viewAPUSupplies_fields = [
    {
-     name: 'Supplies_description',
+     name: 'Supplies_id',
      bike: {
        client: client,
        module: 'Supplies',
-       key: 'description'
+       key: 'description',
+       onblur: function(d, input) {
+         if (input._found) {
+           if (input._found._row) {
+             this.textContent = input._found._row.description;
+           }
+         }
+       }
      }
    }, 'Supplies_unit', {
      name: 'Supplies_cost',

@@ -3,7 +3,10 @@
   var client = io();
   function setupOptionCombobox(selection) {
     selection.attr('value', d => d.id)
-      .attr('label', d => d.description);
+      .attr('label', d => d.description)
+      .each(function(d) {
+        this._row = d;
+      });
   }
 
   client.on('connect', () => {
