@@ -37,12 +37,12 @@
   }];
 
   const viewAPUSupplies_validations = {
-    Supplies_id: { required: true }
+    APUSupplies_SupplyId: { required: true }
   };
 
   const viewAPUSupplies_fields = [
    {
-     name: 'Supplies_id',
+     name: 'APUSupplies_SupplyId',
      bike: {
        client: client,
        module: 'Supplies',
@@ -105,7 +105,7 @@
     });
 
     const viewAPUSupplies_defaultRow = {
-      APU_id: d.id
+      APUSupplies_APUId: d.id
     };
     const filter = `[apuid="${d.id}"]`;
     window.viewapusupplies[filter] = setupTable({
