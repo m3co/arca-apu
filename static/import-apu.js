@@ -36,7 +36,7 @@
     cost: s => formAndInput(spanEmpty(s), s),
     qop: s => formAndInput(spanEmpty(s), s)
   };
-  document.querySelector('#import-aau-close').addEventListener('click', e => {
+  document.querySelector('#import-apu-close').addEventListener('click', e => {
     e.target.parentElement.style.display = 'none';
   });
   function renderRow(selection) {
@@ -57,24 +57,24 @@
     cols.exit().remove();
   }
 
-  document.querySelector('#import-aau-form').addEventListener('submit', e => {
+  document.querySelector('#import-apu-form').addEventListener('submit', e => {
     e.preventDefault();
     data.map(d => COLUMNS.reduce((acc, key) => {
       acc[key] = (key === 'cost' || key === 'qop') ? Number(d[key]) : d[key];
       return acc;
-    }, { AAUId: document
-      .querySelector('#import-aau-form input[name="AAU"]')
+    }, { APUId: document
+      .querySelector('#import-apu-form input[name="APU"]')
       .value
     })).map(d => ({
       query: 'insert',
-      module: 'importAAUSupplies',
-      from: 'importAAUSupplies',
+      module: 'importAPUSupplies',
+      from: 'importAPUSupplies',
       row: d
     })).forEach(event => {
       client.emit('data', event);
     });
-    document.querySelector('#import-aau').style.display = 'none';
-    document.querySelector('#paste-aau tbody').innerHTML = '';
+    document.querySelector('#import-apu').style.display = 'none';
+    document.querySelector('#paste-apu tbody').innerHTML = '';
     data.length = 0;
   });
   document.addEventListener('paste', e => {
@@ -84,7 +84,7 @@
         acc[COLUMNS[i] ? COLUMNS[i] : `xtra${i}`] = d;
         return acc;
       }, {})));
-    var rows = d3.select('table#paste-aau tbody').selectAll('tr.row').data(data);
+    var rows = d3.select('table#paste-apu tbody').selectAll('tr.row').data(data);
     rows.call(renderRow);
     rows.enter().append('tr')
       .classed('row', true)

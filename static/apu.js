@@ -28,10 +28,13 @@
   )}, {
     select: 'button.show',
     setup: (selection => selection
-      .text('>')
+      .text('Importar')
       .classed('show', true)
       .on('click', d => {
-
+        document.querySelector('#import-apu-form input[name="APU"]')
+          .value = d.id;
+        document.querySelector('#import-apu').style
+          .display = '';
       })
     )
   }];
