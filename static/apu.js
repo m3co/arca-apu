@@ -75,20 +75,12 @@
       .text('-')
       .classed('delete', true)
       .on('click', d => {
-        console.log({
-          query: 'delete',
-          module: 'APUSupplies',
-          id: d.APUSupplies_id,
-          idkey: 'APUSupplies_id'
-        });
-        /*
         client.emit('data', {
           query: 'delete',
           module: 'APUSupplies',
           id: d.APUSupplies_id,
-          idkey: 'APUSupplies_id'
+          idkey: 'id'
         });
-        */
       })
   )}, {
     select: 'button.show',
