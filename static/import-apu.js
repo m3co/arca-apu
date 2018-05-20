@@ -1,5 +1,33 @@
 'use strict';
 (() => {
+  var templateHTML = `
+    <!-- THANKS A LOT HTMLImport. You're the best! -->
+    <div style="position: absolute; width: 100%; height: 100%; top: 0; left: 0; background-color: white; display: none;" id="import-apu">
+      <button id="import-apu-close">x</button>
+      <table id="paste-apu">
+        <thead>
+          <th>Tipo</th>
+          <th>Descripcion</th>
+          <th>Unidad</th>
+          <th>Costo</th>
+          <th>Rendimiento</th>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>
+      <form id="import-apu-form" action="#">
+        <input name="APU" hidden>
+        <button id="import-apu-submit" type="submit">Subir</button>
+      </form>
+    </div>
+  `;
+class ImportAUSuppliesHTML extends HTMLElement {
+  constructor() {
+    super();
+  }
+  connectedCallback() {
+    this.innerHTML = templateHTML;
+
   var data = [];
   var COLUMNS = ['type', 'description', 'unit', 'cost', 'qop'];
   function spanEmpty(s) {
@@ -36,9 +64,6 @@
     cost: s => formAndInput(spanEmpty(s), s),
     qop: s => formAndInput(spanEmpty(s), s)
   };
-  document.querySelector('#import-apu-close').addEventListener('click', e => {
-    e.target.parentElement.style.display = 'none';
-  });
   function renderRow(selection) {
     var cols = selection.selectAll('td.col')
       .data((d, i) => Object.keys(d).map(c => ({
@@ -57,12 +82,15 @@
     cols.exit().remove();
   }
 
-  document.querySelector('#import-apu-form').addEventListener('submit', e => {
+  this.querySelector('#import-apu-close').addEventListener('click', e => {
+    e.target.parentElement.style.display = 'none';
+  });
+  this.querySelector('#import-apu-form').addEventListener('submit', e => {
     e.preventDefault();
     data.map(d => COLUMNS.reduce((acc, key) => {
       acc[key] = (key === 'cost' || key === 'qop') ? Number(d[key]) : d[key];
       return acc;
-    }, { APUId: document
+    }, { APUId: this
       .querySelector('#import-apu-form input[name="APU"]')
       .value
     })).map(d => ({
@@ -73,11 +101,11 @@
     })).forEach(event => {
       client.emit('data', event);
     });
-    document.querySelector('#import-apu').style.display = 'none';
-    document.querySelector('#paste-apu tbody').innerHTML = '';
+    this.querySelector('#import-apu').style.display = 'none';
+    this.querySelector('#paste-apu tbody').innerHTML = '';
     data.length = 0;
   });
-  document.addEventListener('paste', e => {
+  this.addEventListener('paste', e => {
     data.push(...e.clipboardData.getData('text')
       .split(/[\n\r]/).filter(d => d !== '')
       .map(d => d.split(/[\t]/).reduce((acc, d, i) => {
@@ -91,4 +119,8 @@
       .call(renderRow);
     rows.exit().remove();
   });
+
+  }
+}
+  window.customElements.define('import-a-u-supplies', ImportAUSuppliesHTML);
 })();
