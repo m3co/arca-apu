@@ -4,8 +4,8 @@
   var Children = Symbol();
   var Ready = Symbol();
   var root = {
-    id_to_concrete: '2', parent_to_concrete: null,
-    description_to_concrete: '', expand: true
+    id: '2', parent: null,
+    description: '', expand: true
   };
   root[Children] = [];
   root[Ready] = false;
@@ -26,41 +26,41 @@
       row[Ready] = false;
     }
 
-    function search(id_to_concrete, tree) {
-      var parent_to_concrete;
+    function search(id, tree) {
+      var parent;
       if (tree[Children] instanceof Array) {
-        parent_to_concrete = tree[Children].find(d => d.id_to_concrete == id_to_concrete);
-        if (parent_to_concrete) {
-          return parent_to_concrete;
+        parent = tree[Children].find(d => d.id == id);
+        if (parent) {
+          return parent;
         }
         for (var i = 0; i < tree[Children].length; i++) {
-          parent_to_concrete = search(id_to_concrete, tree[Children][i]);
-          if (parent_to_concrete) {
-            return parent_to_concrete;
+          parent = search(id, tree[Children][i]);
+          if (parent) {
+            return parent;
           }
         }
       }
     }
-    var parent_to_concrete = search(row.parent_to_concrete, tree);
-    if (!parent_to_concrete) {
+    var parent = search(row.parent, tree);
+    if (!parent) {
       unsorted.push(row);
     } else {
-      var found = parent_to_concrete[Children].find(d => d.id_to_concrete === row.id_to_concrete);
+      var found = parent[Children].find(d => d.id === row.id);
       if (!found) {
-        parent_to_concrete[Children].push(row);
-        parent_to_concrete[Ready] = true;
+        parent[Children].push(row);
+        parent[Ready] = true;
       } else {
         Object.keys(row).forEach(key => {
           found[key] = row[key];
         });
 
-        d3.select(`[id="item-${row.id_to_concrete}"]`)
-          .text(`${row.id_to_concrete} ${
-            row.description_concreted ?
-              row.description_concreted : row.description_to_concrete}`);
+        d3.select(`[id="item-${row.id}"]`)
+          .text(`${row.id} ${
+            row.description ?
+              row.description : row.description}`);
 
-        d3.select(`[id="btn-${row.id_to_concrete}"]`)
-          .text(d => d.id_concreted == null ? 'o' : 'x');
+        d3.select(`[id="btn-${row.id}"]`)
+          .text(d => d.id == null ? 'o' : 'x');
         return;
       }
     }
@@ -74,26 +74,26 @@
   }
 
   function setupConcretize(d) {
-    if (!d.parent_to_concrete) return;
+    if (!d.parent) return;
     d3.select(this).append('div').classed('concretize', true)
       .append('button')
-      .attr('id', d => `btn-${d.id_to_concrete}`)
-      .text(d => d.id_concreted == null ? 'o' : 'x')
+      .attr('id', d => `btn-${d.id}`)
+      .text(d => d.id == null ? 'o' : 'x')
       .on('click', (d) => {
         var req;
-        if (d.id_concreted == null) {
+        if (d.id == null) {
           req = {
             query: 'concretize',
             module: 'fnConcretizeAAU',
             keynote: d.id_general,
-            project: d.id_to_concrete.split('.')[0]
+            project: d.id.split('.')[0]
           };
         } else {
           req = {
             query: 'deconcretize',
             module: 'fnConcretizeAAU',
-            keynote: d.id_concreted,
-            project: d.id_to_concrete.split('.')[0]
+            keynote: d.id,
+            project: d.id.split('.')[0]
           };
         }
         client.emit('data', req);
@@ -109,33 +109,23 @@
       .enter().append('li');
 
     tr.append('label')
-      .attr('for', d => d.id_to_concrete)
-      .attr('id', d => `item-${d.id_to_concrete}`)
-      .text(d => `${d.id_to_concrete} ${
-        d.description_concreted ?
-          d.description_concreted : d.description_to_concrete}`)
+      .attr('for', d => d.id)
+      .attr('id', d => `item-${d.id}`)
+      .text(d => `${d.id} ${
+        d.description ?
+          d.description : d.description}`)
       .on('click', (d, i, m) => {
         console.log(d, m[i]);
       });
     tr.append('input')
       .attr('type', 'checkbox')
-      .attr('for', d => d.id_to_concrete)
-      .on('change', function(d, i, m) {
-        if (!(d[Ready])) {
-          client.emit('data', {
-            query: 'select',
-            module: 'fnConcretizeAAU',
-            parent: d.id_to_concrete,
-            project: '2'
-          });
-        }
-      })
+      .attr('for', d => d.id)
       .each(function(d) {
-        if (d.parent_to_concrete === null) {
+        if (d.parent === null) {
           d3.select(this).attr('checked', '');
         }
       });
-    tr.append('ol').attr('root', d => d.id_to_concrete);
+    tr.append('ol').attr('root', d => d.id);
 
     tr.each(setupConcretize);
 
@@ -144,10 +134,10 @@
       .enter().append('li').attr('class', 'file');
 
     tr.append('a')
-      .attr('id', d => `item-${d.id_to_concrete}`)
-      .attr('href', '#').text(d => `${d.id_to_concrete} ${
-        d.description_concreted ?
-          d.description_concreted : d.description_to_concrete}`)
+      .attr('id', d => `item-${d.id}`)
+      .attr('href', '#').text(d => `${d.id} ${
+        d.description ?
+          d.description : d.description}`)
       .style('color', d =>
         d.status == 'empty' ? 'gray' : (d.status == 'full' ? 'black' : 'blue')
       )
@@ -159,7 +149,7 @@
 
     for (var i = 0; i < tree[Children].length; i++) {
       if (tree[Children][i].expand) {
-        render(d3.select(`ol[root="${tree[Children][i].id_to_concrete}"]`),
+        render(d3.select(`ol[root="${tree[Children][i].id}"]`),
           tree[Children][i]);
       }
     }

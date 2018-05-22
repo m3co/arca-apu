@@ -39,14 +39,13 @@
 
     client.emit('data', {
       query: 'select',
-      module: 'fnConcretizeAAU',
-      parent: '2',
-      project: '2'
+      module: 'viewpreAPU',
+      parent: '2'
     });
 
     client.emit('data', {
       query: 'subscribe',
-      module: 'fnConcretizeAAU'
+      module: 'viewpreAPU'
     });
   });
 
@@ -55,8 +54,7 @@
     var row = data.row;
     var action;
     if (row) {
-
-      if (data.module == 'fnConcretizeAAU') {
+      if (data.module == 'viewpreAPU') {
         if (query == 'select' || query == 'insert') {
           tree.doselect(data.row);
         } else if (query == 'update') {
@@ -67,7 +65,7 @@
           data.row.parent_concreted = null;
           tree.doselect(data.row);
         } else {
-          console.log('sin procesar fnConcretizeAAU', data);
+          console.log('sin procesar viewpreAPU', data);
         }
       } else if (data.module == 'Contractors') {
         action = contractors[`do${query}`];
