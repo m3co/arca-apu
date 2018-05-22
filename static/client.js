@@ -36,6 +36,18 @@
       query: 'select',
       module: 'Contractors'
     });
+
+    client.emit('data', {
+      query: 'select',
+      module: 'fnConcretizeAAU',
+      parent: '2',
+      project: '2'
+    });
+
+    client.emit('data', {
+      query: 'subscribe',
+      module: 'fnConcretizeAAU'
+    });
   });
 
   client.on('response', (data) => {
@@ -43,7 +55,21 @@
     var row = data.row;
     var action;
     if (row) {
-      if (data.module == 'Contractors') {
+
+      if (data.module == 'fnConcretizeAAU') {
+        if (query == 'select' || query == 'insert') {
+          tree.doselect(data.row);
+        } else if (query == 'update') {
+          tree.doselect(data.row);
+        } else if (query == 'delete') {
+          data.row.description_concreted = null;
+          data.row.id_concreted = null;
+          data.row.parent_concreted = null;
+          tree.doselect(data.row);
+        } else {
+          console.log('sin procesar fnConcretizeAAU', data);
+        }
+      } else if (data.module == 'Contractors') {
         action = contractors[`do${query}`];
         if (action) { action(row); }
         else {
