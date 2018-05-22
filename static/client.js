@@ -13,8 +13,18 @@
     console.log('connection');
 
     client.emit('data', {
-      query: 'subscribe',
+      query: 'select',
+      module: 'Projects'
+    });
+
+    client.emit('data', {
+      query: 'select',
       module: 'Contractors'
+    });
+
+    client.emit('data', {
+      query: 'subscribe',
+      module: 'Projects'
     });
 
     client.emit('data', {
@@ -30,11 +40,6 @@
     client.emit('data', {
       query: 'subscribe',
       module: 'Supplies'
-    });
-
-    client.emit('data', {
-      query: 'select',
-      module: 'Contractors'
     });
 
     client.emit('data', {
@@ -72,6 +77,12 @@
         if (action) { action(row); }
         else {
           console.log('sin procesar Contractors', data);
+        }
+      } else if (data.module == 'Projects') {
+        action = projects[`do${query}`];
+        if (action) { action(row); }
+        else {
+          console.log('sin procesar Projects', data);
         }
       } else if (data.module == 'APU') {
         action = apu[`do${query}`];
