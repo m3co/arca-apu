@@ -60,7 +60,8 @@
               row.description : row.description}`);
 
         d3.select(`[id="btn-${row.id}"]`)
-          .text(d => d.id == null ? 'o' : 'x');
+          .attr('hidden', d => d.expand ? '' : null)
+          .text(d => d.preAPUId == null ? 'o' : 'x');
         return;
       }
     }
@@ -78,7 +79,8 @@
     d3.select(this).append('div').classed('concretize', true)
       .append('button')
       .attr('id', d => `btn-${d.id}`)
-      .text(d => d.id == null ? 'o' : 'x')
+      .attr('hidden', d => d.expand ? '' : null)
+      .text(d => d.preAPUId == null ? 'o' : 'x')
       .on('click', (d) => {
         var req;
         if (d.id == null) {

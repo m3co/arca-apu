@@ -60,9 +60,9 @@
         } else if (query == 'update') {
           tree.doselect(data.row);
         } else if (query == 'delete') {
-          data.row.description_concreted = null;
-          data.row.id_concreted = null;
-          data.row.parent_concreted = null;
+          data.row.description = null;
+          data.row.id = null;
+          data.row.parent = null;
           tree.doselect(data.row);
         } else {
           console.log('sin procesar viewpreAPU', data);
