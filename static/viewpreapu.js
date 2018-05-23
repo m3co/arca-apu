@@ -3,7 +3,22 @@
   const defaultRow = {};
   const validations = {};
   const fields = [
-    'id', 'description', 'qop', 'preAPU_qop', 'unit', 'preAPU_cost', {
+    {
+      key: 'id',
+      readonly: true
+    }, {
+      key: 'description',
+      readonly: true
+    }, {
+      key: 'qop',
+      readonly: true
+    }, {
+      key: 'preAPU_qop',
+      readonly: true
+    }, {
+      key: 'unit',
+      readonly: true
+    }, 'preAPU_cost', {
       key: 'calculated',
       call: selection => {
         selection.text(d => {
