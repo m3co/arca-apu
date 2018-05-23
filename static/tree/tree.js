@@ -25,6 +25,7 @@
     client.emit('data', {
       module: 'viewpreAPU',
       query: 'select',
+      ContractorId: d.ContractorId,
       id: d.id
     });
   }

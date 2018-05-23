@@ -1,16 +1,10 @@
 'use strict';
 (() => {
-  const defaultRow = {
-    name: ''
-  };
-  const validations = {
-    name: { required: true }
-  };
-
+  const defaultRow = {};
+  const validations = {};
   const fields = [
-    'id', 'description', 'unit', 'qop', 'preAPU_cost'
+    'id', 'description', 'qop', 'unit', 'preAPU_cost'
   ];
-
   const header = ['', 'Descripcion', 'Unidad', 'Cant', 'Costo'];
   const actions = [];
 
