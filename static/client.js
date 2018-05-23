@@ -98,6 +98,12 @@
         else {
           console.log('sin procesar APU', data);
         }
+      } else if (data.module == 'viewpreAPU') {
+        action = viewpreapu[`do${query}`];
+        if (action) { action(row); }
+        else {
+          console.log('sin procesar viewpreAPU', data);
+        }
       } else if (data.module == 'viewAPUSupplies') {
         if (!row.Supplies_id) {
           return;

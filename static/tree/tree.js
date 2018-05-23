@@ -21,6 +21,7 @@
   var lastSTO, skipOnce = true;
 
   function requestpreAPU(d, i, m) {
+    viewpreapu.clear();
     client.emit('data', {
       module: 'viewpreAPU',
       query: 'select',
