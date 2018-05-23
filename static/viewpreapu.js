@@ -3,9 +3,16 @@
   const defaultRow = {};
   const validations = {};
   const fields = [
-    'id', 'description', 'qop', 'preAPU_qop', 'unit', 'preAPU_cost'
+    'id', 'description', 'qop', 'preAPU_qop', 'unit', 'preAPU_cost', {
+      key: 'calculated',
+      call: selection => {
+        selection.text(d => {
+          return d.preAPU_cost * d.preAPU_qop;
+        });
+      }
+    }
   ];
-  const header = ['', 'Descripcion', 'Cant', '_Cant', 'Unidad', 'Costo'];
+  const header = ['', 'Descripcion', 'Cant', '_Cant', 'Unidad', 'Costo', 'Parcial'];
   const actions = [];
 
   window.viewpreapu = setupTable({
