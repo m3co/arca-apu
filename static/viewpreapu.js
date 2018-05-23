@@ -12,6 +12,7 @@
     module: 'viewpreAPU',
     header: header, actions: actions,
     fields: fields, idkey: 'id', validations: validations,
-    defaultRow: defaultRow, filter: { key: 'table', value: 'viewpreAPU' }
+    defaultRow: defaultRow, filter: { key: 'table', value: 'viewpreAPU' },
+    preventNewEntry: true
   });
 })();
