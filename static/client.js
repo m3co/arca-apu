@@ -12,6 +12,7 @@
   client.on('connect', () => {
     console.log('connection');
 
+    /*
     client.emit('data', {
       query: 'select',
       module: 'Projects'
@@ -24,7 +25,20 @@
 
     client.emit('data', {
       query: 'subscribe',
+      module: 'Contractors'
+    });
+
+    client.emit('data', {
+      query: 'subscribe',
       module: 'Projects'
+    });
+    */
+
+    client.emit('data', {
+      query: 'select',
+      module: 'fnpreAPUAAU',
+      ProjectId: 2,
+      ContractorId: 2
     });
 
     client.emit('data', {
@@ -40,13 +54,6 @@
     client.emit('data', {
       query: 'subscribe',
       module: 'Supplies'
-    });
-
-    client.emit('data', {
-      query: 'select',
-      module: 'fnpreAPUAAU',
-      ProjectId: 2,
-      ContractorId: 4
     });
 
     client.emit('data', {
