@@ -44,8 +44,8 @@
 
     client.emit('data', {
       query: 'select',
-      module: 'viewpreAPU',
-      parent: '2'
+      module: 'fnpreAPUAAU',
+      ProjectId: 2
     });
 
     client.emit('data', {
@@ -59,7 +59,7 @@
     var row = data.row;
     var action;
     if (row) {
-      if (data.module == 'viewpreAPU') {
+      if (data.module == 'fnpreAPUAAU') {
         if (query == 'select' || query == 'insert') {
           tree.doselect(data.row);
         } else if (query == 'update') {
