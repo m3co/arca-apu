@@ -20,6 +20,14 @@
 
   var lastSTO, skipOnce = true;
 
+  function requestpreAPU(d, i, m) {
+    client.emit('data', {
+      module: 'viewpreAPU',
+      query: 'select',
+      id: d.id
+    });
+  }
+
   function doselect(row) {
     if (row.expand) {
       row[Children] = [];
@@ -116,9 +124,7 @@
       .text(d => `${d.id} ${
         d.description ?
           d.description : d.description}`)
-      .on('click', (d, i, m) => {
-        console.log(d, m[i]);
-      });
+      .on('click', requestpreAPU);
     tr.append('input')
       .attr('type', 'checkbox')
       .attr('for', d => d.id)
@@ -143,9 +149,7 @@
       .style('color', d =>
         d.status == 'empty' ? 'gray' : (d.status == 'full' ? 'black' : 'blue')
       )
-      .on('click', (d, i, m) => {
-        console.log(d, m[i]);
-      });
+      .on('click', requestpreAPU);
 
     tr.each(setupConcretize);
 
