@@ -45,7 +45,8 @@
     client.emit('data', {
       query: 'select',
       module: 'fnpreAPUAAU',
-      ProjectId: 2
+      ProjectId: 2,
+      ContractorId: 4
     });
 
     client.emit('data', {
