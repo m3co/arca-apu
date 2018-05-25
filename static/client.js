@@ -14,22 +14,8 @@
 
     client.emit('data', {
       query: 'select',
-      module: 'Projects'
-    });
-
-    client.emit('data', {
-      query: 'select',
-      module: 'Contractors'
-    });
-
-    client.emit('data', {
-      query: 'subscribe',
-      module: 'Contractors'
-    });
-
-    client.emit('data', {
-      query: 'subscribe',
-      module: 'Projects'
+      module: 'APU',
+      ContractorId: 2
     });
 
     client.emit('data', {
@@ -39,12 +25,12 @@
 
     client.emit('data', {
       query: 'subscribe',
-      module: 'APU'
+      module: 'APUSupplies'
     });
 
     client.emit('data', {
       query: 'subscribe',
-      module: 'Supplies'
+      module: 'APU'
     });
   });
 
@@ -53,42 +39,11 @@
     var row = data.row;
     var action;
     if (row) {
-      if (data.module == 'fnpreAPUAAU') {
-        if (query == 'select' || query == 'insert') {
-          tree.doselect(data.row);
-        } else if (query == 'update') {
-          tree.doselect(data.row);
-        } else if (query == 'delete') {
-          data.row.description = null;
-          data.row.id = null;
-          data.row.parent = null;
-          tree.doselect(data.row);
-        } else {
-          console.log('sin procesar viewpreAPU', data);
-        }
-      } else if (data.module == 'Contractors') {
-        action = contractors[`do${query}`];
-        if (action) { action(row); }
-        else {
-          console.log('sin procesar Contractors', data);
-        }
-      } else if (data.module == 'Projects') {
-        action = projects[`do${query}`];
-        if (action) { action(row); }
-        else {
-          console.log('sin procesar Projects', data);
-        }
-      } else if (data.module == 'APU') {
+      if (data.module == 'APU') {
         action = apu[`do${query}`];
         if (action) { action(row); }
         else {
           console.log('sin procesar APU', data);
-        }
-      } else if (data.module == 'viewpreAPU') {
-        action = viewpreapu[`do${query}`];
-        if (action) { action(row); }
-        else {
-          console.log('sin procesar viewpreAPU', data);
         }
       } else if (data.module == 'viewAPUSupplies') {
         if (!row.Supplies_id) {

@@ -1,7 +1,7 @@
 'use strict';
 (() => {
   const defaultRow = {
-    description: ''
+    ContractorId: 2
   };
   const validations = {
     description: { required: true }
