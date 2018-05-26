@@ -42,6 +42,11 @@
     }
   }
 
+  const fields_supplies = [
+    'Supplies_description', 'Supplies_unit', 'Supplies_cost', 'APUSupplies_qop'
+  ];
+  fields_supplies[Symbol.for('validations')] = {};
+
   const extrarow = [{
     update: function(d, i, m) {
       console.log(d, i, m, 'update');
@@ -73,20 +78,7 @@
         .data(d.supplies).enter().append('tr')
           .attr('type', 'viewpreapusupplies');
 
-      tr.append('td')
-        .attr('key', 'Supplies_description')
-        .text(d => d.Supplies_description);
-      tr.append('td')
-        .attr('key', 'Supplies_unit')
-        .text(d => d.Supplies_unit);
-      tr.append('td')
-        .attr('key', 'Supplies_cost')
-        .text(d => d.Supplies_cost);
-      tr.append('td')
-        .attr('key', 'APUSupplies_qop')
-        .text(d => d.APUSupplies_qop);
-      // Yo me pregunto aqui como voy a hacer para REUTILIZAR el codigo
-      // ya desarrollado en setupTable?
+      setupRedacts('viewpreAPUAPUSupplies', 'id', fields_supplies, tr);
     }
   }, {
     update: function(d, i, m) {
