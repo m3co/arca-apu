@@ -75,7 +75,6 @@
       var th = tb.append('thead').append('tr');
       th.append('th').text('Descripcion');
       th.append('th').text('Unidad');
-      th.append('th').text('Informacion');
       th.append('th').text('Costo');
       th.append('th').text('Rdto');
 
