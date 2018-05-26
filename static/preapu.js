@@ -3,12 +3,27 @@
   const defaultRow = {
   };
   const validations = {
+    cost: { required: true },
+    duration: { required: true }
   };
 
   const fields = [
-    'preAPU_qop', 'APU_unit', 'cost', 'duration', {
-      name: 'APUId', show: 'APU_description'
-    }
+    'preAPU_qop', 'APU_unit', 'cost', 'duration',{
+     name: 'APUId',
+     show: 'APU_description',
+     bike: {
+       client: client,
+       module: 'APU',
+       key: 'description',
+       onblur: function(d, input) {
+         if (input._found) {
+           if (input._found._row) {
+             this.textContent = input._found._row.description;
+           }
+         }
+       }
+     }
+   }
   ];
 
   const header = [
