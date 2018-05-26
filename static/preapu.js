@@ -43,8 +43,8 @@
   }
 
   const fields_apu = [
-    'APU_description', 'APU_unit', 'APU_information', 'APU_cost', 'APU_qop'
-  ];
+    'APU_description', 'APU_unit', 'APU_information', 'APU_qop'
+  ]; // Y eso! 'APU_information' debería ir en una nueva linea
   fields_apu[Symbol.for('validations')] = {};
 
   const fields_supplies = [
@@ -110,7 +110,6 @@
       th.append('th').text('Unidad');
       th.append('th').text('Informacion');
       th.append('th').text('Rdto');
-
       var tr = tb.append('tbody').append('tr')
         .attr('type', 'apu');
       setupRedacts('viewpreAPUAPUSupplies', 'id', fields_apu, tr);
