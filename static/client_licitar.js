@@ -22,6 +22,11 @@
       query: 'subscribe',
       module: 'viewpreAPUAPUSupplies'
     });
+
+    client.emit('data', {
+      query: 'subscribe',
+      module: 'APU'
+    });
   });
 
   client.on('response', (data) => {
@@ -37,6 +42,15 @@
         }
       } else {
         console.log('sin procesar row', data);
+      }
+    } else if (data.module == 'APU') {
+      if (query == 'search') {
+        var opts = d3.select(`#${data.combo}`)
+          .selectAll('option').data(data.rows);
+
+        opts.call(setupOptionCombobox);
+        opts.enter().append('option').call(setupOptionCombobox);
+        opts.exit().remove();
       }
     } else {
       console.log('sin procesar', data);
