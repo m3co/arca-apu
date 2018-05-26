@@ -14,13 +14,13 @@
 
     client.emit('data', {
       query: 'select',
-      module: 'preAPU',
+      module: 'viewpreAPUAPUSupplies',
       ContractorId: 2
     });
 
     client.emit('data', {
       query: 'subscribe',
-      module: 'preAPU'
+      module: 'viewpreAPUAPUSupplies'
     });
   });
 
@@ -29,7 +29,7 @@
     var row = data.row;
     var action;
     if (row) {
-      if (data.module == 'preAPU') {
+      if (data.module == 'viewpreAPUAPUSupplies') {
         action = preapu[`do${query}`];
         if (action) { action(row); }
         else {
