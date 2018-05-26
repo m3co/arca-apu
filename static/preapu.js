@@ -34,13 +34,18 @@
     var found = storage.find(d => d['preAPUId'] == row['preAPUId']);
     if (!found) {
       storage.push(row);
-      row.supplies = [];
+      row[Symbol.for('Supplies')] = [];
       bounceRender();
     } else {
-      found.supplies.push(row);
+      found[Symbol.for('Supplies')].push(row);
       bounceRender();
     }
   }
+
+  const fields_apu = [
+    'APU_description', 'APU_unit', 'APU_information', 'APU_cost', 'APU_qop'
+  ];
+  fields_apu[Symbol.for('validations')] = {};
 
   const fields_supplies = [
     'Supplies_description', 'Supplies_unit', 'Supplies_cost', 'APUSupplies_qop'
@@ -66,16 +71,17 @@
         .attr('aauid', d.AAUId)
         .attr('type', 'apusupplies')
         .append('td')
-          .attr('colspan', 7).append('tr').append('table');
+          .attr('colspan', 7).append('table');
       var th = tb.append('thead').append('tr');
       th.append('th').text('Descripcion');
       th.append('th').text('Unidad');
+      th.append('th').text('Informacion');
       th.append('th').text('Costo');
       th.append('th').text('Rdto');
 
       var tr = tb.append('tbody')
         .selectAll('tr[type="viewpreapusupplies"]')
-        .data(d.supplies).enter().append('tr')
+        .data(d[Symbol.for('Supplies')]).enter().append('tr')
           .attr('type', 'viewpreapusupplies');
 
       setupRedacts('viewpreAPUAPUSupplies', 'id', fields_supplies, tr);
@@ -99,18 +105,16 @@
         .attr('aauid', d.AAUId)
         .attr('type', 'apu')
         .append('td')
-          .attr('colspan', 7).append('tr').append('table').append('tbody');
-      tb.append('td')
-        .attr('key', 'APU_description')
-        .text(d => d.APU_description);
-      tb.append('td')
-        .attr('key', 'APU_unit')
-        .text(d => d.APU_unit);
-      tb.append('td')
-        .attr('key', 'APU_information')
-        .text(d => d.APU_information);
-      // Yo me pregunto aqui como voy a hacer para REUTILIZAR el codigo
-      // ya desarrollado en setupTable?
+          .attr('colspan', 7).append('table');
+      var th = tb.append('thead').append('tr');
+      th.append('th').text('Descripcion');
+      th.append('th').text('Unidad');
+      th.append('th').text('Informacion');
+      th.append('th').text('Rdto');
+
+      var tr = tb.append('tbody').append('tr')
+        .attr('type', 'apu');
+      setupRedacts('viewpreAPUAPUSupplies', 'id', fields_apu, tr);
     }
   }];
 
