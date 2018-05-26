@@ -14,23 +14,13 @@
 
     client.emit('data', {
       query: 'select',
-      module: 'APU',
+      module: 'preAPU',
       ContractorId: 2
     });
 
     client.emit('data', {
       query: 'subscribe',
-      module: 'viewAPUSupplies'
-    });
-
-    client.emit('data', {
-      query: 'subscribe',
-      module: 'APUSupplies'
-    });
-
-    client.emit('data', {
-      query: 'subscribe',
-      module: 'APU'
+      module: 'preAPU'
     });
   });
 
@@ -39,32 +29,14 @@
     var row = data.row;
     var action;
     if (row) {
-      if (data.module == 'APU') {
-        action = apu[`do${query}`];
+      if (data.module == 'preAPU') {
+        action = preapu[`do${query}`];
         if (action) { action(row); }
         else {
           console.log('sin procesar APU', data);
         }
-      } else if (data.module == 'viewAPUSupplies') {
-        if (!row.Supplies_id) {
-          return;
-        }
-        action = viewapusupplies[`[apuid="${row.APU_id}"]`][`do${query}`];
-        if (action) { action(row); }
-        else {
-          console.log('sin procesar viewAPUSupplies', data);
-        }
       } else {
         console.log('sin procesar row', data);
-      }
-    } else if (data.module == 'Supplies') {
-      if (query == 'search') {
-        var opts = d3.select(`#${data.combo}`)
-          .selectAll('option').data(data.rows);
-
-        opts.call(setupOptionCombobox);
-        opts.enter().append('option').call(setupOptionCombobox);
-        opts.exit().remove();
       }
     } else {
       console.log('sin procesar', data);
