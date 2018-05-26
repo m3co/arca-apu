@@ -6,13 +6,13 @@
   };
 
   const fields = [
-    'preAPU_qop', 'APU_unit', 'cost', 'duration', 'APUId', // esto es la preAPU
-    'APU_description'
+    'preAPU_qop', 'APU_unit', 'cost', 'duration', {
+      name: 'APUId', show: 'APU_description'
+    }
   ];
 
   const header = [
-    'Cantidad', 'Unidad', 'Costo', 'Duracion', 'APUId',
-    'Descripcion', ' '];
+    'Cantidad', 'Unidad', 'Costo', 'Duracion', 'APU', ' '];
   const actions = [{
     select: 'button.delete',
     setup: (selection => selection
@@ -34,9 +34,11 @@
     var found = storage.find(d => d['preAPUId'] == row['preAPUId']);
     if (!found) {
       storage.push(row);
+      row.supplies = [];
       bounceRender();
     } else {
-      console.log('que hacer con esto?', row);
+      found.supplies.push(row);
+      bounceRender();
     }
   }
 
@@ -48,27 +50,75 @@
       console.log(d, i, m, 'exit');
     },
     enter: function(d, i, m) {
-      var tr = d3.select(this.parentElement)
-        .selectAll(`tr[aauid="${d.AAUId}"]`)
-        .data([d]).enter()
+      var tb = d3.select(this.parentElement)
+        .selectAll(`tr[type="apusupplies"][aauid="${d.AAUId}"]`)
+        .data(d.APUId ? [d] : []).enter()
         .select(function() {
           return this.insertBefore(
             document.createElement('tr'), m[i].nextSibling
           );
         })
-        .attr('aauid', d.AAUId).append('td')
-          .attr('colspan', 6);
-      var tr1 = tr.append('tr');
-      tr1.append('td').text('ok1');
-      tr1.append('td').text('ok2');
-      tr1.append('td').text('ok3');
-      tr1.append('td').text('ok4');
+        .attr('aauid', d.AAUId)
+        .attr('type', 'apusupplies')
+        .append('td')
+          .attr('colspan', 7).append('tr').append('table');
+      var th = tb.append('thead').append('tr');
+      th.append('th').text('Descripcion');
+      th.append('th').text('Unidad');
+      th.append('th').text('Costo');
+      th.append('th').text('Rdto');
 
-      var tr1 = tr.append('tr');
-      tr1.append('td').text('ok1');
-      tr1.append('td').text('ok2');
-      tr1.append('td').text('ok3');
-      tr1.append('td').text('ok4');
+      var tr = tb.append('tbody')
+        .selectAll('tr[type="viewpreapusupplies"]')
+        .data(d.supplies).enter().append('tr')
+          .attr('type', 'viewpreapusupplies');
+
+      tr.append('td')
+        .attr('key', 'Supplies_description')
+        .text(d => d.Supplies_description);
+      tr.append('td')
+        .attr('key', 'Supplies_unit')
+        .text(d => d.Supplies_unit);
+      tr.append('td')
+        .attr('key', 'Supplies_cost')
+        .text(d => d.Supplies_cost);
+      tr.append('td')
+        .attr('key', 'APUSupplies_qop')
+        .text(d => d.APUSupplies_qop);
+      // Yo me pregunto aqui como voy a hacer para REUTILIZAR el codigo
+      // ya desarrollado en setupTable?
+    }
+  }, {
+    update: function(d, i, m) {
+      console.log(d, i, m, 'update');
+    },
+    exit: function(d, i, m) {
+      console.log(d, i, m, 'exit');
+    },
+    enter: function(d, i, m) {
+      var tb = d3.select(this.parentElement)
+        .selectAll(`tr[type="apu"][aauid="${d.AAUId}"]`)
+        .data(d.APUId ? [d] : []).enter()
+        .select(function() {
+          return this.insertBefore(
+            document.createElement('tr'), m[i].nextSibling
+          );
+        })
+        .attr('aauid', d.AAUId)
+        .attr('type', 'apu')
+        .append('td')
+          .attr('colspan', 7).append('tr').append('table').append('tbody');
+      tb.append('td')
+        .attr('key', 'APU_description')
+        .text(d => d.APU_description);
+      tb.append('td')
+        .attr('key', 'APU_unit')
+        .text(d => d.APU_unit);
+      tb.append('td')
+        .attr('key', 'APU_information')
+        .text(d => d.APU_information);
+      // Yo me pregunto aqui como voy a hacer para REUTILIZAR el codigo
+      // ya desarrollado en setupTable?
     }
   }];
 
