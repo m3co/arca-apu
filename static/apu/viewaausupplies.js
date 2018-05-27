@@ -298,8 +298,6 @@
       .selectAll('div.block')
       .data(Object.keys(blocks).map(key => blocks[key]));
 
-    apu.select('td[column="APU_id"] span')
-      .text(d => d.APU_id);
     apu.select('td[column="APU_unit"] span').
       text(d => d.APU_unit ? d.APU_unit.toString().trim() : '-');
     apu.select('td[column="APU_cost"] span').
@@ -325,7 +323,6 @@
     table = apu.append('table');
     tr = table.append('tr')
       .classed('first', true);
-    tr.append('td').text(d => d.APU_id).attr('column', 'APU_id');
     tr.append('td').call(setupEntry('id', 'APU_unit', 'viewAPUSupplies'));
     tr.append('td').call(setupEntry('id', 'APU_cost', 'viewAPUSupplies'));
     tr.append('td').call(setupEntry('id', 'APU_qop', 'viewAPUSupplies'));
