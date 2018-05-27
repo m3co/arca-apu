@@ -29,9 +29,7 @@
   }
 
   function doinsert(row) {
-    if (row.APU_id.indexOf(blocks[SymId]) == 0) {
-      doselect(row);
-    }
+    doselect(row);
   }
 
   function doupdate(row) {

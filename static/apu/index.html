@@ -27,6 +27,38 @@
       <option>Transporte</option>
       <option>Subcontrato</option>
     </datalist>
+    <button id="add_APU">+</button>
+    <div id="add_APU" hidden>
+      <form id="add_APU">
+        <input name="description" type="text" placeholder="Descripcion">
+        <input name="unit" type="text" placeholder="Unidad">
+        <input name="qop" type="number" placeholder="Rdto">
+        <input name="estimated" type="number" placeholder="Costo">
+        <input name="ContractorId" type="hidden" value=2>
+        <input type="submit">
+      </form>
+    </div>
+    <script>
+'use strict';
+document.querySelector('button#add_APU').addEventListener('click', e => {
+  document.querySelector('div#add_APU').hidden = false;
+});
+document.querySelector('form#add_APU').addEventListener('submit', e => {
+  e.preventDefault();
+  var fd = new FormData(e.target).toJSON();
+  Object.keys(fd).forEach(k => {
+    if (!fd[k]) {
+      delete fd[k];
+    }
+  });
+  client.emit('data', {
+    query: 'insert',
+    module: 'APU',
+    row: fd
+  });
+  document.querySelector('div#add_APU').hidden = true;
+});
+    </script>
     <div class="blocks"></div>
     <import-a-u-supplies module="importAPUSupplies" a-uid="APUId"></import-a-u-supplies>
     <script src="viewaausupplies.js"></script>
