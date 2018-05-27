@@ -114,7 +114,7 @@
     }, 300);
   }
 
-  function setupEntry(idkey, key, module, query = 'update', row = null) {
+  function setupEntry(idkey, key, module, placeholder, query='update', row=null) {
   return function redact(selection) {
     selection.attr('column', key)
       .append('span').text(d => d[key] ? d[key].toString().trim() : '-')
@@ -155,6 +155,7 @@
     fr.append('input')
       .attr('type', 'text')
       .attr('value', d => d[key])
+      .attr('placeholder', placeholder)
       .attr('name', 'value');
 
     fr.append('input')
@@ -271,11 +272,11 @@
         .text(d => d.Supplies_description);
     });
     tr.append('td')
-      .call(setupEntry('id', 'Supplies_unit', 'viewAPUSupplies'));
+      .call(setupEntry('id', 'Supplies_unit', 'viewAPUSupplies', 'Unidad'));
     tr.append('td')
-      .call(setupEntry('id', 'Supplies_cost', 'viewAPUSupplies'));
+      .call(setupEntry('id', 'Supplies_cost', 'viewAPUSupplies', 'Costo'));
     tr.append('td')
-      .call(setupEntry('id', 'APUSupplies_qop', 'viewAPUSupplies'));
+      .call(setupEntry('id', 'APUSupplies_qop', 'viewAPUSupplies', 'Rdto'));
     tr.append('td')
       .append('button').text('-')
       .on('click', d => {
@@ -321,18 +322,18 @@
     table = apu.append('table');
     tr = table.append('tr')
       .classed('first', true);
-    tr.append('td').call(setupEntry('id', 'APU_unit', 'viewAPUSupplies'));
-    tr.append('td').call(setupEntry('id', 'APU_cost', 'viewAPUSupplies'));
-    tr.append('td').call(setupEntry('id', 'APU_qop', 'viewAPUSupplies'));
+    tr.append('td').call(setupEntry('id', 'APU_unit', 'viewAPUSupplies', 'Unidad'));
+    tr.append('td').call(setupEntry('id', 'APU_cost', 'viewAPUSupplies', 'Costo'));
+    tr.append('td').call(setupEntry('id', 'APU_qop', 'viewAPUSupplies', 'Rdto'));
     tr = table.append('tr')
       .classed('second', true);
 
     tr.append('td').attr('colspan', 4)
-      .call(setupEntry('id', 'APU_description', 'viewAPUSupplies'));
+      .call(setupEntry('id', 'APU_description', 'viewAPUSupplies', 'Descripcion'));
 
     tr = table.append('tr');
     tr.append('td').attr('colspan', 4)
-      .call(setupEntry('id', 'APU_information', 'viewAPUSupplies'));
+      .call(setupEntry('id', 'APU_information', 'viewAPUSupplies', 'Informacion'));
 
     table = apu.append('table').classed('apusupplies', true);
     tr = table.selectAll('thead')
