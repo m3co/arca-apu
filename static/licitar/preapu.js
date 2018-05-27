@@ -135,7 +135,7 @@
     module: 'viewpreAPUAPUSupplies',
     header: header, actions: actions, extraRows: extrarow,
     fields: fields, idkey: 'id', validations: validations,
-    defaultRow: defaultRow, doselect: doselect,
+    defaultRow: defaultRow, doselect: doselect, preventNewEntry: true,
     filter: { key: 'table', value: 'viewpreAPUAPUSupplies' }
   });
 })();
