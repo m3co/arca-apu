@@ -19,6 +19,21 @@
     </style>
   </head>
   <body>
+    <select id="ContractorId">
+      <option>1</option>
+      <option>2</option>
+    </select>
+    <script>
+'use strict';
+(() => {
+var ContractorId = window.location.search.match(/\?ContractorId=(\d+)$/);
+document.querySelector('select#ContractorId').value = ContractorId ? ContractorId[1] : 1;
+
+document.querySelector('select#ContractorId').addEventListener('change', e => {
+  window.location.search = `ContractorId=${e.target.value}`;
+});
+})();
+    </script>
     <datalist id="Supplies_type">
       <option>Material</option>
       <option>Mano de Obra</option>
@@ -34,12 +49,13 @@
         <input name="unit" type="text" placeholder="Unidad">
         <input name="qop" type="number" placeholder="Rdto">
         <input name="estimated" type="number" placeholder="Costo">
-        <input name="ContractorId" type="hidden" value=2>
+        <input name="ContractorId" type="hidden">
         <input type="submit">
       </form>
     </div>
     <script>
 'use strict';
+document.querySelector('input[name="ContractorId"]').value = document.querySelector('select#ContractorId').value;
 document.querySelector('button#add_APU').addEventListener('click', e => {
   document.querySelector('div#add_APU').hidden = false;
 });

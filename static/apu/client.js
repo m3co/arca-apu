@@ -7,7 +7,8 @@
 
     client.emit('data', {
       query: 'select',
-      module: 'viewAPUSupplies'
+      module: 'viewAPUSupplies',
+      ContractorId: document.querySelector('select#ContractorId').value
     });
 
     client.emit('data', {
