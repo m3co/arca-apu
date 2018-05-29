@@ -15,6 +15,9 @@
        client: client,
        module: 'APU',
        key: 'description',
+       filter: {
+         ContractorId: document.querySelector('select#ContractorId').value
+       },
        onblur: function(d, input) {
          if (input._found) {
            if (input._found._row) {
