@@ -23,6 +23,21 @@
     </table>
   </template>
   <body>
+    <select id="ContractorId">
+      <option>1</option>
+      <option>2</option>
+    </select>
+    <script>
+'use strict';
+(() => {
+var ContractorId = window.location.search.match(/\?ContractorId=(\d+)$/);
+document.querySelector('select#ContractorId').value = ContractorId ? ContractorId[1] : 1;
+
+document.querySelector('select#ContractorId').addEventListener('change', e => {
+  window.location.search = `ContractorId=${e.target.value}`;
+});
+})();
+    </script>
     <div style="display: table; width:100%;">
       <table id="viewpreAPUAPUSupplies" style="display: table-cell; width: 70%;"
         table="viewpreAPUAPUSupplies">

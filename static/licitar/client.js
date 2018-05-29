@@ -15,7 +15,7 @@
     client.emit('data', {
       query: 'select',
       module: 'viewpreAPUAPUSupplies',
-      ContractorId: 2
+      ContractorId: document.querySelector('select#ContractorId').value
     });
 
     client.emit('data', {
