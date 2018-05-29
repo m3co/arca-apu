@@ -8,7 +8,7 @@
   };
 
   const fields = [
-    'preAPU_qop', 'APU_unit', 'cost', 'duration',{
+    'AAU_description', 'AAU_unit', 'preAPU_qop', 'APU_unit', 'cost', 'duration',{
      name: 'APUId',
      show: 'APU_description',
      bike: {
@@ -27,7 +27,7 @@
   ];
 
   const header = [
-    'Cantidad', 'Unidad', 'Costo', 'Duracion', 'APU', ' '];
+    'Descripcion', 'Unidad', 'Cantidad', 'Unidad', 'Costo', 'Duracion', 'APU', ' '];
   const actions = [{
     select: 'button.delete',
     setup: (selection => selection
