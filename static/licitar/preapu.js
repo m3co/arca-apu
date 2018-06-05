@@ -7,6 +7,7 @@
     duration: { required: true }
   };
 
+  var ContractorId = location.search.match(/\d+$/);
   const fields = [
     'AAU_description', 'AAU_unit', 'preAPU_qop', 'APU_unit', 'cost', 'duration',{
      name: 'APUId',
@@ -16,7 +17,7 @@
        module: 'APU',
        key: 'description',
        filter: {
-         ContractorId: document.querySelector('select#ContractorId').value
+         ContractorId: ContractorId ? ContractorId.toString() : 1
        },
        onblur: function(d, input) {
          if (input._found) {

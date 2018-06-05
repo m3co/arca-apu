@@ -12,15 +12,21 @@
   client.on('connect', () => {
     console.log('connection');
 
+    var ContractorId = location.search.match(/\d+$/);
     client.emit('data', {
       query: 'select',
       module: 'viewpreAPUAPUSupplies',
-      ContractorId: document.querySelector('select#ContractorId').value
+      ContractorId: ContractorId ? ContractorId.toString() : 1
     });
 
     client.emit('data', {
       query: 'subscribe',
       module: 'viewpreAPUAPUSupplies'
+    });
+
+    client.emit('data', {
+      query: 'select',
+      module: 'Contractors'
     });
 
     client.emit('data', {
@@ -40,6 +46,8 @@
         else {
           console.log('sin procesar APU', data);
         }
+      } else if (data.module == 'Contractors') {
+        window.contractors.doselect(data.row);
       } else {
         console.log('sin procesar row', data);
       }

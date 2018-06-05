@@ -7,6 +7,7 @@
     <script src="https://rawgit.com/m3co/arca-utiles/master/import-a-u.js"></script>
     <script src="https://rawgit.com/m3co/arca-utiles/master/combobox-bike.js"></script>
     <script src="https://rawgit.com/m3co/arca-utiles/master/utils.js"></script>
+    <script src="https://rawgit.com/m3co/arca-utiles/master/selector-contractors.js"></script>
     <script src="client.js"></script>
     <style>
       body {
@@ -23,20 +24,12 @@
     </table>
   </template>
   <body>
-    <select id="ContractorId">
-      <option>1</option>
-      <option>2</option>
-    </select>
+    <selector-contractors></selector-contractors>
     <script>
 'use strict';
-(() => {
-var ContractorId = window.location.search.match(/\?ContractorId=(\d+)$/);
-document.querySelector('select#ContractorId').value = ContractorId ? ContractorId[1] : 1;
-
-document.querySelector('select#ContractorId').addEventListener('change', e => {
-  window.location.search = `ContractorId=${e.target.value}`;
-});
-})();
+window.contractors = {
+  doselect: document.querySelector('selector-contractors').doselect
+};
     </script>
     <div style="display: table; width:100%;">
       <table id="viewpreAPUAPUSupplies" style="display: table-cell; width: 70%;"
