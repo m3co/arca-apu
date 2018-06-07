@@ -10,24 +10,25 @@
   var ContractorId = location.search.match(/\d+$/);
   const fields = [
     'AAU_description', 'AAU_unit', 'preAPU_qop', 'APU_unit', 'cost', 'duration',{
-     name: 'APUId',
-     show: 'APU_description',
-     bike: {
-       client: client,
-       module: 'APU',
-       key: 'description',
-       filter: {
-         ContractorId: ContractorId ? ContractorId.toString() : 1
-       },
-       onblur: function(d, input) {
-         if (input._found) {
-           if (input._found._row) {
-             this.textContent = input._found._row.description;
-           }
-         }
-       }
-     }
-   }
+      name: 'APUId',
+      show: 'APU_description',
+      bike: {
+        client: client,
+        module: 'APU',
+        key: 'description',
+        filter: {
+          ContractorId: ContractorId ? ContractorId.toString() : 1
+        },
+        onblur: function(d, input) {
+          if (input._found) {
+            if (input._found._row) {
+              this.textContent = input._found._row.description;
+            }
+          }
+        }
+      }
+    },
+    'signed'
   ];
 
   const header = [
@@ -45,7 +46,23 @@
           idkey: 'id'
         });
       })
-  )}];
+  )}, {
+    select: 'button.sign',
+    setup: (selection => selection
+      .text('FIRMAR')
+      .classed('signed', true)
+      .on('click', d => {
+        client.emit('data', {
+          query: 'update',
+          module: 'preAPU',
+          id: d.preAPUId,
+          idkey: 'id',
+          key: 'signed',
+          value: !d.signed
+        });
+      })
+    )
+  }];
 
   function doselect(row) {
     var storage = doselect.storage;
