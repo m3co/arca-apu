@@ -1,9 +1,15 @@
 import React from 'react';
 import { render } from 'react-dom';
+import { Provider } from 'react-redux';
+import { store, socket } from './redux/store';
+import App from './App';
+
 import 'typeface-roboto';
 import './less/index.less';
 
 render(
-  <h1>Hello APU</h1>,
+  <Provider store={store}>
+    <App socket={socket} />
+  </Provider>,
   document.getElementById('root'),
 );
