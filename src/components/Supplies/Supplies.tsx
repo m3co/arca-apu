@@ -59,10 +59,29 @@ const Supplies: React.FunctionComponent<SuppliesProps> = ({
 }) => {
   const classes = useStyles();
   const [pastedSupplies, setPastedSupplies] = useState([]);
+  const [supplies, setSupplies] = useState(suppliesData.Supplies);
 
   const {
     Key, Constraint, Description, Unit, P, Estimated, Price,
   } = suppliesData;
+
+  const onChangeSupplies = (supplyCell: string, supplyID: number) => (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSupplies(supplies.map(supply => {
+      if (supply.SupplyID === supplyID) {
+        return { ...supply, [supplyCell]: event.target.value };
+      }
+      return supply;
+    }));
+  };
+
+  const onChangePastedSupplies = (supplyCell: string, supplyID: number) => (event: React.ChangeEvent<HTMLInputElement>) => {
+    setPastedSupplies(pastedSupplies.map(supply => {
+      if (supply.SupplyID === supplyID) {
+        return { ...supply, [supplyCell]: event.target.value };
+      }
+      return supply;
+    }));
+  };
 
   const onPaste = (event: ClipboardEvent) => {
     const pasted = event.clipboardData
@@ -103,7 +122,7 @@ const Supplies: React.FunctionComponent<SuppliesProps> = ({
         <CardContent>
           {`${Key} ${Constraint} ${Description} ${Unit} ${P} ${Price || Estimated}`}
         </CardContent>
-        <SuppliesTable suppliesData={suppliesData.Supplies} />
+        <SuppliesTable suppliesData={supplies} onChangeSupplies={onChangeSupplies} />
         <ExpansionPanel className={classes.ExpansionPanel} onChange={onExpand}>
           <ExpansionPanelSummary
             className={classes.importButton}
@@ -124,7 +143,7 @@ const Supplies: React.FunctionComponent<SuppliesProps> = ({
                 )
                 : (
                   <Fragment>
-                    <SuppliesTable suppliesData={pastedSupplies} />
+                    <SuppliesTable suppliesData={pastedSupplies} onChangeSupplies={onChangePastedSupplies} />
                     <Button onClick={onSubmit} className={classes.submitButton}>Submit</Button>
                   </Fragment>
                 )
