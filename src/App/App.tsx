@@ -14,6 +14,11 @@ const App: React.FunctionComponent<AppProps> = ({
   socket,
 }) => {
   const [apuRows, setApuRows] = useState(null);
+  const [expanded, setExpanded] = useState<string | false>(false);
+
+  const handleExpandPanel = (panel: string) => (event: React.ChangeEvent<{}>, isExpanded: boolean) => {
+    setExpanded(isExpanded ? panel : false);
+  };
 
   useEffect(() => {
     socket.store.subscribe(() => {
@@ -27,8 +32,6 @@ const App: React.FunctionComponent<AppProps> = ({
     socket.Subscribe('APU-Import-Supplies-in-App');
   }, [socket]);
 
-  console.log(apuRows);
-
   const getContent = () => (
     <Grid container spacing={3}>
       <Grid item xs={3}>
@@ -40,7 +43,12 @@ const App: React.FunctionComponent<AppProps> = ({
       <Grid item xs={9}>
         {
           apuRows.Aggs.map((arg: State['Source']['APU-Import-Supplies-in-App']['Aggs'][0], i: number) => (
-            <Supplies key={String(i)} suppliesData={arg} />
+            <Supplies
+              key={String(i)}
+              suppliesData={arg}
+              handleExpandPanel={handleExpandPanel(String(arg.APUID))}
+              expanded={expanded}
+            />
           ))
         }
       </Grid>

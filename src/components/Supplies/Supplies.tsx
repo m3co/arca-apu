@@ -52,17 +52,19 @@ const useStyles = makeStyles({
 
 interface SuppliesProps {
   suppliesData: State['Source']['APU-Import-Supplies-in-App']['Aggs'][0],
+  handleExpandPanel: (event: React.ChangeEvent<{}>, isExpanded: boolean) => void,
+  expanded: boolean | string,
 }
 
 const Supplies: React.FunctionComponent<SuppliesProps> = ({
-  suppliesData,
+  suppliesData, handleExpandPanel, expanded,
 }) => {
   const classes = useStyles();
   const [pastedSupplies, setPastedSupplies] = useState([]);
   const [supplies, setSupplies] = useState(suppliesData.Supplies);
 
   const {
-    Key, Constraint, Description, Unit, P, Estimated, Price,
+    Key, Constraint, Description, Unit, P, Estimated, Price, APUID,
   } = suppliesData;
 
   const onChangeSupplies = (supplyCell: string, supplyID: number) => (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -107,7 +109,9 @@ const Supplies: React.FunctionComponent<SuppliesProps> = ({
     document.removeEventListener('paste', onPaste);
   };
 
-  const onExpand = () => {
+  const onExpand = (event: React.ChangeEvent<{}>, isExpanded: boolean) => {
+    document.removeEventListener('paste', onPaste);
+    handleExpandPanel(event, isExpanded);
     document.addEventListener('paste', onPaste);
   };
 
@@ -123,7 +127,7 @@ const Supplies: React.FunctionComponent<SuppliesProps> = ({
           {`${Key} ${Constraint} ${Description} ${Unit} ${P} ${Price || Estimated}`}
         </CardContent>
         <SuppliesTable suppliesData={supplies} onChangeSupplies={onChangeSupplies} />
-        <ExpansionPanel className={classes.ExpansionPanel} onChange={onExpand}>
+        <ExpansionPanel className={classes.ExpansionPanel} onChange={onExpand} expanded={expanded === String(APUID)}>
           <ExpansionPanelSummary
             className={classes.importButton}
             expandIcon={<PublishIcon className={classes.icon} />}
