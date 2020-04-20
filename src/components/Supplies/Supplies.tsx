@@ -121,41 +121,39 @@ const Supplies: React.FunctionComponent<SuppliesProps> = ({
   };
 
   return (
-    <Fragment>
-      <Card className={classes.card} variant='outlined'>
-        <CardContent>
-          {`${Key} ${Constraint} ${Description} ${Unit} ${P} ${Price || Estimated}`}
-        </CardContent>
-        <SuppliesTable suppliesData={supplies} onChangeSupplies={onChangeSupplies} />
-        <ExpansionPanel className={classes.ExpansionPanel} onChange={onExpand} expanded={expanded === String(APUID)}>
-          <ExpansionPanelSummary
-            className={classes.importButton}
-            expandIcon={<PublishIcon className={classes.icon} />}
-          >
-            Import
-          </ExpansionPanelSummary>
-          <ExpansionPanelDetails className={pastedSupplies.length ? classes.expansionPanelTable : ''}>
-            {
-              !pastedSupplies.length
-                ? (
-                  <Paper
-                    className={classes.dropPlace}
-                    elevation={0}
-                  >
-                    <span>CTRL + V</span>
-                  </Paper>
-                )
-                : (
-                  <Fragment>
-                    <SuppliesTable suppliesData={pastedSupplies} onChangeSupplies={onChangePastedSupplies} />
-                    <Button onClick={onSubmit} className={classes.submitButton}>Submit</Button>
-                  </Fragment>
-                )
-            }
-          </ExpansionPanelDetails>
-        </ExpansionPanel>
-      </Card>
-    </Fragment>
+    <Card className={classes.card} variant='outlined'>
+      <CardContent>
+        {`${Key} ${Constraint} ${Description} ${Unit} ${P} ${Price || Estimated}`}
+      </CardContent>
+      <SuppliesTable suppliesData={supplies} onChangeSupplies={onChangeSupplies} />
+      <ExpansionPanel className={classes.ExpansionPanel} onChange={onExpand} expanded={expanded === String(APUID)}>
+        <ExpansionPanelSummary
+          className={classes.importButton}
+          expandIcon={<PublishIcon className={classes.icon} />}
+        >
+          Import
+        </ExpansionPanelSummary>
+        <ExpansionPanelDetails className={pastedSupplies.length ? classes.expansionPanelTable : ''}>
+          {
+            !pastedSupplies.length
+              ? (
+                <Paper
+                  className={classes.dropPlace}
+                  elevation={0}
+                >
+                  <span>CTRL + V</span>
+                </Paper>
+              )
+              : (
+                <Fragment>
+                  <SuppliesTable suppliesData={pastedSupplies} onChangeSupplies={onChangePastedSupplies} />
+                  <Button onClick={onSubmit} className={classes.submitButton}>Submit</Button>
+                </Fragment>
+              )
+          }
+        </ExpansionPanelDetails>
+      </ExpansionPanel>
+    </Card>
   );
 };
 
