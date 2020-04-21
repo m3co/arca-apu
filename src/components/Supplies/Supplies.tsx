@@ -13,6 +13,7 @@ import Typography from '@material-ui/core/Typography';
 import SuppliesTable from '../SuppliesTable/SuppliesTable';
 import { columns } from '../../types';
 import { COLUMNS } from '../../utils/constants';
+import { parseToNumber } from '../../utils';
 
 const useStyles = makeStyles({
   card: {
@@ -72,18 +73,24 @@ const Supplies: React.FunctionComponent<SuppliesProps> = ({
   } = suppliesData;
 
   const onChangeSupplies = (supplyCell: string, supplyID: number) => (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
+    const parsedValue = value.includes('$') ? parseToNumber(value) : value;
+
     setSupplies(supplies.map(supply => {
       if (supply.SupplyID === supplyID) {
-        return { ...supply, [supplyCell]: event.target.value };
+        return { ...supply, [supplyCell]: parsedValue };
       }
       return supply;
     }));
   };
 
   const onChangePastedSupplies = (supplyCell: string, supplyID: number) => (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
+    const parsedValue = value.includes('$') ? parseToNumber(value) : value;
+
     setPastedSupplies(pastedSupplies.map(supply => {
       if (supply.SupplyID === supplyID) {
-        return { ...supply, [supplyCell]: event.target.value };
+        return { ...supply, [supplyCell]: parsedValue };
       }
       return supply;
     }));

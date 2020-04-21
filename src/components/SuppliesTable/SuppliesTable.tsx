@@ -9,7 +9,8 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Input from '@material-ui/core/Input';
 import { columns } from '../../types';
-import { SUPPLY_COLUMNS_MATCH } from '../../utils/constants';
+import { COLUMNS, SUPPLY_COLUMNS_MATCH } from '../../utils/constants';
+import { parseToDotsFormat } from '../../utils';
 
 const useStyles = makeStyles({
   col: {
@@ -57,19 +58,24 @@ const SuppliesTable: React.FunctionComponent<SuppliesTableProps> = ({
             suppliesData.map((supply, i) => (
               <TableRow className={classes.row} key={`${supply.SupplyID}-${String(i)}`}>
                 {
-                  columnsOrder.map((col, index) => (
-                    <TableCell
-                      key={`${col[1]}-${String(index)}}`}
-                      className={classes.cell}
-                    >
-                      <Input
-                        value={supply[SUPPLY_COLUMNS_MATCH[col[1]]]}
-                        disableUnderline
-                        onBlur={onBlurCell(`${supply.SupplyID}-${col[1]}`)}
-                        onChange={onChangeSupplies(col[1], supply.SupplyID)}
-                      />
-                    </TableCell>
-                  ))
+                  columnsOrder.map((col, index) => {
+                    const value = supply[SUPPLY_COLUMNS_MATCH[col[1]]];
+                    const parsedValue = col[1] === COLUMNS[3] ? parseToDotsFormat(String(value)) : value;
+
+                    return (
+                      <TableCell
+                        key={`${col[1]}-${String(index)}}`}
+                        className={classes.cell}
+                      >
+                        <Input
+                          value={parsedValue}
+                          disableUnderline
+                          onBlur={onBlurCell(`${supply.SupplyID}-${col[1]}`)}
+                          onChange={onChangeSupplies(SUPPLY_COLUMNS_MATCH[col[1]], supply.SupplyID)}
+                        />
+                      </TableCell>
+                    );
+                  })
                 }
               </TableRow>
             ))

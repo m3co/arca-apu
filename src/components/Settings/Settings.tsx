@@ -71,7 +71,6 @@ const Settings: React.FunctionComponent<SettingsProps> = ({
                     labelId={`column-${COLUMN}`}
                     value={columns[COLUMN][1]}
                     onChange={onChangeColumns(COLUMN)}
-                    // disableUnderline
                   >
                     {
                       COLUMNS.map(COL => <MenuItem key={`${COL}-${String(i)}`} value={COL}>{COL}</MenuItem>)
