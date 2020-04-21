@@ -9,7 +9,10 @@ import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import PublishIcon from '@material-ui/icons/Publish';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
 import SuppliesTable from '../SuppliesTable/SuppliesTable';
+import { columns } from '../../types';
+import { COLUMNS } from '../../utils/constants';
 
 const useStyles = makeStyles({
   card: {
@@ -54,10 +57,11 @@ interface SuppliesProps {
   suppliesData: State['Source']['APU-Import-Supplies-in-App']['Aggs'][0],
   handleExpandPanel: (event: React.ChangeEvent<{}>, isExpanded: boolean) => void,
   expanded: boolean | string,
+  columnsOrder: columns,
 }
 
 const Supplies: React.FunctionComponent<SuppliesProps> = ({
-  suppliesData, handleExpandPanel, expanded,
+  suppliesData, handleExpandPanel, expanded, columnsOrder,
 }) => {
   const classes = useStyles();
   const [pastedSupplies, setPastedSupplies] = useState([]);
@@ -93,14 +97,16 @@ const Supplies: React.FunctionComponent<SuppliesProps> = ({
       .map((row, id) => { // create Array<object> where object is supplies
         const cells = row.split(/[\t]/);
 
+        const indexes = COLUMNS.map(COLUMN => columnsOrder.findIndex(column => column[1] === COLUMN));
+
         return {
           SupplyID: id,
           OwnerID: id,
-          P: Number(cells[4]),
-          Description: cells[1],
-          Unit: cells[2],
-          Type: cells[0],
-          Estimated: Number(cells[3]),
+          P: Number(cells[indexes[4]]),
+          Description: cells[indexes[1]],
+          Unit: cells[indexes[2]],
+          Type: cells[indexes[0]],
+          Estimated: Number(cells[indexes[3]]),
           ContractorID: id,
         };
       });
@@ -123,9 +129,11 @@ const Supplies: React.FunctionComponent<SuppliesProps> = ({
   return (
     <Card className={classes.card} variant='outlined'>
       <CardContent>
-        {`${Key} ${Constraint} ${Description} ${Unit} ${P} ${Price || Estimated}`}
+        <Typography variant='h6' component='h2'>
+          {`${Key} ${Constraint} ${Description} ${Unit} ${P} ${Price || Estimated}`}
+        </Typography>
       </CardContent>
-      <SuppliesTable suppliesData={supplies} onChangeSupplies={onChangeSupplies} />
+      <SuppliesTable suppliesData={supplies} onChangeSupplies={onChangeSupplies} columnsOrder={columnsOrder} />
       <ExpansionPanel className={classes.ExpansionPanel} onChange={onExpand} expanded={expanded === String(APUID)}>
         <ExpansionPanelSummary
           className={classes.importButton}
@@ -146,7 +154,7 @@ const Supplies: React.FunctionComponent<SuppliesProps> = ({
               )
               : (
                 <Fragment>
-                  <SuppliesTable suppliesData={pastedSupplies} onChangeSupplies={onChangePastedSupplies} />
+                  <SuppliesTable suppliesData={pastedSupplies} onChangeSupplies={onChangePastedSupplies} columnsOrder={columnsOrder} />
                   <Button onClick={onSubmit} className={classes.submitButton}>Submit</Button>
                 </Fragment>
               )
