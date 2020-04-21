@@ -93,8 +93,7 @@ const App: React.FunctionComponent<AppProps> = ({
               <SettingsIcon className={classes.settingsIcon} onClick={toggleSettings} />
             </Grid>
             <Grid container>
-              <Grid item xs={3} />
-              <Grid item xs={9}>
+              <Grid item xs={12}>
                 <Collapse in={isShowSettings}>
                   <Settings onChangeColumns={handleColumnsOrder} columns={columnsOrder} />
                 </Collapse>

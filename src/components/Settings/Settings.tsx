@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import Box from '@material-ui/core/Box';
@@ -12,7 +13,7 @@ import { columns } from '../../types';
 
 const useStyles = makeStyles({
   divider: {
-    margin: '6px 0',
+    margin: '6px 0 12px',
   },
   title: {
     marginBottom: 12,
@@ -24,7 +25,17 @@ const useStyles = makeStyles({
   formControl: {
     flex: 1,
     '&:not(:last-child)': {
-      marginRight: 5,
+      marginRight: 24,
+    },
+  },
+  label: {
+    '&.Mui-focused': {
+      color: '#61dafb',
+    },
+  },
+  select: {
+    '&:after': {
+      borderColor: '#61dafb',
     },
   },
 });
@@ -41,29 +52,37 @@ const Settings: React.FunctionComponent<SettingsProps> = ({
 
   return (
     <Fragment>
-      <Divider className={classes.divider} />
-      <Typography className={classes.title} variant='h6' component='h3'>
-        Columns
-      </Typography>
-      <Box className={classes.selectWrap}>
-        {
-          COLUMNS_ORDER.map((COLUMN, i) => (
-            <FormControl key={String(i)} className={classes.formControl}>
-              <InputLabel id={`column-${COLUMN}`}>{`Column ${COLUMN + 1}`}</InputLabel>
-              <Select
-                labelId={`column-${COLUMN}`}
-                value={columns[COLUMN][1]}
-                onChange={onChangeColumns(COLUMN)}
-                disableUnderline
-              >
-                {
-                  COLUMNS.map(COL => <MenuItem key={`${COL}-${String(i)}`} value={COL}>{COL}</MenuItem>)
-                }
-              </Select>
-            </FormControl>
-          ))
-        }
-      </Box>
+      <Grid container spacing={3}>
+        <Grid item xs={3}>
+          <Divider className={classes.divider} />
+          <Typography className={classes.title} variant='h6' component='h3'>
+            Columns
+          </Typography>
+        </Grid>
+        <Grid item xs={9}>
+          <Divider className={classes.divider} />
+          <Box className={classes.selectWrap}>
+            {
+              COLUMNS_ORDER.map((COLUMN, i) => (
+                <FormControl key={String(i)} className={classes.formControl}>
+                  <InputLabel className={classes.label} id={`column-${COLUMN}`}>{`Column ${COLUMN + 1}`}</InputLabel>
+                  <Select
+                    className={classes.select}
+                    labelId={`column-${COLUMN}`}
+                    value={columns[COLUMN][1]}
+                    onChange={onChangeColumns(COLUMN)}
+                    // disableUnderline
+                  >
+                    {
+                      COLUMNS.map(COL => <MenuItem key={`${COL}-${String(i)}`} value={COL}>{COL}</MenuItem>)
+                    }
+                  </Select>
+                </FormControl>
+              ))
+            }
+          </Box>
+        </Grid>
+      </Grid>
     </Fragment>
   );
 };
