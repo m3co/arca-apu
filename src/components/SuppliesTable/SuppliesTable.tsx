@@ -73,7 +73,10 @@ const SuppliesTable: React.FunctionComponent<SuppliesTableProps> = ({
               <TableRow className={classes.row} key={`${supply.SupplyID}-${String(i)}`}>
                 {
                   columnsOrder.map((col, index) => {
-                    const value = supply[SUPPLY_COLUMNS_MATCH[col[1]]];
+                    const currentCol = col[1] as keyof typeof SUPPLY_COLUMNS_MATCH;
+                    const currentCell = SUPPLY_COLUMNS_MATCH[currentCol] as keyof typeof supply;
+
+                    const value = supply[currentCell];
                     const parsedValue = col[1] === COLUMNS[3] ? parseToDotsFormat(String(value)) : value;
 
                     return (
@@ -84,8 +87,8 @@ const SuppliesTable: React.FunctionComponent<SuppliesTableProps> = ({
                         <Input
                           value={parsedValue}
                           disableUnderline
-                          onBlur={onBlurCell(supply.SupplyID, SUPPLY_COLUMNS_MATCH[col[1]])}
-                          onChange={onChangeSupplies(SUPPLY_COLUMNS_MATCH[col[1]], supply.SupplyID)}
+                          onBlur={onBlurCell(supply.SupplyID, SUPPLY_COLUMNS_MATCH[currentCol])}
+                          onChange={onChangeSupplies(SUPPLY_COLUMNS_MATCH[currentCol], supply.SupplyID)}
                         />
                       </TableCell>
                     );
