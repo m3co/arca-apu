@@ -161,7 +161,11 @@ const Supplies: React.FunctionComponent<SuppliesProps> = ({
               )
               : (
                 <Fragment>
-                  <SuppliesTable suppliesData={pastedSupplies} onChangeSupplies={onChangePastedSupplies} columnsOrder={columnsOrder} />
+                  <SuppliesTable
+                    suppliesData={pastedSupplies}
+                    onChangeSupplies={onChangePastedSupplies}
+                    columnsOrder={columnsOrder}
+                  />
                   <Button onClick={onSubmit} className={classes.submitButton}>Submit</Button>
                 </Fragment>
               )

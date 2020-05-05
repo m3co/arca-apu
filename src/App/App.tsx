@@ -75,8 +75,9 @@ const App: React.FunctionComponent<AppProps> = ({
     });
 
     socket.Select('APU-Import-Supplies-in-App');
-    socket.GetInfo('APU-Import-Supplies-in-App');
     socket.Subscribe('APU-Import-Supplies-in-App');
+
+    socket.GetInfo('APU-MetaSupplies');
   }, [socket]);
 
   const getContent = () => (

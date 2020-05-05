@@ -1,5 +1,6 @@
 import React from 'react';
 import { State } from 'arca-redux';
+import { v4 as uuidv4 } from 'uuid';
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -10,7 +11,8 @@ import TableRow from '@material-ui/core/TableRow';
 import Input from '@material-ui/core/Input';
 import { columns } from '../../types';
 import { COLUMNS, SUPPLY_COLUMNS_MATCH } from '../../utils/constants';
-import { parseToDotsFormat } from '../../utils';
+import { parseToDotsFormat, parseToNumber } from '../../utils';
+import { socket } from '../../redux/store';
 
 const useStyles = makeStyles({
   col: {
@@ -37,8 +39,20 @@ const SuppliesTable: React.FunctionComponent<SuppliesTableProps> = ({
 }) => {
   const classes = useStyles();
 
-  const onBlurCell = (cell: string) => () => {
-    console.log('blur', cell);
+  const onBlurCell = (supplyId: number, cell: string) => (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const changedSupply = suppliesData.find(supply => supply.SupplyID === supplyId);
+    const row = {
+      ...changedSupply,
+      ID: changedSupply.SupplyID,
+      [cell]: cell === SUPPLY_COLUMNS_MATCH.Precio ? parseToNumber(event.target.value) : event.target.value,
+    };
+
+    socket.Update('APU-MetaSupplies', row, {
+      ID: uuidv4(),
+      PK: {
+        ID: changedSupply.SupplyID,
+      },
+    });
   };
 
   return (
@@ -70,7 +84,7 @@ const SuppliesTable: React.FunctionComponent<SuppliesTableProps> = ({
                         <Input
                           value={parsedValue}
                           disableUnderline
-                          onBlur={onBlurCell(`${supply.SupplyID}-${col[1]}`)}
+                          onBlur={onBlurCell(supply.SupplyID, SUPPLY_COLUMNS_MATCH[col[1]])}
                           onChange={onChangeSupplies(SUPPLY_COLUMNS_MATCH[col[1]], supply.SupplyID)}
                         />
                       </TableCell>
