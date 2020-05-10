@@ -1,4 +1,5 @@
 import React, { Fragment, useState } from 'react';
+import toString from 'lodash/toString';
 import { State } from 'arca-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
@@ -137,7 +138,7 @@ const Supplies: React.FunctionComponent<SuppliesProps> = ({
     <Card className={classes.card} variant='outlined'>
       <CardContent>
         <Typography variant='h6' component='h2'>
-          {`${Key} ${Constraint} ${Description} ${Unit} ${P} ${Price || Estimated}`}
+          {`${Key} ${Constraint} ${Description} ${toString(Unit)} ${P} ${Price || Estimated}`}
         </Typography>
       </CardContent>
       <SuppliesTable suppliesData={supplies} onChangeSupplies={onChangeSupplies} columnsOrder={columnsOrder} />

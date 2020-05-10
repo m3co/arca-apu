@@ -9,17 +9,16 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Input from '@material-ui/core/Input';
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
 import { columns } from '../../types';
-import { COLUMNS, SUPPLY_COLUMNS_MATCH } from '../../utils/constants';
+import { COLUMNS, SUPPLY_COLUMNS_MATCH, SUPPLY_TYPE } from '../../utils/constants';
 import { parseToDotsFormat, parseToNumber } from '../../utils';
 import { socket } from '../../redux/store';
 
 const useStyles = makeStyles({
   col: {
     textTransform: 'capitalize',
-  },
-  row: {
-    // cursor: 'copy',
   },
   cell: {
     '&:hover': {
@@ -70,7 +69,7 @@ const SuppliesTable: React.FunctionComponent<SuppliesTableProps> = ({
         <TableBody>
           {
             suppliesData.map((supply, i) => (
-              <TableRow className={classes.row} key={`${supply.SupplyID}-${String(i)}`}>
+              <TableRow key={`${supply.SupplyID}-${String(i)}`}>
                 {
                   columnsOrder.map((col, index) => {
                     const currentCol = col[1] as keyof typeof SUPPLY_COLUMNS_MATCH;
@@ -84,12 +83,29 @@ const SuppliesTable: React.FunctionComponent<SuppliesTableProps> = ({
                         key={`${col[1]}-${String(index)}}`}
                         className={classes.cell}
                       >
-                        <Input
-                          value={parsedValue}
-                          disableUnderline
-                          onBlur={onBlurCell(supply.SupplyID, SUPPLY_COLUMNS_MATCH[currentCol])}
-                          onChange={onChangeSupplies(SUPPLY_COLUMNS_MATCH[currentCol], supply.SupplyID)}
-                        />
+                        {
+                          col[1] === COLUMNS[0]
+                            ? (
+                              <Select
+                                value={parsedValue}
+                                disableUnderline
+                                onBlur={onBlurCell(supply.SupplyID, SUPPLY_COLUMNS_MATCH[currentCol])}
+                                onChange={onChangeSupplies(SUPPLY_COLUMNS_MATCH[currentCol], supply.SupplyID)}
+                              >
+                                {
+                                  SUPPLY_TYPE.map(TYPE => <MenuItem key={`${TYPE}-${String(i)}`} value={TYPE}>{TYPE}</MenuItem>)
+                                }
+                              </Select>
+                            )
+                            : (
+                              <Input
+                                value={parsedValue}
+                                disableUnderline
+                                onBlur={onBlurCell(supply.SupplyID, SUPPLY_COLUMNS_MATCH[currentCol])}
+                                onChange={onChangeSupplies(SUPPLY_COLUMNS_MATCH[currentCol], supply.SupplyID)}
+                              />
+                            )
+                        }
                       </TableCell>
                     );
                   })
