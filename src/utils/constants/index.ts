@@ -7,3 +7,12 @@ export const SUPPLY_COLUMNS_MATCH = {
   Precio: 'Estimated',
   Rdto: 'P',
 };
+
+export const SUPPLY_TYPE = [
+  'Material',
+  'Mano de Obra',
+  'Equipo',
+  'Herramienta',
+  'Transporte',
+  'Subcontrato',
+];

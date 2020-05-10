@@ -2,8 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { ARCASocket, State } from 'arca-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
-import Alert from '@material-ui/lab/Alert';
-import AlertTitle from '@material-ui/lab/AlertTitle';
 import Card from '@material-ui/core/Card';
 import Typography from '@material-ui/core/Typography';
 import SettingsIcon from '@material-ui/icons/Settings';
@@ -12,6 +10,7 @@ import Loader from '../components/Loader/Loader';
 import Supplies from '../components/Supplies/Supplies';
 import Settings from '../components/Settings/Settings';
 import { columns } from '../types';
+import Tree from '../components/Tree/Tree';
 
 const useStyles = makeStyles({
   topBarWrap: {
@@ -43,6 +42,7 @@ const App: React.FunctionComponent<AppProps> = ({
 }) => {
   const classes = useStyles();
   const [apuRows, setApuRows] = useState(null);
+  const [tree, setTree] = useState(null);
   const [expanded, setExpanded] = useState<string | false>(false);
   const [isShowSettings, setIsShowSettings] = useState<boolean>(false);
   const [columnsOrder, setColumnsOrder] = useState<columns>([[0, 'Tipo'], [1, 'Descripcion'], [2, 'Unidad'], [3, 'Precio'], [4, 'Rdto']]);
@@ -72,12 +72,14 @@ const App: React.FunctionComponent<AppProps> = ({
       const state: State = socket.store.getState();
 
       setApuRows(state.Source['APU-Import-Supplies-in-App']);
+      setTree(state.Source['AAU-APU-in-App'].Rows);
     });
 
-    socket.Select('APU-Import-Supplies-in-App');
     socket.Subscribe('APU-Import-Supplies-in-App');
 
     socket.GetInfo('APU-MetaSupplies');
+
+    socket.Select('AAU-APU-in-App');
   }, [socket]);
 
   const getContent = () => (
@@ -104,10 +106,7 @@ const App: React.FunctionComponent<AppProps> = ({
         </Card>
       </Grid>
       <Grid item xs={3}>
-        <Alert severity='warning'>
-          <AlertTitle>Warning</AlertTitle>
-          Tree component not ready
-        </Alert>
+        { tree && tree.length ? <Tree treeItems={tree} socket={socket} /> : null }
       </Grid>
       <Grid item xs={9}>
         {
