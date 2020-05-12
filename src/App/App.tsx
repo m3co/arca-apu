@@ -75,6 +75,8 @@ const App: React.FunctionComponent<AppProps> = ({
       setTree(state.Source['AAU-APU-in-App'].Rows);
     });
 
+    socket.Select('APU-Import-Supplies-in-App');
+
     socket.Subscribe('APU-Import-Supplies-in-App');
 
     socket.GetInfo('APU-MetaSupplies');
@@ -110,11 +112,11 @@ const App: React.FunctionComponent<AppProps> = ({
       </Grid>
       <Grid item xs={9}>
         {
-          apuRows.Aggs.map((arg: State['Source']['APU-Import-Supplies-in-App']['Aggs'][0], i: number) => (
+          apuRows.Aggs.map((agg: State['Source']['APU-Import-Supplies-in-App']['Aggs'][0], i: number) => (
             <Supplies
-              key={String(i)}
-              suppliesData={arg}
-              handleExpandPanel={handleExpandPanel(String(arg.APUID))}
+              key={`${agg.APUID}-${String(i)}`}
+              suppliesData={agg}
+              handleExpandPanel={handleExpandPanel(String(agg.APUID))}
               expanded={expanded}
               columnsOrder={columnsOrder}
             />

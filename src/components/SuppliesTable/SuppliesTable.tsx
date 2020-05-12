@@ -69,7 +69,7 @@ const SuppliesTable: React.FunctionComponent<SuppliesTableProps> = ({
         <TableBody>
           {
             suppliesData.map((supply, i) => (
-              <TableRow key={`${supply.SupplyID}-${String(i)}`}>
+              <TableRow key={`${supply.SupplyID}-${String(i)}-${supply.ContractorID}`}>
                 {
                   columnsOrder.map((col, index) => {
                     const currentCol = col[1] as keyof typeof SUPPLY_COLUMNS_MATCH;
