@@ -21,6 +21,9 @@ const useStyles = makeStyles({
     flexGrow: 1,
     maxWidth: 400,
   },
+  treeItem: {
+    marginTop: 10,
+  },
   folder: {
     color: '#999999',
   },
@@ -29,10 +32,12 @@ const useStyles = makeStyles({
   },
   labelTitle: {
     fontSize: 16,
+    lineHeight: '16px',
     margin: '5px 5px 0 5px',
   },
   labelDesc: {
     fontSize: 14,
+    lineHeight: '14px',
     color: '#999999',
     margin: '0 5px 5px 5px',
   },
@@ -60,6 +65,7 @@ const Tree: React.FunctionComponent<TreeProps> = ({
     if (item.items) {
       return (
         <TreeItem
+          className={classes.treeItem}
           key={item.Key + String(i)}
           nodeId={item.Key}
           onLabelClick={onClickTreeItem(item)}
@@ -79,6 +85,7 @@ const Tree: React.FunctionComponent<TreeProps> = ({
 
     return (
       <TreeItem
+        className={classes.treeItem}
         key={item.Key + String(i)}
         nodeId={item.Key}
         onLabelClick={onClickTreeItem(item)}
