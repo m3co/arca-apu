@@ -54,9 +54,9 @@ const Tree: React.FunctionComponent<TreeProps> = ({
 
     socket.Select('APU-Import-Supplies-in-App', {
       PK: {
-        Constraint: item.Constraint,
+        ...(item.Constraint ? { Constraint: item.Constraint } : {}),
         ContractorID: item.ContractorID,
-        Key: item.Key,
+        Key: [item.Key, `${item.Key}.%`],
       },
     });
   };

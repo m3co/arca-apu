@@ -11,6 +11,7 @@ import PublishIcon from '@material-ui/icons/Publish';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import Divider from '@material-ui/core/Divider';
 import SuppliesTable from '../SuppliesTable/SuppliesTable';
 import { columns } from '../../types';
 import { COLUMNS } from '../../utils/constants';
@@ -141,7 +142,11 @@ const Supplies: React.FunctionComponent<SuppliesProps> = ({
           {`${Key} ${Constraint} ${Description} ${toString(Unit)} ${P} ${Price || Estimated}`}
         </Typography>
       </CardContent>
-      <SuppliesTable suppliesData={supplies} onChangeSupplies={onChangeSupplies} columnsOrder={columnsOrder} />
+      {
+        supplies.length
+          ? <SuppliesTable suppliesData={supplies} onChangeSupplies={onChangeSupplies} columnsOrder={columnsOrder} />
+          : <Divider />
+      }
       <ExpansionPanel className={classes.ExpansionPanel} onChange={onExpand} expanded={expanded === String(APUID)}>
         <ExpansionPanelSummary
           className={classes.importButton}

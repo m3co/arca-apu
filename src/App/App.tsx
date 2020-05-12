@@ -75,8 +75,6 @@ const App: React.FunctionComponent<AppProps> = ({
       setTree(state.Source['AAU-APU-in-App'].Rows);
     });
 
-    socket.Select('APU-Import-Supplies-in-App');
-
     socket.Subscribe('APU-Import-Supplies-in-App');
 
     socket.GetInfo('APU-MetaSupplies');
