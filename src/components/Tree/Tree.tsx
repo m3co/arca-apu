@@ -23,6 +23,14 @@ const useStyles = makeStyles({
   },
   treeItem: {
     marginTop: 10,
+    '& .MuiTreeItem-group': {
+      borderLeft: '1px solid #999999',
+      marginLeft: 8,
+      paddingLeft: 8,
+    },
+    '& .MuiTreeItem-iconContainer svg:hover': {
+      color: '#61dafb',
+    },
   },
   folder: {
     color: '#999999',
@@ -89,6 +97,7 @@ const Tree: React.FunctionComponent<TreeProps> = ({
         key={item.Key + String(i)}
         nodeId={item.Key}
         onLabelClick={onClickTreeItem(item)}
+        onIconClick={onClickTreeItem(item)}
         label={(
           <Fragment>
             <h2 className={classes.labelTitle}>{`${item.Key} ${toString(item.Constraint)}`}</h2>
