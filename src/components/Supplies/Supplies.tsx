@@ -1,4 +1,5 @@
 import React, { Fragment, useState } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 import toString from 'lodash/toString';
 import { State } from 'arca-redux';
 import { makeStyles } from '@material-ui/core/styles';
@@ -16,6 +17,7 @@ import SuppliesTable from '../SuppliesTable/SuppliesTable';
 import { columns } from '../../types';
 import { COLUMNS } from '../../utils/constants';
 import { parseToNumber } from '../../utils';
+import { socket } from '../../redux/store';
 
 const useStyles = makeStyles({
   card: {
@@ -131,6 +133,22 @@ const Supplies: React.FunctionComponent<SuppliesProps> = ({
   };
 
   const onSubmit = () => {
+    pastedSupplies.forEach(row => {
+      const rowToImport = {
+        APUID: suppliesData.APUID,
+        OwnerID: 1,
+        P: row.P,
+        Description: row.Description,
+        Unit: row.Unit,
+        Type: row.Type,
+        Estimated: row.Estimated,
+      };
+
+      socket.Insert('APU-Import-Supplies', rowToImport, {
+        ID: uuidv4(),
+      });
+    });
+
     setPastedSupplies([]);
     document.addEventListener('paste', onPaste);
   };
