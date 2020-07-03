@@ -1,18 +1,17 @@
 import React, { Fragment } from 'react';
 import toString from 'lodash/toString';
-import { State, ARCASocket } from 'arca-redux';
+import { State } from 'arca-redux-v4';
 import { makeStyles } from '@material-ui/core/styles';
 import TreeView from '@material-ui/lab/TreeView';
 import Description from '@material-ui/icons/Description';
 import Folder from '@material-ui/icons/Folder';
 import TreeItem from '@material-ui/lab/TreeItem';
+import { socket } from '../../redux/store';
 import { parseTreeItems } from '../../utils';
 import { tree } from '../../types';
 
-
 interface TreeProps {
-  treeItems: State['Source']['AAU-APU-in-App']['Rows'],
-  socket: ARCASocket,
+  treeItems: State['Source']['AAU-APU-in-App'],
 }
 
 const useStyles = makeStyles({
@@ -52,7 +51,7 @@ const useStyles = makeStyles({
 });
 
 const Tree: React.FunctionComponent<TreeProps> = ({
-  treeItems, socket,
+  treeItems,
 }) => {
   const classes = useStyles();
   const parsedItems = parseTreeItems(treeItems);
@@ -60,12 +59,10 @@ const Tree: React.FunctionComponent<TreeProps> = ({
   const onClickTreeItem = (item: tree) => (event: React.MouseEvent<Element, MouseEvent>) => {
     event.preventDefault();
 
-    socket.Select('APU-Import-Supplies-in-App', {
-      PK: {
-        ...(item.Constraint ? { Constraint: item.Constraint } : {}),
-        ContractorID: item.ContractorID,
-        Key: [item.Key, `${item.Key}.%`],
-      },
+    socket.select('APU-Import-Supplies-in-App', {
+      ...(item.Constraint ? { Constraint: item.Constraint } : {}),
+      ContractorID: item.ContractorID,
+      Key: [item.Key, `${item.Key}.%`],
     });
   };
 

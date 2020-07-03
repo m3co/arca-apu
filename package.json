@@ -61,7 +61,7 @@
     "@types/redux-thunk": "^2.1.0",
     "@types/socket.io-client": "^1.4.32",
     "@types/uuid": "^3.4.6",
-    "arca-redux": "^3.8.3",
+    "arca-redux-v4": "^4.3.4",
     "classnames": "^2.2.6",
     "eslint-config-airbnb-typescript": "^4.0.1",
     "less": "^3.10.3",

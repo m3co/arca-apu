@@ -1,7 +1,7 @@
-import { State } from 'arca-redux';
+import { State } from 'arca-redux-v4';
 import { tree } from '../types/index';
 
-const setItemToParent = (parentList: tree[], item: State['Source']['AAU-APU-in-App']['Rows'][0]) => {
+const setItemToParent = (parentList: tree[], item: State['Source']['AAU-APU-in-App'][0]) => {
   const itemKey = item.Key.split('.');
 
   if (parentList.length) {
@@ -45,7 +45,7 @@ export const debounce = (func: (params?: any) => void, delay: number, params?: a
   };
 };
 
-export const parseTreeItems = (items: State['Source']['AAU-APU-in-App']['Rows']): tree[] => items
+export const parseTreeItems = (items: State['Source']['AAU-APU-in-App']): tree[] => items
   .reduce((filteredItems, item) => {
     const itemAlreadyExist = filteredItems.findIndex(filteredItem => filteredItem.Key === item.Key
       && filteredItem.Constraint === item.Constraint
@@ -56,7 +56,7 @@ export const parseTreeItems = (items: State['Source']['AAU-APU-in-App']['Rows'])
     }
 
     return filteredItems;
-  }, [] as State['Source']['AAU-APU-in-App']['Rows'])
+  }, [] as State['Source']['AAU-APU-in-App'])
   .sort((firstItem, secondItem) => {
     const firstKey = firstItem.Key.split('.');
     const secondKey = secondItem.Key.split('.');
