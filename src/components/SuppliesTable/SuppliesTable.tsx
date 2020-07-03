@@ -1,6 +1,5 @@
 import React from 'react';
-import { State } from 'arca-redux';
-import { v4 as uuidv4 } from 'uuid';
+import { APUImportSuppliesInApp } from 'arca-redux-v4';
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -29,7 +28,7 @@ const useStyles = makeStyles({
 
 interface SuppliesTableProps {
   columnsOrder: columns,
-  suppliesData: State['Source']['APU-Import-Supplies-in-App']['Aggs'][0]['Supplies'],
+  suppliesData: APUImportSuppliesInApp['Agg']['Supplies'],
   onChangeSupplies: (supplyCell: string, supplyID: number) => (event: React.ChangeEvent<HTMLInputElement>) => void,
 }
 
@@ -46,11 +45,8 @@ const SuppliesTable: React.FunctionComponent<SuppliesTableProps> = ({
       [cell]: cell === SUPPLY_COLUMNS_MATCH.Precio ? parseToNumber(event.target.value) : event.target.value,
     };
 
-    socket.Update('APU-MetaSupplies', row, {
-      ID: uuidv4(),
-      PK: {
-        ID: changedSupply.SupplyID,
-      },
+    socket.update('APU-MetaSupplies', row, {
+      ID: changedSupply.SupplyID,
     });
   };
 
@@ -97,7 +93,11 @@ const SuppliesTable: React.FunctionComponent<SuppliesTableProps> = ({
                                 }
                               </Select>
                             )
-                            : (
+                            : null
+                        }
+                        {
+                          col[1] !== COLUMNS[0]
+                            ? (
                               <Input
                                 value={parsedValue}
                                 disableUnderline
@@ -105,6 +105,7 @@ const SuppliesTable: React.FunctionComponent<SuppliesTableProps> = ({
                                 onChange={onChangeSupplies(SUPPLY_COLUMNS_MATCH[currentCol], supply.SupplyID)}
                               />
                             )
+                            : null
                         }
                       </TableCell>
                     );

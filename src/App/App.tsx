@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { ARCASocket, State } from 'arca-redux';
+import { useSelector } from 'react-redux';
+import { Store } from 'redux';
+import { getSpecificSource, APUImportSuppliesInApp } from 'arca-redux-v4';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
 import Typography from '@material-ui/core/Typography';
 import SettingsIcon from '@material-ui/icons/Settings';
 import Collapse from '@material-ui/core/Collapse';
+import { socket } from '../redux/store';
 import Loader from '../components/Loader/Loader';
 import Supplies from '../components/Supplies/Supplies';
 import Settings from '../components/Settings/Settings';
@@ -33,16 +36,11 @@ const useStyles = makeStyles({
   },
 });
 
-interface AppProps {
-  socket: ARCASocket,
-}
-
-const App: React.FunctionComponent<AppProps> = ({
-  socket,
-}) => {
+const App: React.FunctionComponent = () => {
   const classes = useStyles();
-  const [apuRows, setApuRows] = useState(null);
-  const [tree, setTree] = useState(null);
+  const apuRows = useSelector((state: Store) => getSpecificSource(state, 'APU-Import-Supplies-in-App'));
+  const tree = useSelector((state: Store) => getSpecificSource(state, 'AAU-APU-in-App'));
+
   const [expanded, setExpanded] = useState<string | false>(false);
   const [isShowSettings, setIsShowSettings] = useState<boolean>(false);
   const [columnsOrder, setColumnsOrder] = useState<columns>([[0, 'Tipo'], [1, 'Descripcion'], [2, 'Unidad'], [3, 'Precio'], [4, 'Rdto']]);
@@ -68,19 +66,8 @@ const App: React.FunctionComponent<AppProps> = ({
   };
 
   useEffect(() => {
-    socket.store.subscribe(() => {
-      const state: State = socket.store.getState();
-
-      setApuRows(state.Source['APU-Import-Supplies-in-App']);
-      setTree(state.Source['AAU-APU-in-App'].Rows);
-    });
-
-    socket.Subscribe('APU-Import-Supplies-in-App');
-
-    socket.GetInfo('APU-MetaSupplies');
-
-    socket.Select('AAU-APU-in-App');
-  }, [socket]);
+    socket.select('AAU-APU-in-App');
+  }, []);
 
   const getContent = () => (
     <Grid container spacing={3}>
@@ -106,11 +93,11 @@ const App: React.FunctionComponent<AppProps> = ({
         </Card>
       </Grid>
       <Grid item xs={3}>
-        { tree && tree.length ? <Tree treeItems={tree} socket={socket} /> : null }
+        { tree && tree.length ? <Tree treeItems={tree} /> : null }
       </Grid>
       <Grid item xs={9}>
         {
-          apuRows.Aggs.map((agg: State['Source']['APU-Import-Supplies-in-App']['Aggs'][0], i: number) => (
+          apuRows.Aggs.map((agg: APUImportSuppliesInApp['Agg'], i: number) => (
             <Supplies
               key={`${agg.APUID}-${String(i)}`}
               suppliesData={agg}

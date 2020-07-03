@@ -1,7 +1,6 @@
 import React, { Fragment, useState } from 'react';
-import { v4 as uuidv4 } from 'uuid';
 import toString from 'lodash/toString';
-import { State } from 'arca-redux';
+import { APUImportSuppliesInApp } from 'arca-redux-v4';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
@@ -59,7 +58,7 @@ const useStyles = makeStyles({
 });
 
 interface SuppliesProps {
-  suppliesData: State['Source']['APU-Import-Supplies-in-App']['Aggs'][0],
+  suppliesData: APUImportSuppliesInApp['Agg'],
   handleExpandPanel: (event: React.ChangeEvent<{}>, isExpanded: boolean) => void,
   expanded: boolean | string,
   columnsOrder: columns,
@@ -144,9 +143,7 @@ const Supplies: React.FunctionComponent<SuppliesProps> = ({
         Estimated: row.Estimated,
       };
 
-      socket.Insert('APU-Import-Supplies', rowToImport, {
-        ID: uuidv4(),
-      });
+      socket.insert('APU-Import-Supplies', rowToImport);
     });
 
     setPastedSupplies([]);
