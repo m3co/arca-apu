@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Store } from 'redux';
-import { getSpecificSource, APUImportSuppliesInApp } from 'arca-redux-v4';
+import { getSpecificSource, APUImportSuppliesInApp, getAggsBySpecificSourceSelector } from 'arca-redux-v4';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
@@ -9,7 +9,6 @@ import Typography from '@material-ui/core/Typography';
 import SettingsIcon from '@material-ui/icons/Settings';
 import Collapse from '@material-ui/core/Collapse';
 import { socket } from '../redux/store';
-import Loader from '../components/Loader/Loader';
 import Supplies from '../components/Supplies/Supplies';
 import Settings from '../components/Settings/Settings';
 import { columns } from '../types';
@@ -38,7 +37,7 @@ const useStyles = makeStyles({
 
 const App: React.FunctionComponent = () => {
   const classes = useStyles();
-  const apuRows = useSelector((state: Store) => getSpecificSource(state, 'APU-Import-Supplies-in-App'));
+  const apuRows = useSelector((state: Store) => getAggsBySpecificSourceSelector(state)('APU-Import-Supplies-in-App'));
   const tree = useSelector((state: Store) => getSpecificSource(state, 'AAU-APU-in-App'));
 
   const [expanded, setExpanded] = useState<string | false>(false);
@@ -97,7 +96,7 @@ const App: React.FunctionComponent = () => {
       </Grid>
       <Grid item xs={9}>
         {
-          apuRows.Aggs.map((agg: APUImportSuppliesInApp['Agg'], i: number) => (
+          apuRows && apuRows.length ? (apuRows as Array<APUImportSuppliesInApp['Agg']>).map((agg: APUImportSuppliesInApp['Agg'], i: number) => (
             <Supplies
               key={`${agg.APUID}-${String(i)}`}
               suppliesData={agg}
@@ -105,7 +104,7 @@ const App: React.FunctionComponent = () => {
               expanded={expanded}
               columnsOrder={columnsOrder}
             />
-          ))
+          )) : null
         }
       </Grid>
     </Grid>
@@ -114,9 +113,7 @@ const App: React.FunctionComponent = () => {
   return (
     <div className='page'>
       {
-        apuRows && apuRows.Aggs
-          ? getContent()
-          : <Loader />
+        getContent()
       }
     </div>
   );
