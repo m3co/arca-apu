@@ -96,15 +96,17 @@ const App: React.FunctionComponent = () => {
       </Grid>
       <Grid item xs={9}>
         {
-          apuRows && apuRows.length ? (apuRows as Array<APUImportSuppliesInApp['Agg']>).map((agg: APUImportSuppliesInApp['Agg'], i: number) => (
-            <Supplies
-              key={`${agg.APUID}-${String(i)}`}
-              suppliesData={agg}
-              handleExpandPanel={handleExpandPanel(String(agg.APUID))}
-              expanded={expanded}
-              columnsOrder={columnsOrder}
-            />
-          )) : null
+          apuRows && apuRows.length
+            ? (apuRows as Array<APUImportSuppliesInApp['Agg']>).map((agg: APUImportSuppliesInApp['Agg'], i: number) => (
+              <Supplies
+                key={`${agg.APUID}-${String(i)}`}
+                suppliesData={agg}
+                handleExpandPanel={handleExpandPanel(String(agg.APUID))}
+                expanded={expanded}
+                columnsOrder={columnsOrder}
+              />
+            ))
+            : null
         }
       </Grid>
     </Grid>
